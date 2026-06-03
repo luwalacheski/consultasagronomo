@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>SisAgro - Cadastro de Serviços</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="apresentacao.html">Apresentação</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="vendas.html">Vendas</a>
+        <a href="agendamentos.html">Agendamentos</a>
+        <a href="consulta_agendamentos.html">Consulta Agendamentos</a>
+    </nav>
+
+    <header class="banner">
+        <h1>Catálogo de Serviços Agronômicos</h1>
+        <p>Cadastre e configure os tipos de consultoria técnica e vistorias de campo</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Novo Serviço Agronômico</h2>
+            <form action="/salvar-servico" method="POST">
+                <label for="descricao">Descrição Técnica do Serviço:</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex: Análise Completa de Solo e Recomendação de Adubação" required>
+                
+                <label for="preco">Preço / Custo da Consultoria (R$):</label>
+                <input type="number" step="0.01" id="preco" name="preco" placeholder="0.00" required>
+                
+                <label for="tempo_estimado">Tempo Estimado de Vistoria a Campo (em horas):</label>
+                <input type="number" id="tempo_estimado" name="tempo_estimado" placeholder="Ex: 3" min="1" required>
+                
+                <button type="submit">Salvar Serviço</button>
+            </form>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>Serviços e Consultorias Disponíveis</h2>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">
+                Catálogo de soluções técnicas e monitoramentos agrícolas oferecidos aos produtores rurais.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descrição das Atividades</th>
+                        <th>Preço (R$)</th>
+                        <th>Tempo Estimado</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-servicos">
+                    <!-- Preenchido dinamicamente via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        fetch('/listar-servicos')
+            .then(res => res.json())
+            .then(servicos => {
+                const corpoTabela = document.getElementById('lista-servicos');
+                servicos.forEach(s => {
+                    corpoTabela.innerHTML += `
+                        <tr>
+                            <td><strong>${s.descricao}</strong></td>
+                            <td>R$ ${s.preco.toFixed(2)}</td>
+                            <td>${s.tempo_estimado}h</td>
+                        </tr>`;
+                });
+            })
+            .catch(err => console.error("Erro ao listar serviços agrícolas:", err));
+    </script>
+</body>
+
+<footer class="rodape">
+    <div class="container-rodape">
+        <p>&copy; 2026 SisAgro - Sistema de Gestão Agronômica Integrada</p>
+        <p>Desenvolvido para otimização e controle prático de assistência rural</p>
+    </div>
+</footer>
+</html>
