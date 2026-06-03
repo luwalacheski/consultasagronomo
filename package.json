@@ -1,4 +1,19 @@
 {
+  "name": "sisagro",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão Agronômica Integrada - Controle de Consultorias e Vistorias Rurais",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "agronomia",
+    "express",
+    "sqlite3",
+    "sisagro"
+  ],
+  "author": "Alunos de Capanema",
+  "license": "ISC",
   "dependencies": {
     "express": "^5.2.1",
     "sqlite3": "^6.0.1"
