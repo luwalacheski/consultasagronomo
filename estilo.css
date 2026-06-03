@@ -1,0 +1,256 @@
+/* ==========================================================================
+   PALETA DE CORES OFICIAL - SISAGRO (ESTILO RURAL & AGRONOMIA)
+   ========================================================================== */
+:root {
+    --primary-green: #2E5A44;  /* Verde folha/floresta - representa a lavoura saudável */
+    --accent-earth: #8B5A2B;   /* Marrom terra/tronco - representa o solo e as raízes */
+    --bg-cream: #FAF7F0;       /* Creme/Palha bem claro - fundo suave que lembra pergaminho ou grãos */
+    --bg-white: #FFFFFF;       /* Branco puro para os cards de destaque */
+    --text-dark: #2B261F;      /* Marrom café quase preto - leitura excelente e natural */
+    --text-muted: #6E6557;     /* Marrom acinzentado para textos secundários */
+    --gold-sun: #D4A373;       /* Dourado queimado - representa o sol e o trigo maduro */
+}
+
+/* ==========================================================================
+   ESTRUTURA GERAL DA PÁGINA
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: var(--bg-cream);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* O container principal estica para empurrar o rodapé para baixo */
+.container {
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+/* ==========================================================================
+   MENU DE NAVEGAÇÃO (NAV) - Estilo Verde Campo com Hover de Terra Molhada
+   ========================================================================== */
+nav {
+    background-color: var(--primary-green);
+    padding: 1.1rem;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 4px 10px rgba(46, 90, 68, 0.2);
+    border-bottom: 4px solid var(--accent-earth); /* Linha divisória cor de terra */
+}
+
+nav a {
+    color: var(--bg-white);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.05rem;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--accent-earth);
+    color: var(--bg-white);
+}
+
+/* ==========================================================================
+   HEADER / BANNER PRINCIPAL (Inspirado no horizonte de fazendas)
+   ========================================================================== */
+.banner {
+    /* Gradientes geométricos adaptados para lembrar o recorte de montanhas e faixas de plantio */
+    background: 
+        linear-gradient(115deg, var(--primary-green) 12%, transparent 12.5%),
+        linear-gradient(295deg, var(--accent-earth) 12%, transparent 12.5%),
+        linear-gradient(115deg, var(--accent-earth) 14%, transparent 14.5%),
+        linear-gradient(295deg, var(--primary-green) 14%, transparent 14.5%),
+        var(--bg-white);
+    
+    color: var(--primary-green);
+    padding: 45px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--gold-sun);
+}
+
+.banner h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary-green);
+    text-shadow: 1px 1px 0px var(--bg-white);
+}
+
+.banner p {
+    margin: 8px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent-earth); /* Subtítulo na cor da terra fértil */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.banner img {
+    margin-top: 15px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    filter: drop-shadow(0px 6px 8px rgba(43, 38, 31, 0.15));
+}
+
+/* ==========================================================================
+   CARDS DE CONTEÚDO (Visual limpo com bordas orgânicas)
+   ========================================================================== */
+.card {
+    background: var(--bg-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(43, 38, 31, 0.04);
+    border-left: 6px solid var(--primary-green); /* Tarja lateral verde sálvia */
+    margin-bottom: 25px;
+}
+
+.card h1, .card h2, .card h3 {
+    color: var(--primary-green);
+    margin-top: 0;
+}
+
+.card p {
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #E6DFD3;
+    margin: 1.5rem 0;
+}
+
+/* ==========================================================================
+   FORMULÁRIOS E INPUTS
+   ========================================================================== */
+input, select, button {
+    width: 100%;
+    padding: 0.85rem;
+    margin: 0.6rem 0;
+    border: 2px solid #D1C7BD;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #FCFBF9;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(46, 90, 68, 0.15);
+    background-color: var(--bg-white);
+}
+
+/* Botão Principal em Marrom Terra (Estilo Rústico Forte) */
+button, button[type="submit"] {
+    background-color: var(--accent-earth);
+    color: var(--bg-white);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 3px 6px rgba(139, 90, 43, 0.2);
+}
+
+button:hover {
+    background-color: #6E441F; /* Marrom cerrado mais escuro para o efeito de clique */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(139, 90, 43, 0.3);
+}
+
+/* ==========================================================================
+   TABELAS DE DADOS
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.2rem;
+    background-color: var(--bg-white);
+    border: 1px solid #E6DFD3 !important;
+}
+
+th, td {
+    padding: 14px 15px;
+    text-align: left;
+}
+
+thead tr {
+    background-color: var(--primary-green);
+    color: var(--bg-white);
+}
+
+th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #E6DFD3;
+    transition: background-color 0.2s ease;
+}
+
+/* Efeito zebra suave simulando linhas de cultivo claras e escuras */
+tbody tr:nth-of-type(even) {
+    background-color: #FAF8F5;
+}
+
+tbody tr:hover {
+    background-color: #F1ECE3;
+}
+
+/* Botão menor de ações dentro das tabelas (Verde) */
+td button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    width: auto;
+    margin: 0;
+    background-color: var(--primary-green);
+}
+
+td button:hover {
+    background-color: #1F3D2E;
+}
+
+/* ==========================================================================
+   RODAPÉ (FOOTER) - Finalização Amadeirada Escura
+   ========================================================================== */
+.rodape {
+    background-color: #221F1A; /* Tom carvão/madeira tostada */
+    color: #C2BBB2;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+    width: 100%;
+    border-top: 4px solid var(--accent-earth); /* Linha de fechamento cor de solo */
+}
+
+.container-rodape p {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.container-rodape p:first-child {
+    color: var(--gold-sun); /* Nome do sistema ganha cor de trigo maduro */
+    font-weight: bold;
+}
