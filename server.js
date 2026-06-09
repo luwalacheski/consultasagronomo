@@ -1,172 +1,72 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const bodyParser = require('body-parser');
+const path = require('path');
+
 const app = express();
+const PORT = 3000;
+const VALOR_POR_KM = 2.50; // Valor fixo por quilômetro rodado
 
-// Configurações do Servidor
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); // Necessário para processar o JSON estruturado dos agendamentos
-app.use(express.static('.')); // Serve as páginas HTML, CSS e imagens do projeto
+// Configurações do Express
+app.use(express.json());
+app.use(express.static(path.join(__dirname))); // Serve os arquivos HTML/CSS da raiz
 
-// Conexão com o Novo Banco de Dados do Projeto Agronômico
-const db = new sqlite3.Database('./sisagro.db');
-
-// Inicialização das Tabelas (Cria a estrutura caso não exista)
-db.serialize(() => {
-    // 1. Tabela de Clientes (Produtores Rurais / Proprietários de Terras)
-    db.run(`CREATE TABLE IF NOT EXISTS clientes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        nome TEXT NOT NULL, 
-        cpf TEXT NOT NULL, 
-        telefone TEXT NOT NULL
-    )`);
-
-    // 2. Tabela de Serviços (Catálogo de Assistência Técnica e Consultorias Agronômicas)
-    db.run(`CREATE TABLE IF NOT EXISTS servicos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        descricao TEXT NOT NULL, 
-        preco REAL NOT NULL, 
-        tempo_estimado INTEGER NOT NULL
-    )`);
-
-    // 3. Tabela Mestre: Agendamentos (Guarda a Ordem de Serviço geral da Visita a Campo)
-    db.run(`CREATE TABLE IF NOT EXISTS agendamentos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        cliente_id INTEGER NOT NULL, 
-        data TEXT NOT NULL, 
-        responsavel TEXT NOT NULL,
-        total REAL NOT NULL,
-        tempo_total INTEGER NOT NULL,
-        FOREIGN KEY (cliente_id) REFERENCES clientes (id)
-    )`);
-
-    // 4. Tabela Detalhe: Itens do Agendamento (Relaciona as análises e laudos aplicados a cada visita)
-    db.run(`CREATE TABLE IF NOT EXISTS itens_agendamento (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        agendamento_id INTEGER NOT NULL, 
-        servico_id INTEGER NOT NULL, 
-        preco_cobrado REAL NOT NULL,
-        FOREIGN KEY (agendamento_id) REFERENCES agendamentos (id),
-        FOREIGN KEY (servico_id) REFERENCES servicos (id)
-    )`);
+// Conexão com o Banco de Dados
+const db = new sqlite3.Database('./siscristovao.db', (err) => {
+    if (err) console.error('Erro ao conectar ao SQLite:', err.message);
+    else console.log('Conectado ao banco de dados siscristovao.db com sucesso.');
 });
 
-/* ==========================================================================
-   ROTAS DO MÓDULO: PRODUTORES RURAIS (CLIENTES)
-   ========================================================================== */
+// ==================== ROTAS DO SISTEMA ====================
 
-// Salvar um novo produtor rural
-app.post('/salvar-cliente', (req, res) => {
-    const { nome, cpf, telefone } = req.body;
-    const sql = `INSERT INTO clientes (nome, cpf, telefone) VALUES (?, ?, ?)`;
-    
-    db.run(sql, [nome, cpf, telefone], (err) => {
-        if (err) return res.status(500).send("Erro ao salvar produtor rural: " + err.message);
-        // Redireciona de volta para a página de listagem/cadastro
-        res.redirect('/clientes.html');
+// 1. Rota de Autenticação / Login do Produtor
+app.post('/api/login', (req, require) => {
+    const { cpf } = req.body;
+    db.get('SELECT * FROM produtores WHERE cpf = ?', [cpf], (err, row) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!row) return res.status(404).json({ message: 'Produtor não encontrado com este CPF.' });
+        res.json(row); // Retorna os dados do produtor logado
     });
 });
 
-// Listar todos os produtores rurais (API JSON)
-app.get('/listar-clientes', (req, res) => {
-    const sql = `SELECT * FROM clientes ORDER BY nome ASC`;
-    db.all(sql, [], (err, rows) => {
+// 2. Listar Serviços Disponíveis
+app.get('/api/servicos', (req, res) => {
+    db.all('SELECT * FROM servicos', [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(rows);
     });
 });
 
-/* ==========================================================================
-   ROTAS DO MÓDULO: SERVIÇOS TÉCNICOS AGRONÔMICOS
-   ========================================================================== */
+// 3. Salvar Novo Agendamento com Orçamento de Distância
+app.post('/api/agendamentos', (req, res) => {
+    const { produtor_id, data_hora, agronomo_responsavel, distancia_km, total_servicos } = req.body;
 
-// Salvar um novo serviço técnico no catálogo (ex: Análise de Solo, Receita Agronômica)
-app.post('/salvar-servico', (req, res) => {
-    const { descricao, preco, tempo_estimado } = req.body;
-    const sql = `INSERT INTO servicos (descricao, preco, tempo_estimado) VALUES (?, ?, ?)`;
-    
-    db.run(sql, [descricao, parseFloat(preco), parseInt(tempo_estimado)], (err) => {
-        if (err) return res.status(500).send("Erro ao salvar serviço agronômico: " + err.message);
-        res.redirect('/servicos.html');
+    const custo_deslocamento = distancia_km * VALOR_POR_KM;
+    const total_geral = total_servicos + custo_deslocamento;
+
+    const query = `INSERT INTO agendamentos (produtor_id, data_hora, agronomo_responsavel, distancia_km, custo_deslocamento, total_geral) 
+                   VALUES (?, ?, ?, ?, ?, ?)`;
+
+    db.run(query, [produtor_id, data_hora, agronomo_responsavel, distancia_km, custo_deslocamento, total_geral], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true, agendamentoId: this.lastID, custo_deslocamento, total_geral });
     });
 });
 
-// Listar todos os serviços técnicos (API JSON)
-app.get('/listar-servicos', (req, res) => {
-    const sql = `SELECT * FROM servicos ORDER BY descricao ASC`;
-    db.all(sql, [], (err, rows) => {
+// 4. Consultar Histórico de Agendamentos
+app.get('/api/historico', (req, res) => {
+    const query = `
+        SELECT agendamentos.*, produtores.nome as produtor_nome 
+        FROM agendamentos 
+        JOIN produtores ON agendamentos.produtor_id = produtores.id
+        ORDER BY agendamentos.data_hora DESC
+    `;
+    db.all(query, [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(rows);
     });
 });
 
-/* ==========================================================================
-   ROTAS DO MÓDULO: VISTORIAS E AGENDAMENTOS (TRANSAÇÃO MESTRE-DETALHE)
-   ========================================================================== */
-
-// Gravar Visita Técnica Completa (Mestre e Detalhes de Laudos encapsulados)
-app.post('/finalizar-agendamento', (req, res) => {
-    const { cliente_id, data, responsavel, total, tempo_total, servicos } = req.body;
-
-    // 1. Insere o registro na tabela Mestre (agendamentos de visitas)
-    const sqlMestre = `INSERT INTO agendamentos (cliente_id, data, responsavel, total, tempo_total) VALUES (?, ?, ?, ?, ?)`;
-    
-    db.run(sqlMestre, [cliente_id, data, responsavel, total, tempo_total], function(err) {
-        if (err) return res.status(500).json({ success: false, error: err.message });
-
-        // Recupera o ID gerado automaticamente para este agendamento técnico
-        const agendamentoId = this.lastID;
-
-        // 2. Prepara a inserção das análises e orientações vinculadas a este agendamento (Detalhe)
-        const sqlDetalhe = `INSERT INTO itens_agendamento (agendamento_id, servico_id, preco_cobrado) VALUES (?, ?, ?)`;
-        const stmt = db.prepare(sqlDetalhe);
-
-        // Percorre o array de laudos/serviços vindos do front-end e executa o statement
-        servicos.forEach(item => {
-            stmt.run(agendamentoId, item.id, item.preco);
-        });
-
-        // Finaliza o statement para liberar o banco de dados
-        stmt.finalize((errFinalize) => {
-            if (errFinalize) return res.status(500).json({ success: false, error: errFinalize.message });
-            res.json({ success: true });
-        });
-    });
-});
-
-// Listar todos os Agendamentos salvos (Mestre) com INNER JOIN para carregar o nome do produtor rural
-app.get('/listar-agendamentos', (req, res) => {
-    const sql = `
-        SELECT a.id, a.data, a.responsavel, a.total, a.tempo_total, c.nome as nome_cliente 
-        FROM agendamentos a 
-        INNER JOIN clientes c ON a.cliente_id = c.id 
-        ORDER BY a.id DESC`;
-        
-    db.all(sql, [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
-
-// Listar exames e consultorias técnicas de um agendamento específico (Detalhe)
-app.get('/detalhes-agendamento/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `
-        SELECT i.preco_cobrado, s.descricao, s.tempo_estimado 
-        FROM itens_agendamento i 
-        INNER JOIN servicos s ON i.servico_id = s.id 
-        WHERE i.agendamento_id = ?`;
-        
-    db.all(sql, [id], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
-
-// Inicialização do Servidor na Porta 3000
-app.listen(3000, () => {
-    console.log('====================================================');
-    console.log('🌾 SisAgro Rodando com Sucesso na Porta 3000!');
-    console.log('📂 Banco de Dados Ativo: sisagro.db');
-    console.log('====================================================');
+// Inicialização do Servidor
+app.listen(PORT, () => {
+    console.log(`Servidor rodando profissionalmente em: http://localhost:${PORT}`);
 });
