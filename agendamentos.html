@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SisAgro - Agendamentos Profissionais</title>
-    <!-- Fonte Moderna Importada -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -17,210 +16,35 @@
             --text-muted: #6c757d;
             --border: #e2e8f0;
             --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--background);
-            color: var(--text);
-            padding-bottom: 60px;
-        }
-
-        /* Nav Profissional */
-        nav {
-            background-color: var(--primary);
-            padding: 1rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-            opacity: 0.85;
-        }
-
-        nav a:hover {
-            opacity: 1;
-            color: var(--accent);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Seção de Bloqueio de Login */
-        .auth-card {
-            background: var(--surface);
-            padding: 3rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            max-width: 450px;
-            margin: 4rem auto;
-        }
-
-        .auth-card h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .auth-card p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        /* Grid de duas colunas para o Painel logado */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .main-grid { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        h2 {
-            font-size: 1.25rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 1.25rem;
-            font-size: 0.95rem;
-            background-color: #fafafa;
-            transition: all 0.2s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: #fff;
-            box-shadow: 0 0 0 3px rgba(30, 70, 32, 0.1);
-        }
-
-        .row {
-            display: flex;
-            gap: 1rem;
-        }
-
-        /* Botões Estilo Premium */
-        button {
-            width: 100%;
-            padding: 0.85rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: var(--primary-light);
-        }
-
-        button.secondary {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-
-        button.secondary:hover {
-            background-color: rgba(30, 70, 32, 0.05);
-        }
-
-        /* Tabela Limpa */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        th {
-            background-color: #f8fafc;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .resumo-financeiro {
-            background: #f8fafc;
-            padding: 1.25rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
-            border-left: 4px solid var(--accent);
-        }
-
-        .resumo-linha {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .resumo-total {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px dashed var(--border);
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: var(--primary);
-        }
-
-        /* Utilitários de Visibilidade */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--background); color: var(--text); padding-bottom: 60px; }
+        nav { background-color: var(--primary); padding: 1rem 2rem; display: flex; gap: 1.5rem; }
+        nav a { color: #ffffff; text-decoration: none; font-weight: 500; font-size: 0.95rem; opacity: 0.85; }
+        nav a:hover { opacity: 1; color: var(--accent); }
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+        .auth-card { background: var(--surface); padding: 3rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; max-width: 450px; margin: 4rem auto; border: 1px solid var(--border); }
+        .auth-card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .auth-card p { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        @media (max-width: 768px) { .main-grid { grid-template-columns: 1fr; } }
+        .card { background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); }
+        h2 { font-size: 1.25rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 600; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.95rem; background-color: #fafafa; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); background-color: #fff; }
+        .row { display: flex; gap: 1rem; }
+        button { width: 100%; padding: 0.85rem; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button:hover { background-color: var(--primary-light); }
+        button.secondary { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
+        button.secondary:hover { background-color: rgba(30, 70, 32, 0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        th { background-color: #f8fafc; color: var(--text-muted); }
+        .resumo-financeiro { background: #f8fafc; padding: 1.25rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid var(--accent); }
+        .resumo-linha { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        .resumo-total { display: flex; justify-content: space-between; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-weight: 700; color: var(--primary); }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -228,86 +52,140 @@
 
     <nav>
         <a href="index.html">Dashboard</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="servicos.html">Serviços Técnicos</a>
-        <a href="agendamentos.html"><b>Agendamentos</b></a>
+        <a href="agendamentos.html"><b>Novo Agendamento</b></a>
+        <a href="consulta_agendamentos.html">Histórico de Visitas</a>
     </nav>
 
-    <!-- TELA 1: Bloqueio de Login Obrigatório -->
+    <!-- FORMULÁRIO 1: Login Obrigatório -->
     <div id="secao-login" class="auth-card">
-        <h2>Área Restrita do Produtor</h2>
-        <p>Para agendar serviços técnicos e calcular orçamentos de deslocamento, faça o login na sua conta.</p>
-        <label style="text-align: left;">CPF / CNPJ do Produtor:</label>
+        <h2>Área do Produtor Rural</h2>
+        <p>Valide seu acesso para calcular rotas e agendar suporte agronômico.</p>
+        <label style="text-align: left;">Informe seu CPF:</label>
         <input type="text" id="login-cpf" placeholder="000.000.000-00">
-        <button onclick="simularLoginPro()">Acessar Painel de Agendamento</button>
+        <button onclick="realizarLoginDoProdutor()">Autenticar e Entrar</button>
     </div>
 
-    <!-- TELA 2: Painel de Agendamento (Oculto até logar) -->
+    <!-- FORMULÁRIO 2: Painel de Agendamento Oculto -->
     <div id="secao-agendamento" class="container hidden">
         <div class="main-grid">
-            
-            <!-- Coluna da Esquerda: Dados Gerais e Localização -->
             <div class="card">
-                <h2>🚜 Solicitar Atendimento de Campo</h2>
+                <h2>🚜 Dados Técnicos de Campo</h2>
                 
-                <label>Produtor Identificado:</label>
+                <label>Produtor Rural Solicitante:</label>
                 <input type="text" id="txtNomeProdutor" readonly style="font-weight: bold; color: var(--primary);">
 
-                <label>Data e Hora Sugerida:</label>
+                <label>Agrônomo / Especialista Técnico:</label>
+                <input type="text" id="txtAgronomo" placeholder="Ex: Dr. Juliano Medeiros" required>
+
+                <label>Data e Hora de Chegada na Roça:</label>
                 <input type="datetime-local" id="data_agendamento" required>
 
-                <label>Distância até a Roça / Propriedade (KM):</label>
-                <input type="number" id="txtDistancia" value="0" min="0" oninput="calcularOrcamentoCompleto()" placeholder="Ex: 25">
-                <small style="color: var(--text-muted); display:block; margin-top: -10px; margin-bottom: 15px;">* Custo de deslocamento técnico: R$ 2,50 por KM.</small>
+                <label>Distância da Agropecuária até a Propriedade (KM):</label>
+                <input type="number" id="txtDistancia" value="0" min="0" oninput="calcularOrcamentoCompleto()">
+                
+                <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0;">
 
-                <hr style="border: 0; border-top: 1px solid var(--border); margin: 1.5rem 0;">
-
-                <h2>🌱 Selecionar Serviços</h2>
-                <label>Atividade Agronômica:</label>
-                <select id="selServico" onchange="atualizarDadosServico()">
-                    <option value="">Selecione uma análise/consultoria...</option>
+                <h2>🌱 Serviços Requeridos</h2>
+                <select id="selServico" onchange="atualizarCamposServico()">
+                    <option value="">Escolha a atividade agronômica...</option>
                 </select>
 
                 <div class="row">
                     <div>
-                        <label>Preço Base (R$):</label>
-                        <input type="text" id="txtPrecoBase" readonly style="background: #f1f5f9;">
+                        <label>Preço Base:</label>
+                        <input type="text" id="txtPrecoBase" readonly style="background: #e2e8f0;">
                     </div>
                     <div>
-                        <label>Tempo Est. (Horas):</label>
-                        <input type="text" id="txtTempoEst" readonly style="background: #f1f5f9;">
+                        <label>Tempo Est.:</label>
+                        <input type="text" id="txtTempoEst" readonly style="background: #e2e8f0;">
                     </div>
                 </div>
-
-                <button type="button" class="secondary" onclick="adicionarServicoNaLista()">＋ Incluir Atividade no Orçamento</button>
+                <button type="button" class="secondary" onclick="adicionarServicoCarrinho()">＋ Vincular Serviço</button>
             </div>
 
-            <!-- Coluna da Direita: Carrinho de Serviços e Orçamento Dinâmico -->
             <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
-                    <h2>📋 Resumo do Atendimento</h2>
+                    <h2>📋 Demonstrativo de Atividades</h2>
                     <table>
                         <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Tempo</th>
-                                <th>Preço</th>
-                            </tr>
+                            <tr><th>Serviço</th><th>Tempo</th><th>Preço</th></tr>
                         </thead>
-                        <tbody id="lista-servicos-agendados">
-                            <!-- Inserção via JS -->
-                        </tbody>
+                        <tbody id="lista-servicos-agendados"></tbody>
                     </table>
                 </div>
 
                 <div>
                     <div class="resumo-financeiro">
-                        <div class="resumo-linha">
-                            <span>Subtotal Serviços:</span>
-                            <span id="resumo-subtotal">R$ 0,00</span>
-                        </div>
-                        <div class="resumo-linha">
-                            <span>Taxa de Deslocamento Logístico:</span>
-                            <span id="resumo-frete">R$ 0,00</span>
-                        </div>
-                        <div class="resumo-total">
+                        <div class="resumo-linha"><span>Subtotal Operações:</span><span id="resumo-subtotal">R$ 0,00</span></div>
+                        <div class="resumo-linha"><span>Taxa de Deslocamento Logístico:</span><span id="resumo-frete">R$ 0,00</span></div>
+                        <div class="resumo-total"><span>Investimento Estimado:</span><span id="resumo-total-geral">R$ 0,00</span></div>
+                    </div>
+                    <button type="button" style="margin-top:1.5rem;" onclick="enviarAgendamentoCompletoServer()">💾 Confirmar Visita Técnica</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let servicosDb = [];
+        let carrinho = [];
+        let produtorLogado = null;
+        const TAXA_KM = 2.50;
+
+        function realizarLoginDoProdutor() {
+            const cpf = document.getElementById('login-cpf').value;
+            if(!cpf) return alert("Insira o CPF.");
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cpf })
+            })
+            .then(res => {
+                if(!res.ok) throw new Error("Acesso negado. Verifique o CPF.");
+                return res.json();
+            })
+            .then(produtor => {
+                produtorLogado = produtor;
+                document.getElementById('txtNomeProdutor').value = `${produtor.nome} (ID: ${produtor.id})`;
+                document.getElementById('secao-login').classList.add('hidden');
+                document.getElementById('secao-agendamento').classList.remove('hidden');
+                carregarServicosDoBackend();
+            })
+            .catch(err => alert(err.message));
+        }
+
+        function carregarServicosDoBackend() {
+            fetch('/api/servicos')
+                .then(res => res.json())
+                .then(dados => {
+                    servicosDb = dados;
+                    const sel = document.getElementById('selServico');
+                    dados.forEach(s => {
+                        sel.innerHTML += `<option value="${s.id}">${s.nome}</option>`;
+                    });
+                });
+        }
+
+        function atualizarCamposServico() {
+            const id = document.getElementById('selServico').value;
+            const serv = servicosDb.find(s => s.id == id);
+            if(serv) {
+                document.getElementById('txtPrecoBase').value = `R$ ${serv.preco.toFixed(2)}`;
+                document.getElementById('txtTempoEst').value = `${serv.tempo_estimado}h`;
+            }
+        }
+
+        function adicionarServicoCarrinho() {
+            const id = document.getElementById('selServico').value;
+            const serv = servicosDb.find(s => s.id == id);
+            if(!serv) return;
+
+            carrinho.push(serv);
+            document.getElementById('lista-servicos-agendados').innerHTML += `
+                <tr><td><b>${serv.nome}</b></td><td>${serv.tempo_estimado}h</td><td>R$ ${serv.preco.toFixed(2)}</td></tr>
+            `;
+            calcularOrcamentoCompleto();
+        }
+
+        function calcularOrcamentoCompleto() {
