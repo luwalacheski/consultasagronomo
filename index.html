@@ -2,83 +2,301 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SisAgro - Engenharia Agronômica</title>
+    <!-- Importação de Fonte Profissional -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e4620;
+            --primary-light: #2d6a31;
+            --accent: #d4a373;
+            --background: #f4f6f4;
+            --surface: #ffffff;
+            --text: #2b2d42;
+            --text-muted: #6c757d;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Nav Profissional */
+        nav {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            opacity: 0.85;
+            white-space: nowrap;
+        }
+
+        nav a:hover, nav a.active {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Banner Principal Corporativo */
+        .hero-banner {
+            background: linear-gradient(rgba(30, 70, 32, 0.85), rgba(30, 70, 32, 0.6)), 
+                        url('https://unsplash.com') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        /* Card de Boas-vindas */
+        .welcome-card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .welcome-card h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .welcome-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        /* Grid Moderno de Módulos (Substituindo a Tabela Antiga) */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .module-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .module-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .module-content h4 {
+            color: var(--primary);
+            font-size: 1.15rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Card de Infraestrutura Tecnológica */
+        .tech-card {
+            background: #1e4620;
+            color: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-item h5 {
+            color: var(--accent);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-item p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Rodapé Limpo e Executivo */
+        footer {
+            background-color: #112612;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p:first-child {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+    </style>
 </head>
 <body>
+
     <nav>
-        <a href="index.html">Home</a>
+        <a href="index.html" class="active">Home</a>
         <a href="apresentacao.html">Apresentação</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="servicos.html">Serviços</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="servicos.html">Serviços Técnicos</a>
         <a href="vendas.html">Vendas</a>
         <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consulta Agendamentos</a>
+        <a href="consulta_agendamentos.html">Consulta</a>
     </nav>
 
-    <header class="banner">
-        <h1>SisAgro</h1>
-        <p>Soluções Tecnológicas e Consultoria Agronômica</p>
-        <img src="imagens/banner_agro.jfif" alt="SisAgro 1.0" width="300">
+    <header class="hero-banner">
+        <h1>SisAgro 1.0</h1>
+        <p>Soluções Tecnológicas, Análises de Precisão e Consultoria Agronômica Avançada</p>
     </header>
 
     <div class="container">
-        <div class="card">
-            <h1>Bem-vindo ao SisAgro 1.0 - Unidade Capanema</h1>
-            <p>Uma plataforma integrada voltada para o gerenciamento de propriedades rurais, otimização de safras e controle automatizado de consultorias prestadas por engenheiros agrônomos.</p>
+        
+        <!-- Bloco de Introdução Institucional -->
+        <div class="welcome-card">
+            <h2>Gestão Integrada - Unidade Capanema</h2>
+            <p>Uma plataforma corporativa de alta performance voltada para o monitoramento de propriedades rurais, otimização de safras e controle automatizado de consultorias de campo prestadas por engenheiros agrônomos.</p>
+            <p>Este ecossistema conecta interfaces modernas a bancos de dados relacionais estruturados para gerenciar ordens de serviço, inteligência de solo, vistorias periódicas e fluxo logístico de insumos.</p>
+        </div>
+
+        <h3 class="section-title">Módulos Operacionais do Sistema</h3>
+        
+        <!-- Grid de Cards Fotográficos substituindo a tabela antiga -->
+        <div class="modules-grid">
             
-            <p>Este sistema conecta a interface Web ao banco de dados SQLite para gerenciar de forma eficiente ordens de serviço, análise de solo, visitas técnicas e vendas de insumos.</p>
-        </div>
+            <!-- Card Clientes -->
+            <a href="clientes.html" class="module-card">
+                <img src="https://unsplash.com" alt="Produtores" class="module-img">
+                <div class="module-content">
+                    <h4>👥 Produtores Rurais</h4>
+                    <p>Gestão completa de clientes, histórico de safras, mapeamento de propriedades e laudos consolidados.</p>
+                </div>
+            </a>
 
-        <div class="card" style="margin-top: 20px;">
-            <h3>🚀 Módulos Práticos do Sistema:</h3>
-            <table border="1" style="width:100%; border-collapse: collapse; margin-top: 10px;">
-                <thead>
-                    <tr style="background-color: #eee;">
-                        <th>Módulo</th>
-                        <th>Descrição Operacional</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>👥 <strong>Clientes</strong></td>
-                        <td>Cadastro de produtores rurais, histórico de safras e controle de laudos da propriedade.</td>
-                    </tr>
-                    <tr>
-                        <td>🌱 <strong>Serviços</strong></td>
-                        <td>Catálogo de serviços técnicos como análise de solo, manejo de pragas e projetos de irrigação.</td>
-                    </tr>
-                    <tr>
-                        <td>💰 <strong>Vendas</strong></td>
-                        <td>Registro de transações comerciais, orçamentos de insumos e venda de infoprodutos agrícolas.</td>
-                    </tr>
-                    <tr>
-                        <td>📅 <strong>Agendamentos</strong></td>
-                        <td>Abertura de ordens de visita técnica a campo, alocação de horários e planejamento de vistorias.</td>
-                    </tr>
-                    <tr>
-                        <td>🔍 <strong>Consulta</strong></td>
-                        <td>Acompanhamento em tempo real das datas agendadas e status das consultorias solicitadas.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- Card Serviços -->
+            <a href="servicos.html" class="module-card">
+                <img src="https://unsplash.com" alt="Serviços" class="module-img">
+                <div class="module-content">
+                    <h4>🌱 Serviços Técnicos</h4>
+                    <p>Catálogo digital contendo análises físico-químicas de solo, plano de manejo de pragas e dimensionamento de irrigação.</p>
+                </div>
+            </a>
 
-        <div class="card" style="margin-top: 20px;">
-            <h3>📊 Estrutura Tecnológica</h3>
-            <ul>
-                <li><strong>Ambiente de Aplicação:</strong> Gestão comercial e assistência técnica para o Agronegócio.</li>
-                <li><strong>Backend:</strong> Node.js com Express e API RESTful para processamento de dados.</li>
-                <li><strong>Banco de Dados:</strong> SQLite (`sisagro.db`) integrado para persistência de registros e históricos.</li>
-            </ul>
-        </div>
-    </div>
+            <!-- Card Vendas -->
+            <a href="vendas.html" class="module-card">
+                <img src="https://unsplash.com" alt="Vendas" class="module-img">
+                <div class="module-content">
+                    <h4>💰 Transações &amp; Insumos</h4>
+                    <p>Orçamentos comerciais automatizados, controle de defensivos agrícolas e faturamento de infoprodutos.</p>
+                </div>
+            </a>
 
-    <footer class="rodape">
-        <div class="container-rodape">
-            <p>&copy; 2026 SisAgro - Sistema de Gestão Agronômica Integrada</p>
-            <p>Desenvolvido para otimização e controle prático de assistência rural</p>
-        </div>
-    </footer>
-</body>
-</html>
+            <!-- Card Agendamentos -->
+            <a href="agendamentos.html" class="module-card">
+                <img src="https://unsplash.com" alt="Agendamentos" class="module-img">
+                <div class="module-content">
+                    <h4>📅 Agendamentos de Campo</h4>
