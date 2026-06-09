@@ -2,201 +2,312 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
-    <title>SisAgro - Agendar Visita Técnica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SisAgro - Agendamentos Profissionais</title>
+    <!-- Fonte Moderna Importada -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e4620;
+            --primary-light: #2d6a31;
+            --accent: #d4a373;
+            --background: #f4f6f4;
+            --surface: #ffffff;
+            --text: #2b2d42;
+            --text-muted: #6c757d;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            padding-bottom: 60px;
+        }
+
+        /* Nav Profissional */
+        nav {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            opacity: 0.85;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Seção de Bloqueio de Login */
+        .auth-card {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 450px;
+            margin: 4rem auto;
+        }
+
+        .auth-card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .auth-card p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* Grid de duas colunas para o Painel logado */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            background-color: #fafafa;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(30, 70, 32, 0.1);
+        }
+
+        .row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Botões Estilo Premium */
+        button {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-light);
+        }
+
+        button.secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        button.secondary:hover {
+            background-color: rgba(30, 70, 32, 0.05);
+        }
+
+        /* Tabela Limpa */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .resumo-financeiro {
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .resumo-linha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .resumo-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        /* Utilitários de Visibilidade */
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
+
     <nav>
-        <a href="index.html">Home</a>
+        <a href="index.html">Dashboard</a>
         <a href="clientes.html">Produtores</a>
-        <a href="servicos.html">Consultorias</a>
-        <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consultar Visitas</a>
+        <a href="servicos.html">Serviços Técnicos</a>
+        <a href="agendamentos.html"><b>Agendamentos</b></a>
     </nav>
 
-    <header class="banner">
-        <h1>Agendamento Agrônomo</h1>
-        <p>Reserve horários de consultoria e organize ordens de serviço de campo</p>
-    </header>
-
-    <div class="container">
-        <div style="margin-bottom: 20px;">
-            <button onclick="window.location.href='consulta_agendamentos.html'" style="background: #27ae60; width: auto; padding: 10px 20px;">
-                🔍 Ver Histórico de Visitas Técnicas
-            </button>
-        </div>
-
-        <div class="card">
-            <h2>Nova Ordem de Serviço / Atendimento de Campo</h2>
-
-            <label for="selCliente">Produtor Rural / Solicitante:</label>
-            <select id="selCliente">
-                <option value="">Selecione o Produtor...</option>
-            </select>
-
-            <label for="data_agendamento">Data e Hora da Visita:</label>
-            <input type="datetime-local" id="data_agendamento" required>
-
-            <label for="responsavel">Agrônomo / Consultor Responsável:</label>
-            <input type="text" id="responsavel" placeholder="Ex: Dr. Carlos Silva ou Equipe de Solo" required>
-
-            <hr>
-
-            <h3>🌱 Adicionar Serviços e Análises ao Agendamento</h3>
-            
-            <label for="selServico">Selecione a Atividade/Consultoria:</label>
-            <select id="selServico" onchange="atualizarDadosServico()">
-                <option value="">Selecione um serviço técnico...</option>
-            </select>
-
-            <div style="display: flex; gap: 15px; margin-top: 5px;">
-                <div style="flex: 1;">
-                    <label>Custo Estimado (R$):</label>
-                    <input type="number" id="txtPreco" readonly style="background: #eee;">
-                </div>
-                <div style="flex: 1;">
-                    <label>Tempo Est. Campo (Horas):</label>
-                    <input type="number" id="txtTempo" readonly style="background: #eee;">
-                </div>
-            </div>
-
-            <button type="button" onclick="adicionarServicoNaLista()" style="background-color: #27ae60; margin-top: 15px;">
-                ➕ Incluir Serviço no Agendamento
-            </button>
-        </div>
-
-        <div class="card" style="margin-top: 20px;">
-            <h2>Serviços Agendados para esta Visita</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Atividade Técnica</th>
-                        <th>Tempo Est.</th>
-                        <th>Custo (R$)</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-servicos-agendados">
-                </tbody>
-            </table>
-
-            <div style="text-align: right; margin-top: 15px;">
-                <h3 id="txtTotal">Investimento Total: R$ 0.00</h3>
-                <h4 id="txtTempoTotal" style="color: #c0392b;">Tempo Total em Campo: 0h</h4>
-            </div>
-
-            <button type="button" onclick="finalizarAgendamento()" style="margin-top: 15px; background-color: #2c3e50;">
-                💾 Salvar e Confirmar Visita Agronômica
-            </button>
-        </div>
+    <!-- TELA 1: Bloqueio de Login Obrigatório -->
+    <div id="secao-login" class="auth-card">
+        <h2>Área Restrita do Produtor</h2>
+        <p>Para agendar serviços técnicos e calcular orçamentos de deslocamento, faça o login na sua conta.</p>
+        <label style="text-align: left;">CPF / CNPJ do Produtor:</label>
+        <input type="text" id="login-cpf" placeholder="000.000.000-00">
+        <button onclick="simularLoginPro()">Acessar Painel de Agendamento</button>
     </div>
 
-    <script>
-        let listaServicosDb = [];
-        let carrinhoServicos = [];
-        let totalGeral = 0;
-        let tempoTotalGeral = 0;
-
-        // Carrega os dados iniciais do banco ao abrir a página
-        window.onload = function() {
-            // Buscar produtores/clientes para o Select
-            fetch('/listar-clientes')
-                .then(res => res.json())
-                .then(clientes => {
-                    const sel = document.getElementById('selCliente');
-                    clientes.forEach(c => {
-                        sel.innerHTML += `<option value="${c.id}">${c.nome} (${c.cpf || 'Inscrição Estadual'})</option>`;
-                    });
-                })
-                .catch(err => console.error("Erro ao carregar produtores:", err));
-
-            // Buscar serviços técnicos para o Select
-            fetch('/listar-servicos')
-                .then(res => res.json())
-                .then(servicos => {
-                    listaServicosDb = servicos;
-                    const sel = document.getElementById('selServico');
-                    servicos.forEach(s => {
-                        sel.innerHTML += `<option value="${s.id}">${s.nome}</option>`;
-                    });
-                })
-                .catch(err => console.error("Erro ao carregar serviços:", err));
-        };
-
-        function atualizarDadosServico() {
-            const idSelecionado = document.getElementById('selServico').value;
-            const servico = listaServicosDb.find(s => s.id == idSelecionado);
-
-            if (servico) {
-                document.getElementById('txtPreco').value = servico.preco;
-                document.getElementById('txtTempo').value = servico.tempo_estimado || 0;
-            } else {
-                document.getElementById('txtPreco').value = "";
-                document.getElementById('txtTempo').value = "";
-            }
-        }
-
-        function adicionarServicoNaLista() {
-            const idSelecionado = document.getElementById('selServico').value;
-            const servico = listaServicosDb.find(s => s.id == idSelecionado);
-
-            if (!servico) {
-                alert("Selecione um serviço técnico válido.");
-                return;
-            }
-
-            carrinhoServicos.push(servico);
+    <!-- TELA 2: Painel de Agendamento (Oculto até logar) -->
+    <div id="secao-agendamento" class="container hidden">
+        <div class="main-grid">
             
-            // Atualiza a tabela
-            const tbody = document.getElementById('lista-servicos-agendados');
-            tbody.innerHTML += `
-                <tr>
-                    <td>${servico.nome}</td>
-                    <td>${servico.tempo_estimado || 0}h</td>
-                    <td>R$ ${parseFloat(servico.preco).toFixed(2)}</td>
-                </tr>
-            `;
+            <!-- Coluna da Esquerda: Dados Gerais e Localização -->
+            <div class="card">
+                <h2>🚜 Solicitar Atendimento de Campo</h2>
+                
+                <label>Produtor Identificado:</label>
+                <input type="text" id="txtNomeProdutor" readonly style="font-weight: bold; color: var(--primary);">
 
-            // Atualiza totais
-            totalGeral += parseFloat(servico.preco);
-            tempoTotalGeral += parseFloat(servico.tempo_estimado || 0);
+                <label>Data e Hora Sugerida:</label>
+                <input type="datetime-local" id="data_agendamento" required>
 
-            document.getElementById('txtTotal').innerText = `Investimento Total: R$ ${totalGeral.toFixed(2)}`;
-            document.getElementById('txtTempoTotal').innerText = `Tempo Total em Campo: ${tempoTotalGeral}h`;
-        }
+                <label>Distância até a Roça / Propriedade (KM):</label>
+                <input type="number" id="txtDistancia" value="0" min="0" oninput="calcularOrcamentoCompleto()" placeholder="Ex: 25">
+                <small style="color: var(--text-muted); display:block; margin-top: -10px; margin-bottom: 15px;">* Custo de deslocamento técnico: R$ 2,50 por KM.</small>
 
-        function finalizarAgendamento() {
-            const clienteId = document.getElementById('selCliente').value;
-            const dataAgendamento = document.getElementById('data_agendamento').value;
-            const responsavel = document.getElementById('responsavel').value;
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 1.5rem 0;">
 
-            if (!clienteId || !dataAgendamento || !responsavel || carrinhoServicos.length === 0) {
-                alert("Por favor, preencha todos os campos e adicione pelo menos uma atividade.");
-                return;
-            }
+                <h2>🌱 Selecionar Serviços</h2>
+                <label>Atividade Agronômica:</label>
+                <select id="selServico" onchange="atualizarDadosServico()">
+                    <option value="">Selecione uma análise/consultoria...</option>
+                </select>
 
-            const dadosAgendamento = {
-                cliente_id: clienteId,
-                data_hora: dataAgendamento,
-                agronomo_responsavel: responsavel,
-                servicos: carrinhoServicos.map(s => s.id),
-                total: totalGeral
-            };
+                <div class="row">
+                    <div>
+                        <label>Preço Base (R$):</label>
+                        <input type="text" id="txtPrecoBase" readonly style="background: #f1f5f9;">
+                    </div>
+                    <div>
+                        <label>Tempo Est. (Horas):</label>
+                        <input type="text" id="txtTempoEst" readonly style="background: #f1f5f9;">
+                    </div>
+                </div>
 
-            fetch('/salvar-agendamento', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dadosAgendamento)
-            })
-            .then(res => {
-                if(res.ok) {
-                    alert("Visita agronômica agendada com sucesso!");
-                    window.location.href = 'consulta_agendamentos.html';
-                } else {
-                    alert("Erro ao salvar o agendamento.");
-                }
-            })
-            .catch(err => console.error("Erro na requisição:", err));
-        }
-    </script>
-</body>
-</html>
+                <button type="button" class="secondary" onclick="adicionarServicoNaLista()">＋ Incluir Atividade no Orçamento</button>
+            </div>
+
+            <!-- Coluna da Direita: Carrinho de Serviços e Orçamento Dinâmico -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h2>📋 Resumo do Atendimento</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Tempo</th>
+                                <th>Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-servicos-agendados">
+                            <!-- Inserção via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <div class="resumo-financeiro">
+                        <div class="resumo-linha">
+                            <span>Subtotal Serviços:</span>
+                            <span id="resumo-subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="resumo-linha">
+                            <span>Taxa de Deslocamento Logístico:</span>
+                            <span id="resumo-frete">R$ 0,00</span>
+                        </div>
+                        <div class="resumo-total">
