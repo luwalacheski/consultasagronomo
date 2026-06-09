@@ -2,30 +2,200 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SisAgro - Consulta de Agendamentos</title>
+    <!-- Importação de Fonte Profissional -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e4620;
+            --primary-light: #2d6a31;
+            --accent: #d4a373;
+            --background: #f4f6f4;
+            --surface: #ffffff;
+            --text: #2b2d42;
+            --text-muted: #6c757d;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Nav Profissional */
+        nav {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            opacity: 0.85;
+            white-space: nowrap;
+        }
+
+        nav a:hover, nav a.active {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Banner Principal Corporativo */
+        .hero-banner {
+            background: linear-gradient(rgba(30, 70, 32, 0.85), rgba(30, 70, 32, 0.6)), 
+                        url('https://unsplash.com') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Botão Interno Estilo Premium */
+        table button {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        table button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Tabela Limpa */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #fcfdfc;
+        }
+
+        /* Rodapé Limpo */
+        footer {
+            background-color: #112612;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        footer p:first-child {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Menu Corrigido e Alinhado com o Novo Padrão -->
     <nav>
         <a href="index.html">Home</a>
-        <a href="apresentacao.html">Apresentação</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="servicos.html">Serviços</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="servicos.html">Serviços Técnicos</a>
         <a href="vendas.html">Vendas</a>
         <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consulta Agendamentos</a>
+        <a href="consulta_agendamentos.html" class="active">Consulta</a>
     </nav>
 
-    <header class="banner">
+    <header class="hero-banner">
         <h1>Histórico de Vistorias Técnicas</h1>
         <p>Consulte as Ordens de Serviço abertas e alocações de consultoria a campo</p>
     </header>
 
     <div class="container">
+        
+        <!-- Tabela Mestre -->
         <div class="card">
-            <h2>Vistorias e Visitas Registradas (Mestre)</h2>
+            <h2>Vistorias e Visitas Registradas</h2>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
-                Clique em "Ver Detalhes" para examinar os serviços específicos alocados a cada visita técnica.
+                Clique em "Ver Detalhes" para examinar os serviços técnicos específicos executados em cada propriedade rural.
             </p>
             <table>
                 <thead>
@@ -34,7 +204,7 @@
                         <th>Data / Hora</th>
                         <th>Produtor Rural</th>
                         <th>Agrônomo Responsável</th>
-                        <th>Total Geral</th>
+                        <th>Investimento Total</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
@@ -44,17 +214,18 @@
             </table>
         </div>
 
-        <div id="card-detalhes" class="card" style="margin-top: 25px; display: none;">
-            <h2>Detalhes da Visita Técnica #<span id="num-agendamento"></span></h2>
+        <!-- Tabela Detalhes (Oculta até o clique) -->
+        <div id="card-detalhes" class="card hidden">
+            <h2>Detalhes da Visita Técnica #<span id="num-agendamento" style="color: var(--accent);"></span></h2>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
-                Análises e orientações agronômicas executadas nesta propriedade:
+                Análises de solo e monitoramentos operacionais executados na respectiva propriedade:
             </p>
             <table>
                 <thead>
                     <tr>
                         <th>Serviço Técnico Especializado</th>
                         <th>Tempo Estimado</th>
-                        <th>Preço (R$)</th>
+                        <th>Preço Base</th>
                     </tr>
                 </thead>
                 <tbody id="lista-servicos-detalhe">
@@ -63,6 +234,11 @@
             </table>
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 SisAgro - Soluções Agronômicas Avançadas</p>
+        <p>Monitoramento e Tecnologia de Alta Precisão no Campo</p>
+    </footer>
 
     <script>
         // Executa automaticamente ao carregar a página para preencher a tabela Mestre
@@ -73,22 +249,33 @@
                     const corpoTabela = document.getElementById('lista-agendamentos-consulta');
                     corpoTabela.innerHTML = "";
                     
+                    if (agendamentos.length === 0) {
+                        corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum agendamento encontrado no banco de dados.</td></tr>`;
+                        return;
+                    }
+
                     agendamentos.forEach(a => {
-                        // Formatação amigável para a data vinda do datetime-local
-                        const dataFormatada = new Date(a.data).toLocaleString('pt-BR', {
+                        // Trata e formata a string/data recebida do banco
+                        const dataBr = a.data || a.data_hora;
+                        const dataFormatada = dataBr ? new Date(dataBr).toLocaleString('pt-BR', {
                             dateStyle: 'short',
                             timeStyle: 'short'
-                        });
+                        }) : "Data pendente";
+
+                        // Normaliza os nomes das variáveis para evitar que fiquem undefined
+                        const nomeProdutor = a.nome_cliente || a.produtor_nome || "Produtor Não Identificado";
+                        const agronomo = a.responsavel || a.agronomo_responsavel || "Técnico Alocado";
+                        const valorTotal = a.total || a.total_geral || 0;
 
                         corpoTabela.innerHTML += `
                             <tr>
-                                <td>${a.id}</td>
+                                <td>#${a.id}</td>
                                 <td>${dataFormatada}</td>
-                                <td><strong>${a.nome_cliente}</strong></td>
-                                <td>${a.responsavel}</td>
-                                <td>R$ ${a.total.toFixed(2)}</td>
+                                <td><strong>${nomeProdutor}</strong></td>
+                                <td>${agronomo}</td>
+                                <td style="font-weight: 600; color: var(--primary);">R$ ${parseFloat(valorTotal).toFixed(2)}</td>
                                 <td>
-                                    <button onclick="verDetalhes(${a.id})">Ver Detalhes</button>
+                                    <button onclick="verDetalhes(${a.id})">🔍 Examinar Laudo</button>
                                 </td>
                             </tr>`;
                     });
@@ -101,37 +288,4 @@
             fetch(`/detalhes-agendamento/${idAgendamento}`)
                 .then(res => res.json())
                 .then(servicos => {
-                    // Torna o card visível e atualiza o número do agendamento
-                    document.getElementById('card-detalhes').style.display = 'block';
-                    document.getElementById('num-agendamento').innerText = idAgendamento;
-                    
-                    const corpoDetalhe = document.getElementById('lista-servicos-detalhe');
-                    corpoDetalhe.innerHTML = "";
-                    
-                    servicos.forEach(item => {
-                        corpoDetalhe.innerHTML += `
-                            <tr>
-                                <td><strong>${item.descricao}</strong></td>
-                                <td>${item.tempo_estimado}h</td>
-                                <td>R$ ${item.preco_cobrado.toFixed(2)}</td>
-                            </tr>`;
-                    });
-                    
-                    // Rola a tela suavemente até o card de detalhes para melhorar a usabilidade
-                    window.scrollTo({
-                        top: document.getElementById('card-detalhes').offsetTop - 20,
-                        behavior: 'smooth'
-                    });
-                })
-                .catch(err => console.error("Erro ao carregar laudos técnicos do agendamento:", err));
-        }
-    </script>
-</body>
-
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão Agronômica Integrada</p>
-        <p>Desenvolvido para otimização e controle prático de assistência rural</p>
-    </div>
-</footer>
-</html>
+                    // Torna o card visível removendo a classe do utilitário
