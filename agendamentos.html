@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>SisAgro - Agendar Visita Técnica</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="servicos.html">Consultorias</a>
+        <a href="agendamentos.html">Agendamentos</a>
+        <a href="consulta_agendamentos.html">Consultar Visitas</a>
+    </nav>
+
+    <header class="banner">
+        <h1>Agendamento Agrônomo</h1>
+        <p>Reserve horários de consultoria e organize ordens de serviço de campo</p>
+    </header>
+
+    <div class="container">
+        <div style="margin-bottom: 20px;">
+            <button onclick="window.location.href='consulta_agendamentos.html'" style="background: #27ae60; width: auto; padding: 10px 20px;">
+                🔍 Ver Histórico de Visitas Técnicas
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Nova Ordem de Serviço / Atendimento de Campo</h2>
+
+            <label for="selCliente">Produtor Rural / Solicitante:</label>
+            <select id="selCliente">
+                <option value="">Selecione o Produtor...</option>
+            </select>
+
+            <label for="data_agendamento">Data e Hora da Visita:</label>
+            <input type="datetime-local" id="data_agendamento" required>
+
+            <label for="responsavel">Agrônomo / Consultor Responsável:</label>
+            <input type="text" id="responsavel" placeholder="Ex: Dr. Carlos Silva ou Equipe de Solo" required>
+
+            <hr>
+
+            <h3>🌱 Adicionar Serviços e Análises ao Agendamento</h3>
+            
+            <label for="selServico">Selecione a Atividade/Consultoria:</label>
+            <select id="selServico" onchange="atualizarDadosServico()">
+                <option value="">Selecione um serviço técnico...</option>
+            </select>
+
+            <div style="display: flex; gap: 15px; margin-top: 5px;">
+                <div style="flex: 1;">
+                    <label>Custo Estimado (R$):</label>
+                    <input type="number" id="txtPreco" readonly style="background: #eee;">
+                </div>
+                <div style="flex: 1;">
+                    <label>Tempo Est. Campo (Horas):</label>
+                    <input type="number" id="txtTempo" readonly style="background: #eee;">
+                </div>
+            </div>
+
+            <button type="button" onclick="adicionarServicoNaLista()" style="background-color: #27ae60; margin-top: 15px;">
+                ➕ Incluir Serviço no Agendamento
+            </button>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>Serviços Agendados para esta Visita</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atividade Técnica</th>
+                        <th>Tempo Est.</th>
+                        <th>Custo (R$)</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-servicos-agendados">
+                </tbody>
+            </table>
+
+            <div style="text-align: right; margin-top: 15px;">
+                <h3 id="txtTotal">Investimento Total: R$ 0.00</h3>
+                <h4 id="txtTempoTotal" style="color: #c0392b;">Tempo Total em Campo: 0h</h4>
+            </div>
+
+            <button type="button" onclick="finalizarAgendamento()" style="margin-top: 15px; background-color: #2c3e50;">
+                💾 Salvar e Confirmar Visita Agronômica
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let listaServicosDb = [];
+        let carrinhoServicos = [];
+        let totalGeral = 0;
+        let tempoTotalGeral = 0;
+
+        // Carrega os dados iniciais do banco ao abrir a página
+        window.onload = function() {
+            // Buscar produtores/clientes para o Select
+            fetch('/listar-clientes')
+                .then(res => res.json())
+                .then(clientes => {
+                    const sel = document.getElementById('selCliente');
+                    clientes.forEach(c => {
+                        sel.innerHTML += `<option value="${c.id}">${c.nome} (${c.cpf || 'Inscrição Estadual'})</option>`;
+                    });
+                })
+                .catch(err => console.error("Erro ao carregar produtores:", err));
+
+            // Buscar serviços técnicos para o Select
+            fetch('/listar-servicos')
+                .then(res => res.json())
+                .then(servicos => {
+                    listaServicosDb = servicos;
+                    const sel = document.getElementById('selServico');
+                    servicos.forEach(s => {
+                        sel.innerHTML += `<option value="${s.id}">${s.nome}</option>`;
+                    });
+                })
+                .catch(err => console.error("Erro ao carregar serviços:", err));
+        };
+
+        function atualizarDadosServico() {
+            const idSelecionado = document.getElementById('selServico').value;
+            const servico = listaServicosDb.find(s => s.id == idSelecionado);
+
+            if (servico) {
+                document.getElementById('txtPreco').value = servico.preco;
+                document.getElementById('txtTempo').value = servico.tempo_estimado || 0;
+            } else {
+                document.getElementById('txtPreco').value = "";
+                document.getElementById('txtTempo').value = "";
+            }
+        }
+
+        function adicionarServicoNaLista() {
+            const idSelecionado = document.getElementById('selServico').value;
+            const servico = listaServicosDb.find(s => s.id == idSelecionado);
+
+            if (!servico) {
+                alert("Selecione um serviço técnico válido.");
+                return;
+            }
+
+            carrinhoServicos.push(servico);
+            
+            // Atualiza a tabela
+            const tbody = document.getElementById('lista-servicos-agendados');
+            tbody.innerHTML += `
+                <tr>
+                    <td>${servico.nome}</td>
+                    <td>${servico.tempo_estimado || 0}h</td>
+                    <td>R$ ${parseFloat(servico.preco).toFixed(2)}</td>
+                </tr>
+            `;
+
+            // Atualiza totais
+            totalGeral += parseFloat(servico.preco);
+            tempoTotalGeral += parseFloat(servico.tempo_estimado || 0);
+
+            document.getElementById('txtTotal').innerText = `Investimento Total: R$ ${totalGeral.toFixed(2)}`;
+            document.getElementById('txtTempoTotal').innerText = `Tempo Total em Campo: ${tempoTotalGeral}h`;
+        }
+
+        function finalizarAgendamento() {
+            const clienteId = document.getElementById('selCliente').value;
+            const dataAgendamento = document.getElementById('data_agendamento').value;
+            const responsavel = document.getElementById('responsavel').value;
+
+            if (!clienteId || !dataAgendamento || !responsavel || carrinhoServicos.length === 0) {
+                alert("Por favor, preencha todos os campos e adicione pelo menos uma atividade.");
+                return;
+            }
+
+            const dadosAgendamento = {
+                cliente_id: clienteId,
+                data_hora: dataAgendamento,
+                agronomo_responsavel: responsavel,
+                servicos: carrinhoServicos.map(s => s.id),
+                total: totalGeral
+            };
+
+            fetch('/salvar-agendamento', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosAgendamento)
+            })
+            .then(res => {
+                if(res.ok) {
+                    alert("Visita agronômica agendada com sucesso!");
+                    window.location.href = 'consulta_agendamentos.html';
+                } else {
+                    alert("Erro ao salvar o agendamento.");
+                }
+            })
+            .catch(err => console.error("Erro na requisição:", err));
+        }
+    </script>
+</body>
+</html>
