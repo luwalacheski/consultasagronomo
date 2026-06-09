@@ -2,29 +2,222 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SisAgro - Cadastro de Produtores</title>
+    <!-- Importação de Fonte Profissional -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e4620;
+            --primary-light: #2d6a31;
+            --accent: #d4a373;
+            --background: #f4f6f4;
+            --surface: #ffffff;
+            --text: #2b2d42;
+            --text-muted: #6c757d;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Nav Profissional */
+        nav {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            opacity: 0.85;
+            white-space: nowrap;
+        }
+
+        nav a:hover, nav a.active {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Banner Principal Corporativo */
+        .hero-banner {
+            background: linear-gradient(rgba(30, 70, 32, 0.85), rgba(30, 70, 32, 0.6)), 
+                        url('https://unsplash.com') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            background-color: #fafafa;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(30, 70, 32, 0.1);
+        }
+
+        /* Botão Premium */
+        button {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Tabela Limpa */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #fcfdfc;
+        }
+
+        /* Rodapé Limpo */
+        footer {
+            background-color: #112612;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        footer p:first-child {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Menu sem a aba Apresentação -->
     <nav>
         <a href="index.html">Home</a>
-        <a href="apresentacao.html">Apresentação</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="servicos.html">Serviços</a>
+        <a href="clientes.html" class="active">Produtores</a>
+        <a href="servicos.html">Serviços Técnicos</a>
         <a href="vendas.html">Vendas</a>
         <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consulta Agendamentos</a>
+        <a href="consulta_agendamentos.html">Consulta</a>
     </nav>
 
-    <header class="banner">
+    <header class="hero-banner">
         <h1>Gestão de Produtores Rurais</h1>
-        <p>Cadastre os solicitantes de assistência técnica e consultoria de campo</p>
+        <p>Cadastre e gerencie os solicitantes de assistência técnica e consultoria de campo</p>
     </header>
 
     <div class="container">
+        
+        <!-- Formulário de Cadastro -->
         <div class="card">
             <h2>Novo Cadastro de Produtor</h2>
-            <form action="/salvar-cliente" method="POST">
+            <form id="form-produtor">
                 <label for="nome">Nome do Produtor / Fazenda:</label>
                 <input type="text" id="nome" name="nome" placeholder="Ex: João da Silva / Sítio Alvorada" required>
                 
@@ -34,13 +227,14 @@
                 <label for="telefone">Telefone / Whatsapp:</label>
                 <input type="tel" id="telefone" name="telefone" placeholder="(00) 99999-9999" required>
                 
-                <button type="submit">Salvar Produtor</button>
+                <button type="submit">💾 Salvar Produtor Rural</button>
             </form>
         </div>
 
-        <div class="card" style="margin-top: 20px;">
+        <!-- Tabela de Listagem -->
+        <div class="card">
             <h2>Produtores Cadastrados</h2>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
                 Abaixo estão listados os agricultores e propriedades aptas para o agendamento de laudos e vistorias.
             </p>
             <table>
@@ -58,28 +252,58 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 SisAgro - Soluções Agronômicas Avançadas</p>
+        <p>Monitoramento e Tecnologia de Alta Precision no Campo</p>
+    </footer>
+
     <script>
-        fetch('/listar-clientes')
-            .then(res => res.json())
-            .then(clientes => {
-                const corpoTabela = document.getElementById('lista-clientes');
-                clientes.forEach(c => {
-                    corpoTabela.innerHTML += `
-                        <tr>
-                            <td><strong>${c.nome}</strong></td>
-                            <td>${c.cpf}</td>
-                            <td>${c.telefone}</td>
-                        </tr>`;
-                });
+        // Função para carregar e renderizar os produtores
+        function carregarProdutores() {
+            fetch('/listar-clientes')
+                .then(res => res.json())
+                .then(clientes => {
+                    const corpoTabela = document.getElementById('lista-clientes');
+                    corpoTabela.innerHTML = ""; // Limpa antes de renderizar
+                    clientes.forEach(c => {
+                        corpoTabela.innerHTML += `
+                            <tr>
+                                <td><strong>${c.nome}</strong></td>
+                                <td>${c.cpf}</td>
+                                <td>${c.telefone}</td>
+                            </tr>`;
+                    });
+                })
+                .catch(err => console.error("Erro ao listar produtores rurais:", err));
+        }
+
+        // Carrega ao iniciar a página
+        window.onload = carregarProdutores;
+
+        // AJAX para salvar sem recarregar a tela inteira (Deixa o sistema mais fluido)
+        document.getElementById('form-produtor').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const cpf = document.getElementById('cpf').value;
+            const telefone = document.getElementById('telefone').value;
+
+            fetch('/salvar-cliente', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, cpf, telefone })
             })
-            .catch(err => console.error("Erro ao listar produtores rurais:", err));
+            .then(res => {
+                if (res.ok) {
+                    alert("Produtor cadastrado com sucesso!");
+                    document.getElementById('form-produtor').reset();
+                    carregarProdutores(); // Atualiza a tabela dinamicamente
+                } else {
+                    alert("Erro ao salvar produtor.");
+                }
+            })
+            .catch(err => console.error("Erro na requisição:", err));
+        });
     </script>
 </body>
-
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão Agronômica Integrada</p>
-        <p>Desenvolvido para otimização e controle prático de assistência rural</p>
-    </div>
-</footer>
 </html>
