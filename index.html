@@ -194,6 +194,140 @@
             border-radius: 2px;
         }
 
+        /* --- LAYOUT DA LOJA VIRTUAL (NOVO) --- */
+        .loja-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+        }
+
+        .produtos-secao {
+            flex: 1;
+        }
+
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .produto-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .produto-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-light);
+        }
+
+        .produto-foto {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: calc(var(--radius) - 4px);
+            background-color: #eaeaea;
+            margin-bottom: 1rem;
+        }
+
+        .produto-nome {
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .produto-descricao {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .produto-preco {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .btn-adicionar {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-adicionar:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Sidebar do Pedido */
+        .resumo-pedido-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            width: 320px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .resumo-pedido-card h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .carrinho-status {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-compra {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-fechar-pedido {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.85rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-fechar-pedido:hover {
+            background-color: var(--primary-light);
+        }
+        /* ------------------------------------- */
+
         /* Card de Infraestrutura Tecnológica */
         .tech-card {
             background: #1e4620;
@@ -228,79 +362,7 @@
             text-align: center;
             font-size: 0.85rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
         }
 
         footer p:first-child {
-            color: white;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Menu Corrigido sem a aba Apresentação -->
-    <nav>
-        <a href="index.html" class="active">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="servicos.html">Serviços Técnicos</a>
-        <a href="vendas.html">Vendas</a>
-        <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consulta</a>
-    </nav>
-
-    <header class="hero-banner">
-        <h1>SisAgro 1.0</h1>
-        <p>Soluções Tecnológicas, Análises de Precisão e Consultoria Agronômica Avançada</p>
-    </header>
-
-    <div class="container">
-        
-        <div class="welcome-card">
-            <h2>Gestão Integrada - Unidade Capanema</h2>
-            <p>Uma plataforma corporativa de alta performance voltada para o monitoramento de propriedades rurais, otimização de safras e controle automatizado de consultorias de campo prestadas por engenheiros agrônomos.</p>
-            <p>Este ecossistema conecta interfaces modernas a bancos de dados relacionais estruturados para gerenciar ordens de serviço, inteligência de solo, vistorias periódicas e fluxo logístico de insumos.</p>
-        </div>
-
-        <h3 class="section-title">Módulos Operacionais do Sistema</h3>
-        
-        <div class="modules-grid">
-            
-            <!-- Card Clientes -->
-            <a href="clientes.html" class="module-card">
-                <img src="https://unsplash.com" alt="Produtores" class="module-img">
-                <div class="module-content">
-                    <h4>👥 Produtores Rurais</h4>
-                    <p>Gestão completa de clientes, histórico de safras, mapeamento de propriedades e laudos consolidados.</p>
-                </div>
-            </a>
-
-            <!-- Card Serviços -->
-            <a href="servicos.html" class="module-card">
-                <img src="https://unsplash.com" alt="Serviços" class="module-img">
-                <div class="module-content">
-                    <h4>🌱 Serviços Técnicos</h4>
-                    <p>Catálogo digital contendo análises físico-químicas de solo, plano de manejo de pragas e dimensionamento de irrigação.</p>
-                </div>
-            </a>
-
-            <!-- Card Vendas -->
-            <a href="vendas.html" class="module-card">
-                <img src="https://unsplash.com" alt="Vendas" class="module-img">
-                <div class="module-content">
-                    <h4>💰 Transações &amp; Insumos</h4>
-                    <p>Orçamentos comerciais automatizados, controle de defensivos agrícolas e faturamento de infoprodutos.</p>
-                </div>
-            </a>
-
-            <!-- Card Agendamentos -->
-            <a href="agendamentos.html" class="module-card">
-                <img src="https://unsplash.com" alt="Agendamentos" class="module-img">
-                <div class="module-content">
-                    <h4>📅 Agendamentos de Campo</h4>
-                    <p>Abertura estruturada de ordens de visita técnica com cálculo inteligente de taxa de deslocamento logístico por KM.</p>
-                </div>
-            </a>
-
-        </div>
-
