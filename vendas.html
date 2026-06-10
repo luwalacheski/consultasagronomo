@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SisAgro - Loja de Insumos</title>
+    <title>SisAgro - Loja Agropecuária Virtual</title>
     <!-- Importação de Fonte Profissional -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
@@ -89,140 +89,167 @@
             max-width: 1200px;
             margin: 3rem auto;
             padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
             flex: 1;
-        }
-
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
         }
 
         .section-title {
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             color: var(--primary);
             margin-bottom: 1.5rem;
             font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
-        /* Grid de Produtos */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
         }
 
-        .product-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            overflow: hidden;
+        /* --- LAYOUT DA LOJA VIRTUAL --- */
+        .loja-layout {
             display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
+            gap: 2rem;
+            align-items: flex-start;
         }
 
-        .product-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            background-color: #f8fafc;
-        }
-
-        .product-info {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .produtos-secao {
             flex: 1;
         }
 
-        .product-category {
-            font-size: 0.75rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            font-weight: 700;
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
         }
 
-        .product-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
+        .produto-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .product-price {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-top: auto;
+        .produto-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-light);
         }
 
-        .btn-add {
+        .produto-foto {
             width: 100%;
-            padding: 0.6rem;
+            height: 160px;
+            object-fit: cover;
+            border-radius: calc(var(--radius) - 4px);
+            background-color: #eaeaea;
+            margin-bottom: 1rem;
+        }
+
+        .produto-nome {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .produto-descricao {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+            flex: 1;
+        }
+
+        .produto-preco {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .btn-adicionar {
             background-color: var(--primary);
             color: white;
             border: none;
+            padding: 0.8rem;
             border-radius: 6px;
-            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            width: 100%;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .btn-add:hover { background-color: var(--primary-light); }
+        .btn-adicionar:hover {
+            background-color: var(--primary-light);
+        }
 
-        /* Carrinho Lateral */
-        .cart-card {
+        /* Sidebar do Pedido */
+        .resumo-pedido-card {
             background: var(--surface);
-            padding: 1.5rem;
             border-radius: var(--radius);
-            box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            height: fit-content;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            width: 320px;
             position: sticky;
             top: 20px;
         }
 
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed var(--border);
+        .resumo-pedido-card h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
         }
 
-        .cart-total {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
+        .carrinho-status {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-compra {
             display: flex;
             justify-content: space-between;
             font-weight: 700;
             font-size: 1.1rem;
-            color: var(--primary);
+            margin-bottom: 1.5rem;
         }
 
-        .btn-checkout {
-            width: 100%;
-            padding: 0.85rem;
-            background-color: var(--primary-light);
+        .btn-fechar-pedido {
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
+            padding: 0.85rem;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 1rem;
+            width: 100%;
+            text-align: center;
+            transition: background 0.2s;
         }
 
-        /* Rodapé */
+        .btn-fechar-pedido:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Rodapé Limpo e Executivo */
         footer {
             background-color: #112612;
             color: rgba(255, 255, 255, 0.7);
@@ -230,11 +257,19 @@
             text-align: center;
             font-size: 0.85rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        footer p:first-child {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
         }
     </style>
 </head>
 <body>
 
+    <!-- Menu Principal com a aba Vendas ativa -->
     <nav>
         <a href="index.html">Home</a>
         <a href="clientes.html">Produtores</a>
@@ -244,6 +279,7 @@
         <a href="consulta_agendamentos.html">Consulta</a>
     </nav>
 
+    <!-- Cabeçalho idêntico à sua imagem -->
     <header class="hero-banner">
         <h1>Loja Agropecuária Virtual</h1>
         <p>Defensivos, inseticidas e insumos de alta performance para a sua lavoura</p>
@@ -251,70 +287,36 @@
 
     <div class="container">
         
-        <!-- Vitrine de Produtos -->
-        <div>
-            <h3 class="section-title">Insumos Disponíveis</h3>
-            <div class="products-grid" id="vitrine">
-                <!-- Gerado via JavaScript -->
-            </div>
-        </div>
-
-        <!-- Carrinho de Compras -->
-        <div class="cart-card">
-            <h3 class="section-title" style="margin-bottom: 1rem;">🛒 Resumo do Pedido</h3>
-            <div id="itens-carrinho">
-                <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center;">Carrinho vazio</p>
-            </div>
-            <div class="cart-total">
-                <span>Total da Compra:</span>
-                <span id="valor-total">R$ 0,00</span>
-            </div>
-            <button class="btn-checkout" onclick="finalizarPedido()">📦 Fechar Pedido de Insumos</button>
-        </div>
-
-    </div>
-
-    <footer>
-        <p>&copy; 2026 SisAgro - Soluções Agronômicas Avançadas</p>
-        <p>Monitoramento e Tecnologia de Alta Precisão no Campo</p>
-    </footer>
-
-    <script>
-        // Lista fictícia de produtos comerciais agrícolas para popular a tela
-        const produtosDb = [
-            { id: 1, nome: "Inseticida Galil 1L", categoria: "Defensivos", preco: 189.90, img: "https://unsplash.com" },
-            { id: 2, nome: "Fertilizante NPK 10-10-10 (50kg)", categoria: "Nutrição", preco: 245.00, img: "https://unsplash.com" },
-            { id: 3, nome: "Fungicida Elatus 5kg", categoria: "Defensivos", preco: 820.00, img: "https://unsplash.com" },
-            { id: 4, nome: "Adubo Orgânico Concentrado (25kg)", categoria: "Nutrição", preco: 115.00, img: "https://unsplash.com" }
-        ];
-
-        let carrinho = [];
-
-        // Renderiza a vitrine de produtos ao carregar
-        window.onload = function() {
-            const vitrine = document.getElementById('vitrine');
-            vitrine.innerHTML = "";
-            produtosDb.forEach(p => {
-                vitrine.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.img}" alt="${p.nome}" class="product-img">
-                        <div class="product-info">
-                            <span class="product-category">${p.categoria}</span>
-                            <h4 class="product-title">${p.nome}</h4>
-                            <span class="product-price">R$ ${p.preco.toFixed(2)}</span>
-                            <button class="btn-add" onclick="adicionarAoCarrinho(${p.id})">Adicionar</button>
+        <!-- Grid de Layout Lateral -->
+        <div class="loja-layout">
+            
+            <!-- Coluna Principal: Lista de Insumos -->
+            <div class="produtos-secao">
+                <h3 class="section-title">Insumos Disponíveis</h3>
+                
+                <div class="produtos-grid">
+                    
+                    <!-- Bloco de Produto 1 -->
+                    <div class="produto-card">
+                        <!-- Altere o link abaixo dentro de src="" para colocar a foto real do seu produto -->
+                        <img src="https://unsplash.com" alt="Fertilizante NPK" class="produto-foto">
+                        <div class="produto-info">
+                            <h4 class="produto-nome">Fertilizante NPK 10-10-10</h4>
+                            <p class="produto-descricao">Insumo de alta performance ideal para o crescimento robusto e uniforme da sua lavoura.</p>
+                            <span class="produto-preco">R$ 120,00</span>
+                            <button class="btn-adicionar">🛒 Adicionar</button>
                         </div>
                     </div>
-                `;
-            });
-        };
 
-        function adicionarAoCarrinho(id) {
-            const prod = produtosDb.find(p => p.id === id);
-            if (!prod) return;
+                    <!-- Bloco de Produto 2 -->
+                    <div class="produto-card">
+                        <!-- Altere o link abaixo dentro de src="" para colocar a foto real do seu produto -->
+                        <img src="https://unsplash.com" alt="Defensivo Agrícola" class="produto-foto">
+                        <div class="produto-info">
+                            <h4 class="produto-nome">Defensivo Agrícola Pro 1L</h4>
+                            <p class="produto-descricao">Inseticida de ação rápida contra pragas foliares com excelente custo-benefício de mercado.</p>
+                            <span class="produto-preco">R$ 85,50</span>
+                            <button class="btn-adicionar">🛒 Adicionar</button>
+                        </div>
+                    </div>
 
-            carrinho.push(prod);
-            atualizarCarrinhoTela();
-        }
-
-        function atualizarCarrinhoTela() {
