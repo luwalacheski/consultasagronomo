@@ -76,19 +76,19 @@
             opacity: 0.9;
         }
 
-        /* CONTAINER CORRIGIDO COM GRID FIXO PARA TRES COLUNAS */
+        /* CONTAINER COM GRID FIXO PARA TRES COLUNAS */
         .container {
             max-width: 1400px;
             width: 100%;
             margin: 2rem auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: 220px 1fr 280px; /* Larguras exatas e seguras */
+            grid-template-columns: 220px 1fr 280px;
             gap: 2rem;
             flex: 1;
         }
 
-        /* --- FILTROS LATERAIS DA IMAGEM DE REFERÊNCIA --- */
+        /* --- FILTROS LATERAIS --- */
         .sidebar-filtros {
             width: 100%;
         }
@@ -120,7 +120,7 @@
             font-weight: 500;
         }
 
-        /* --- VITRINE PRINCIPAL CORRIGIDA --- */
+        /* --- VITRINE PRINCIPAL --- */
         .vitrine-secao {
             width: 100%;
         }
@@ -141,35 +141,38 @@
 
         .produtos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 1.2rem;
         }
 
-        /* Card igual ao da foto enviada */
+        /* Card de produto padronizado */
         .produto-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 1.5rem 1rem;
+            padding: 1.2rem 1rem;
             display: flex;
             flex-direction: column;
             position: relative;
             transition: border-color 0.2s;
+            min-height: 380px;
         }
 
         .produto-card:hover {
             border-color: #b0c4de;
         }
 
-        /* Foto centralizada com fundo totalmente limpo */
+        /* Caixa de foto nativa para evitar que suma se o link quebrar */
         .produto-foto-container {
             width: 100%;
-            height: 200px;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #ffffff;
-            margin-bottom: 1.5rem;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
         }
 
         .produto-foto {
@@ -178,39 +181,53 @@
             object-fit: contain;
         }
 
+        /* Texto placeholder caso a imagem esteja sem src */
+        .produto-foto:not([src]), .produto-foto[src=""] {
+            display: none;
+        }
+        .produto-foto-container::before {
+            content: "Inserir Imagem";
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .produto-foto-container:has(img[src]:not([src=""]))::before {
+            display: none;
+        }
+
         .produto-nome {
             font-size: 0.95rem;
             color: var(--text);
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.4;
-            margin-bottom: 1rem;
-            min-height: 40px;
+            margin-bottom: 0.5rem;
         }
 
-        /* Estilo de preços do e-commerce */
+        .produto-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
         .preco-container {
             margin-top: auto;
         }
 
         .produto-preco-pix {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #2b2d42;
         }
 
         .txt-pix {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             font-weight: 400;
         }
 
-        .produto-parcelamento {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        /* Botão Mais (+) Absoluto no Topo do Card */
+        /* Botão Mais (+) Absoluto */
         .btn-adicionar-carrinho {
             position: absolute;
             top: 10px;
@@ -218,10 +235,10 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -237,7 +254,7 @@
             transform: scale(1.05);
         }
 
-        /* --- CARRINHO DA DIREITA CONTABILIZADO CORRIGIDO --- */
+        /* --- CARRINHO DA DIREITA --- */
         .carrinho-lateral {
             width: 100%;
             background: var(--surface);
@@ -337,7 +354,7 @@
         
         <!-- COLUNA 1: FILTROS E CATEGORIAS -->
         <aside class="sidebar-filtros">
-            <h3 class="categoria-titulo">Agricultura</h3>
+            <h3 class="categoria-titulo">Agriculture</h3>
             <ul class="lista-categorias">
                 <li><a href="#">Adubos e Fertilizantes</a></li>
                 <li><a href="#">Calcário</a></li>
@@ -346,15 +363,3 @@
                 <li><a href="#">Sementes</a></li>
                 <li><a href="#">Grãos</a></li>
                 <li><a href="#">Silo</a></li>
-                <li><a href="#">Substrato</a></li>
-                <li><a href="#">Pós Colheita</a></li>
-                <li><a href="#">Jardinagem</a></li>
-            </ul>
-        </aside>
-
-        <!-- COLUNA 2: VITRINE DE PRODUTOS AGRICULTURA -->
-        <main class="vitrine-secao">
-            <div class="vitrine-topo">
-                <h2>Agricultura</h2>
-            </div>
-            
