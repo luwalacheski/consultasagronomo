@@ -17,6 +17,8 @@
             --border: #e2e8f0;
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --whatsapp: #25d366;
+            --email-color: #0066cc;
         }
 
         * {
@@ -107,8 +109,8 @@
             font-weight: 600;
         }
 
-        /* Botão Interno Estilo Premium */
-        table button {
+        /* Botões Gerais */
+        button, .btn-link {
             padding: 0.5rem 1rem;
             background-color: transparent;
             color: var(--primary);
@@ -118,14 +120,70 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        table button:hover {
+        button:hover {
             background-color: var(--primary);
             color: white;
         }
 
-        /* Tabela Limpa */
+        /* Seção Suporte/Contatos */
+        .suporte-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .suporte-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f8fafc;
+            text-align: left;
+        }
+
+        .suporte-item h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .suporte-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .btn-whatsapp {
+            color: #fff;
+            background-color: var(--whatsapp);
+            border-color: var(--whatsapp);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebd56;
+            border-color: #1ebd56;
+            color: #fff;
+        }
+
+        .btn-email {
+            color: #fff;
+            background-color: var(--email-color);
+            border-color: var(--email-color);
+        }
+
+        .btn-email:hover {
+            background-color: #0052a3;
+            border-color: #0052a3;
+            color: #fff;
+        }
+
+        /* Tabela */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -149,7 +207,7 @@
             background-color: #fcfdfc;
         }
 
-        /* Rodapé Limpo */
+        /* Rodapé */
         footer {
             background-color: #112612;
             color: rgba(255, 255, 255, 0.7);
@@ -192,7 +250,7 @@
         <div class="card">
             <h2>Vistorias e Visitas Registradas</h2>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
-                Clique em "Ver Detalhes" para examinar os serviços técnicos específicos executados em cada propriedade rural.
+                Clique em "Examinar Laudo" para analisar os serviços agronômicos específicos executados em cada propriedade rural.
             </p>
             <table>
                 <thead>
@@ -206,7 +264,7 @@
                     </tr>
                 </thead>
                 <tbody id="lista-agendamentos-consulta">
-                    </tbody>
+                </tbody>
             </table>
         </div>
 
@@ -224,9 +282,33 @@
                     </tr>
                 </thead>
                 <tbody id="lista-servicos-detalhe">
-                    </tbody>
+                </tbody>
             </table>
         </div>
+
+        <div class="card">
+            <h2>Fale Conosco & Suporte Agronômico</h2>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+                Ficou com alguma dúvida sobre os laudos ou deseja reagendar uma visita técnica especializada? Entre em contato diretamente com a nossa equipe operacional.
+            </p>
+            <div class="suporte-container">
+                <div class="suporte-item">
+                    <h3>Atendimento via WhatsApp</h3>
+                    <p>Fale agora mesmo com um engenheiro agrônomo de plantão para chamados urgentes.</p>
+                    <a href="https://wa.me/5541999999999" target="_blank" class="btn-link btn-whatsapp">
+                        💬 Chamar no WhatsApp
+                    </a>
+                </div>
+                <div class="suporte-item">
+                    <h3>Central de Atendimento</h3>
+                    <p>Envie sua solicitação, documentos da propriedade ou dúvidas para o nosso e-mail.</p>
+                    <a href="mailto:suporte@sisagro.com.br" class="btn-link btn-email">
+                        ✉️ Enviar E-mail
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <footer>
@@ -235,7 +317,6 @@
     </footer>
 
     <script>
-        // 1. BANCO DE DADOS FALSO (Histórico simulado de visitas e os detalhes de cada uma)
         const historicoFalso = [
             {
                 id: 101,
@@ -282,24 +363,22 @@
             }
         ];
 
-        // Executa automaticamente ao carregar a página para preencher a tabela Mestre usando o histórico falso
         window.onload = function() {
-            const corpoTabela = document.getElementById('lista-agendamentos-consulta');
-            corpoTabela.innerHTML = "";
+            const cuerpoTabela = document.getElementById('lista-agendamentos-consulta');
+            cuerpoTabela.innerHTML = "";
             
             if (historicoFalso.length === 0) {
-                corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum agendamento encontrado no banco de dados.</td></tr>`;
+                cuerpoTabela.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum agendamento encontrado.</td></tr>`;
                 return;
             }
 
             historicoFalso.forEach(a => {
-                // Trata e formata a string/data recebida do banco simulado
                 const dataFormatada = new Date(a.data_hora).toLocaleString('pt-BR', {
                     dateStyle: 'short',
                     timeStyle: 'short'
                 });
 
-                corpoTabela.innerHTML += `
+                cuerpoTabela.innerHTML += `
                     <tr>
                         <td>#${a.id}</td>
                         <td>${dataFormatada}</td>
@@ -313,9 +392,7 @@
             });
         };
 
-        // Função corrigida para ler os detalhes da lista estática localmente
         function verDetalhes(idAgendamento) {
-            // Encontra o agendamento correspondente dentro do nosso histórico estático
             const agendamentoSelecionado = historicoFalso.find(a => a.id === idAgendamento);
             
             if (agendamentoSelecionado) {
@@ -323,11 +400,9 @@
                 const numAgendamentoHtml = document.getElementById('num-agendamento');
                 const corpoTabelaDetalhes = document.getElementById('lista-servicos-detalhe');
 
-                // Atualiza o cabeçalho do ID selecionado
                 numAgendamentoHtml.innerText = agendamentoSelecionado.id;
                 corpoTabelaDetalhes.innerHTML = "";
 
-                // Percorre os serviços técnicos agregados desse item
                 agendamentoSelecionado.servicos.forEach(s => {
                     corpoTabelaDetalhes.innerHTML += `
                         <tr>
@@ -337,10 +412,7 @@
                         </tr>`;
                 });
 
-                // Remove a classe 'hidden' para exibir as tabelas na tela
                 cardDetalhes.classList.remove('hidden');
-                
-                // Rola a tela de forma suave até o detalhamento aberto
                 cardDetalhes.scrollIntoView({ behavior: 'smooth' });
             }
         }
