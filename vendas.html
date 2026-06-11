@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja Agropecuária - Vendas</title>
+    <title>Loja Agropecuária - Vendas com Carrinho</title>
     <style>
-        /* Estilização básica para exibir os produtos em grade */
+        /* Estrutura principal dividindo produtos e carrinho */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f4f4f4;
+        }
+
+        /* Container principal dos produtos */
+        .conteudo-principal {
+            flex: 1;
+            padding: 20px;
+        }
+
         .produtos-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            padding: 20px;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .produto-card {
@@ -32,7 +45,7 @@
         }
 
         .produto-card h3 {
-            color: #2e5a27; /* Verde combinando com o tema agro */
+            color: #2e5a27; 
             font-size: 1.2rem;
             margin: 10px 0;
         }
@@ -52,50 +65,137 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
+            font-weight: bold;
         }
 
         .btn-comprar:hover {
             background-color: #1e3d19;
         }
+
+        /* Lateral do Carrinho de Compras */
+        .carrinho-lateral {
+            width: 320px;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            box-shadow: -4px 0 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .carrinho-lateral h2 {
+            color: #2e5a27;
+            margin-top: 0;
+            border-bottom: 2px solid #2e5a27;
+            padding-bottom: 10px;
+        }
+
+        .lista-carrinho {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .item-carrinho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .btn-remover {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .total-container {
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .btn-finalizar {
+            background-color: #c17a1c;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn-finalizar:hover {
+            background-color: #9a5f12;
+        }
     </style>
 </head>
 <body>
 
-    <div id="vitrine-produtos" class="produtos-container"></div>
+    <div class="conteudo-principal">
+        <h1 style="color: #2e5a27;">Produtos Disponíveis</h1>
+        <div id="vitrine-produtos" class="produtos-container"></div>
+    </div>
+
+    <div class="carrinho-lateral">
+        <h2>Seu Carrinho</h2>
+        <ul id="itens-do-carrinho" class="lista-carrinho">
+            </ul>
+        <div class="total-container">
+            <span>Total:</span>
+            <span id="valor-total">R$ 0,00</span>
+        </div>
+        <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar Compra</button>
+    </div>
 
     <script>
-        // 1. Simulação dos seus dados (Isso idealmente viria de um Banco de Dados)
+        // 1. Array de objetos contendo os produtos cadastrados (Preço alterado para número para permitir somas)
         const listaProdutos = [
             {
                 id: 1,
                 nome: "Adubo NPK 10-10-10",
                 categoria: "Adubos e Fertilizantes",
-                preco: "R$ 89,90",
-                imagem: "https://via.placeholder.com/150" // Substitua pela URL real da foto
+                preco: 89.90,
+                imagem: "https://via.placeholder.com/150" 
             },
             {
                 id: 2,
                 nome: "Calcário Agrícola 25kg",
                 categoria: "Calcário",
-                preco: "R$ 45,00",
+                preco: 45.00,
                 imagem: "https://via.placeholder.com/150"
             },
             {
                 id: 3,
                 nome: "Semente de Milho Híbrido",
                 categoria: "Sementes",
-                preco: "R$ 230,00",
+                preco: 230.00,
                 imagem: "https://via.placeholder.com/150"
             }
         ];
 
-        // 2. Função para renderizar os produtos na tela automaticamente
+        // Memória do carrinho (Inicia limpo)
+        let carrinho = [];
+
+        // 2. Renderiza os cartões dos produtos na vitrine
         function carregarProdutos() {
             const container = document.getElementById('vitrine-produtos');
-            container.innerHTML = ""; // Limpa o container
+            container.innerHTML = ""; 
 
             listaProdutos.forEach(produto => {
-                // Cria o card do produto
                 const card = document.createElement('div');
                 card.className = 'produto-card';
 
@@ -103,22 +203,75 @@
                     <img src="${produto.imagem}" alt="${produto.nome}">
                     <h3>${produto.nome}</h3>
                     <p style="color: gray; font-size: 0.9rem;">${produto.categoria}</p>
-                    <div class="preco">${produto.preco}</div>
-                    <button class="btn-comprar" onclick="adicionarAoCarrinho(${produto.id})">Comprar</button>
+                    <div class="preco">R$ ${produto.preco.toFixed(2).replace('.', ',')}</div>
+                    <button class="btn-comprar" onclick="adicionarAoCarrinho(${produto.id})">Adicionar</button>
                 `;
-
-                // Adiciona o card dentro do container principal
                 container.appendChild(card);
             });
         }
 
-        // Função fictícia para o clique do botão
+        // 3. Adiciona o produto selecionado na memória do carrinho
         function adicionarAoCarrinho(id) {
-            alert("Produto " + id + " adicionado ao carrinho!");
+            const produto = listaProdutos.find(p => p.id === id);
+            if (produto) {
+                carrinho.push(produto);
+                atualizarInterfaceCarrinho();
+            }
         }
 
-        // Executa a função assim que a página carrega
-        window.onload = carregarProdutos;
+        // 4. Remove um item específico do carrinho baseado no índice
+        function removerDoCarrinho(index) {
+            carrinho.splice(index, 1);
+            atualizarInterfaceCarrinho();
+        }
+
+        // 5. Atualiza a barra lateral com os itens e recalcula o valor somado
+        function atualizarInterfaceCarrinho() {
+            const listaHtml = document.getElementById('itens-do-carrinho');
+            const totalHtml = document.getElementById('valor-total');
+            
+            listaHtml.innerHTML = ""; // Reseta o HTML da lista
+            let somaTotal = 0;
+
+            if (carrinho.length === 0) {
+                listaHtml.innerHTML = `<li style="color: gray; text-align: center; margin-top: 20px;">O carrinho está vazio.</li>`;
+            } else {
+                carrinho.forEach((produto, index) => {
+                    somaTotal += produto.preco;
+
+                    const itemLi = document.createElement('li');
+                    itemLi.className = 'item-carrinho';
+                    itemLi.innerHTML = `
+                        <div>
+                            <strong>${produto.nome}</strong><br>
+                            <span style="color: #666;">R$ ${produto.preco.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <button class="btn-remover" onclick="removerDoCarrinho(${index})">X</button>
+                    `;
+                    listaHtml.appendChild(itemLi);
+                });
+            }
+
+            // Atualiza o valor impresso na tela
+            totalHtml.innerText = `R$ ${somaTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        // 6. Ação fictícia ao concluir o pedido
+        function finalizarCompra() {
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            alert("Pedido enviado com sucesso! Obrigado pela preferência.");
+            carrinho = []; // Limpa o carrinho pós-venda
+            atualizarInterfaceCarrinho();
+        }
+
+        // Inicializador automático da página
+        window.onload = function() {
+            carregarProdutos();
+            atualizarInterfaceCarrinho();
+        };
     </script>
 </body>
 </html>
