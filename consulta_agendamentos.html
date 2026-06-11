@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SisAgro - Consulta de Agendamentos</title>
-    <!-- Importação de Fonte Profissional -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1e4620;
@@ -63,7 +62,7 @@
         /* Banner Principal Corporativo */
         .hero-banner {
             background: linear-gradient(rgba(30, 70, 32, 0.85), rgba(30, 70, 32, 0.6)), 
-                        url('https://unsplash.com') no-repeat center center/cover;
+                        url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1200') no-repeat center center/cover;
             color: white;
             padding: 5rem 2rem;
             text-align: center;
@@ -174,7 +173,6 @@
 </head>
 <body>
 
-    <!-- Menu Corrigido e Alinhado com o Novo Padrão -->
     <nav>
         <a href="index.html">Home</a>
         <a href="clientes.html">Produtores</a>
@@ -191,7 +189,6 @@
 
     <div class="container">
         
-        <!-- Tabela Mestre -->
         <div class="card">
             <h2>Vistorias e Visitas Registradas</h2>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
@@ -209,12 +206,10 @@
                     </tr>
                 </thead>
                 <tbody id="lista-agendamentos-consulta">
-                    <!-- Preenchido dinamicamente via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
-        <!-- Tabela Detalhes (Oculta até o clique) -->
         <div id="card-detalhes" class="card hidden">
             <h2>Detalhes da Visita Técnica #<span id="num-agendamento" style="color: var(--accent);"></span></h2>
             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
@@ -229,8 +224,7 @@
                     </tr>
                 </thead>
                 <tbody id="lista-servicos-detalhe">
-                    <!-- Preenchido dinamicamente via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
@@ -241,51 +235,115 @@
     </footer>
 
     <script>
-        // Executa automaticamente ao carregar a página para preencher a tabela Mestre
+        // 1. BANCO DE DADOS FALSO (Histórico simulado de visitas e os detalhes de cada uma)
+        const historicoFalso = [
+            {
+                id: 101,
+                data_hora: "2026-06-05T09:00:00",
+                nome_cliente: "Jorge Silva (Fazenda Alvorada)",
+                responsavel: "Dr. Carlos Eduardo",
+                total: 450.00,
+                servicos: [
+                    { nome: "Coleta e Análise Química de Solo", tempo: "2 horas", preco: 250.00 },
+                    { nome: "Recomendação de Calagem", tempo: "1 hora", preco: 200.00 }
+                ]
+            },
+            {
+                id: 102,
+                data_hora: "2026-06-07T14:30:00",
+                nome_cliente: "Marcos Vignoli (Sítio Primavera)",
+                responsavel: "Dra. Amanda Costa",
+                total: 890.00,
+                servicos: [
+                    { nome: "Mapeamento Tecnológico por Drone", tempo: "3 horas", preco: 600.00 },
+                    { nome: "Identificação de Pragas e Vetores", tempo: "1.5 horas", preco: 290.00 }
+                ]
+            },
+            {
+                id: 103,
+                data_hora: "2026-06-09T08:00:00",
+                nome_cliente: "Ana Beatriz (Estância das Palmeiras)",
+                responsavel: "Eng. Ricardo Santos",
+                total: 350.00,
+                servicos: [
+                    { nome: "Planejamento de Rotação de Culturas", tempo: "2 horas", preco: 350.00 }
+                ]
+            },
+            {
+                id: 104,
+                data_hora: "2026-06-11T10:15:00",
+                nome_cliente: "Roberto Antunes (Granja Progresso)",
+                responsavel: "Dra. Amanda Costa",
+                total: 1200.00,
+                servicos: [
+                    { nome: "Auditoria de Sistema de Irrigação", tempo: "4 horas", preco: 800.00 },
+                    { nome: "Análise de Compactação do Perfil do Solo", tempo: "2 horas", preco: 400.00 }
+                ]
+            }
+        ];
+
+        // Executa automaticamente ao carregar a página para preencher a tabela Mestre usando o histórico falso
         window.onload = function() {
-            fetch('/listar-agendamentos')
-                .then(res => res.json())
-                .then(agendamentos => {
-                    const corpoTabela = document.getElementById('lista-agendamentos-consulta');
-                    corpoTabela.innerHTML = "";
-                    
-                    if (agendamentos.length === 0) {
-                        corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum agendamento encontrado no banco de dados.</td></tr>`;
-                        return;
-                    }
+            const corpoTabela = document.getElementById('lista-agendamentos-consulta');
+            corpoTabela.innerHTML = "";
+            
+            if (historicoFalso.length === 0) {
+                corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum agendamento encontrado no banco de dados.</td></tr>`;
+                return;
+            }
 
-                    agendamentos.forEach(a => {
-                        // Trata e formata a string/data recebida do banco
-                        const dataBr = a.data || a.data_hora;
-                        const dataFormatada = dataBr ? new Date(dataBr).toLocaleString('pt-BR', {
-                            dateStyle: 'short',
-                            timeStyle: 'short'
-                        }) : "Data pendente";
+            historicoFalso.forEach(a => {
+                // Trata e formata a string/data recebida do banco simulado
+                const dataFormatada = new Date(a.data_hora).toLocaleString('pt-BR', {
+                    dateStyle: 'short',
+                    timeStyle: 'short'
+                });
 
-                        // Normaliza os nomes das variáveis para evitar que fiquem undefined
-                        const nomeProdutor = a.nome_cliente || a.produtor_nome || "Produtor Não Identificado";
-                        const agronomo = a.responsavel || a.agronomo_responsavel || "Técnico Alocado";
-                        const valorTotal = a.total || a.total_geral || 0;
-
-                        corpoTabela.innerHTML += `
-                            <tr>
-                                <td>#${a.id}</td>
-                                <td>${dataFormatada}</td>
-                                <td><strong>${nomeProdutor}</strong></td>
-                                <td>${agronomo}</td>
-                                <td style="font-weight: 600; color: var(--primary);">R$ ${parseFloat(valorTotal).toFixed(2)}</td>
-                                <td>
-                                    <button onclick="verDetalhes(${a.id})">🔍 Examinar Laudo</button>
-                                </td>
-                            </tr>`;
-                    });
-                })
-                .catch(err => console.error("Erro ao listar agendamentos agrícolas:", err));
+                corpoTabela.innerHTML += `
+                    <tr>
+                        <td>#${a.id}</td>
+                        <td>${dataFormatada}</td>
+                        <td><strong>${a.nome_cliente}</strong></td>
+                        <td>${a.responsavel}</td>
+                        <td style="font-weight: 600; color: var(--primary);">R$ ${parseFloat(a.total).toFixed(2).replace('.', ',')}</td>
+                        <td>
+                            <button onclick="verDetalhes(${a.id})">🔍 Examinar Laudo</button>
+                        </td>
+                    </tr>`;
+            });
         };
 
-        // Função para carregar e exibir os Detalhes do agendamento clicado
+        // Função corrigida para ler os detalhes da lista estática localmente
         function verDetalhes(idAgendamento) {
-            fetch(`/detalhes-agendamento/${idAgendamento}`)
-                .then(res => res.json())
-                .then(servicos => {
-                    // Torna o card visível removendo a classe do utilitário
+            // Encontra o agendamento correspondente dentro do nosso histórico estático
+            const agendamentoSelecionado = historicoFalso.find(a => a.id === idAgendamento);
+            
+            if (agendamentoSelecionado) {
+                const cardDetalhes = document.getElementById('card-detalhes');
+                const numAgendamentoHtml = document.getElementById('num-agendamento');
+                const corpoTabelaDetalhes = document.getElementById('lista-servicos-detalhe');
+
+                // Atualiza o cabeçalho do ID selecionado
+                numAgendamentoHtml.innerText = agendamentoSelecionado.id;
+                corpoTabelaDetalhes.innerHTML = "";
+
+                // Percorre os serviços técnicos agregados desse item
+                agendamentoSelecionado.servicos.forEach(s => {
+                    corpoTabelaDetalhes.innerHTML += `
+                        <tr>
+                            <td><strong>${s.nome}</strong></td>
+                            <td>${s.tempo}</td>
+                            <td style="font-weight: 600; color: var(--primary);">R$ ${s.preco.toFixed(2).replace('.', ',')}</td>
+                        </tr>`;
+                });
+
+                // Remove a classe 'hidden' para exibir as tabelas na tela
+                cardDetalhes.classList.remove('hidden');
+                
+                // Rola a tela de forma suave até o detalhamento aberto
+                cardDetalhes.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
