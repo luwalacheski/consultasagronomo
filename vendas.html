@@ -1,365 +1,124 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SisAgro - Loja Agropecuária Virtual</title>
-    <!-- Importação de Fonte Profissional -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>Loja Agropecuária - Vendas</title>
     <style>
-        :root {
-            --primary: #1e4620;
-            --primary-light: #2d6a31;
-            --accent: #d4a373;
-            --background: #fcfdfc;
-            --surface: #ffffff;
-            --text: #2b2d42;
-            --text-muted: #6c757d;
-            --border: #e2e8f0;
-            --radius: 8px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--background);
-            color: var(--text);
+        /* Estilização básica para exibir os produtos em grade */
+        .produtos-container {
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
         }
 
-        /* Nav Profissional */
-        nav {
-            background-color: var(--primary);
-            padding: 1rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            opacity: 0.85;
-        }
-
-        nav a:hover, nav a.active {
-            opacity: 1;
-            color: var(--accent);
-        }
-
-        /* Banner Minimalista */
-        .hero-banner {
-            background-color: var(--primary);
-            color: white;
-            padding: 2.5rem 2rem;
-            text-align: center;
-        }
-
-        .hero-banner h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .hero-banner p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        /* CONTAINER COM GRID FIXO PARA TRES COLUNAS */
-        .container {
-            max-width: 1400px;
-            width: 100%;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 220px 1fr 280px;
-            gap: 2rem;
-            flex: 1;
-        }
-
-        /* --- FILTROS LATERAIS --- */
-        .sidebar-filtros {
-            width: 100%;
-        }
-
-        .categoria-titulo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #8b4513;
-            margin-bottom: 1rem;
-        }
-
-        .lista-categorias {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-bottom: 2rem;
-        }
-
-        .lista-categorias li a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-        }
-
-        .lista-categorias li a:hover {
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        /* --- VITRINE PRINCIPAL --- */
-        .vitrine-secao {
-            width: 100%;
-        }
-
-        .vitrine-topo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.75rem;
-        }
-
-        .vitrine-topo h2 {
-            font-size: 1.5rem;
-            color: #8b4513;
-        }
-
-        .produtos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.2rem;
-        }
-
-        /* Card de produto padronizado */
         .produto-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transition: border-color 0.2s;
-            min-height: 380px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #fff;
         }
 
-        .produto-card:hover {
-            border-color: #b0c4de;
-        }
-
-        /* Caixa de foto nativa cinza estável */
-        .produto-foto-container {
-            width: 100%;
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #e2e8f0;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .produto-foto {
+        .produto-card img {
             max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        /* Texto placeholder fixo na caixa cinza */
-        .produto-foto:not([src]), .produto-foto[src=""] {
-            display: none;
-        }
-        .produto-foto-container::before {
-            content: "Inserir Imagem";
-            color: #94a3b8;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .produto-nome {
-            font-size: 0.95rem;
-            color: var(--text);
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
-        }
-
-        .produto-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 1rem;
-            flex: 1;
-        }
-
-        .preco-container {
-            margin-top: auto;
-        }
-
-        .produto-preco-pix {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #2b2d42;
-        }
-
-        .txt-pix {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        /* Botão Mais (+) Absoluto */
-        .btn-adicionar-carrinho {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 5;
-        }
-
-        .btn-adicionar-carrinho:hover {
-            background-color: var(--primary-light);
-            transform: scale(1.05);
-        }
-
-        /* --- CARRINHO DA DIREITA --- */
-        .carrinho-lateral {
-            width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.2rem;
-            position: sticky;
-            top: 20px;
-            box-shadow: var(--shadow);
-            align-self: flex-start;
-        }
-
-        .carrinho-lateral h3 {
-            font-size: 1.1rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.5rem;
-        }
-
-        .lista-itens-carrinho {
-            list-style: none;
-            max-height: 240px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
-
-        .item-carrinho {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.88rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed var(--border);
-        }
-
-        .carrinho-status-vazio {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-align: center;
-            padding: 1.5rem 0;
-        }
-
-        .carrinho-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--border);
-            margin-bottom: 1rem;
-        }
-
-        .btn-finalizar {
-            width: 100%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem;
+            height: 150px;
+            object-fit: cover;
             border-radius: 4px;
-            font-weight: 600;
+        }
+
+        .produto-card h3 {
+            color: #2e5a27; /* Verde combinando com o tema agro */
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .produto-card .preco {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-comprar {
+            background-color: #2e5a27;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            text-align: center;
+            width: 100%;
         }
 
-        .btn-finalizar:hover {
-            background-color: var(--primary-light);
-        }
-
-        footer {
-            background-color: #112612;
-            color: rgba(255, 255, 255, 0.7);
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 0.85rem;
-            margin-top: auto;
+        .btn-comprar:hover {
+            background-color: #1e3d19;
         }
     </style>
 </head>
 <body>
 
-    <!-- Menu Principal -->
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="servicos.html">Serviços Técnicos</a>
-        <a href="vendas.html" class="active">Vendas</a>
-        <a href="agendamentos.html">Agendamentos</a>
-        <a href="consulta_agendamentos.html">Consulta</a>
-    </nav>
+    <div id="vitrine-produtos" class="produtos-container"></div>
 
-    <header class="hero-banner">
-        <h1>Loja Agropecuária Virtual</h1>
-        <p>Defensivos, inseticidas e insumos de alta performance para a sua lavoura</p>
-    </header>
+    <script>
+        // 1. Simulação dos seus dados (Isso idealmente viria de um Banco de Dados)
+        const listaProdutos = [
+            {
+                id: 1,
+                nome: "Adubo NPK 10-10-10",
+                categoria: "Adubos e Fertilizantes",
+                preco: "R$ 89,90",
+                imagem: "https://via.placeholder.com/150" // Substitua pela URL real da foto
+            },
+            {
+                id: 2,
+                nome: "Calcário Agrícola 25kg",
+                categoria: "Calcário",
+                preco: "R$ 45,00",
+                imagem: "https://via.placeholder.com/150"
+            },
+            {
+                id: 3,
+                nome: "Semente de Milho Híbrido",
+                categoria: "Sementes",
+                preco: "R$ 230,00",
+                imagem: "https://via.placeholder.com/150"
+            }
+        ];
 
-    <div class="container">
-        
-        <!-- COLUNA 1: FILTROS E CATEGORIAS -->
-        <aside class="sidebar-filtros">
-            <h3 class="categoria-titulo">Agricultura</h3>
-            <ul class="lista-categorias">
-                <li><a href="#">Adubos e Fertilizantes</a></li>
-                <li><a href="#">Calcário</a></li>
-                <li><a href="#">Defensivos</a></li>
-                <li><a href="#">Silicato de Cálcio</a></li>
-                <li><a href="#">Sementes</a></li>
-                <li><a href="#">Grãos</a></li>
-                <li><a href="#">Silo</a></li>
-                <li><a href="#">Substrato</a></li>
-                <li><a href="#">Pós Colheita</a></li>
-                <li><a href="#">Jardinagem</a></li>
+        // 2. Função para renderizar os produtos na tela automaticamente
+        function carregarProdutos() {
+            const container = document.getElementById('vitrine-produtos');
+            container.innerHTML = ""; // Limpa o container
+
+            listaProdutos.forEach(produto => {
+                // Cria o card do produto
+                const card = document.createElement('div');
+                card.className = 'produto-card';
+
+                card.innerHTML = `
+                    <img src="${produto.imagem}" alt="${produto.nome}">
+                    <h3>${produto.nome}</h3>
+                    <p style="color: gray; font-size: 0.9rem;">${produto.categoria}</p>
+                    <div class="preco">${produto.preco}</div>
+                    <button class="btn-comprar" onclick="adicionarAoCarrinho(${produto.id})">Comprar</button>
+                `;
+
+                // Adiciona o card dentro do container principal
+                container.appendChild(card);
+            });
+        }
+
+        // Função fictícia para o clique do botão
+        function adicionarAoCarrinho(id) {
+            alert("Produto " + id + " adicionado ao carrinho!");
+        }
+
+        // Executa a função assim que a página carrega
+        window.onload = carregarProdutos;
+    </script>
+</body>
+</html>
