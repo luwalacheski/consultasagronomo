@@ -257,53 +257,96 @@
         <p>Monitoramento e Tecnologia de Alta Precision no Campo</p>
     </footer>
 
-    <script>
-        // Função para carregar e renderizar os produtores
+       <script>
+        const formProdutor = document.getElementById('form-produtor');
+        const corpoTabela = document.getElementById('lista-clientes');
+
+        // 1. Função para carregar e renderizar os produtores cadastrados
         function carregarProdutores() {
-            fetch('/listar-clientes')
+            // Buscando os dados do histórico de agendamentos ou adaptando para usar os dados do banco
+            // IMPORTANTE: Criamos esta rota no servidor como /api/historico, mas se quiser listar todos pura e simplesmente:
+            fetch('/api/historico')
                 .then(res => res.json())
-                .then(clientes => {
-                    const corpoTabela = document.getElementById('lista-clientes');
-                    corpoTabela.innerHTML = ""; // Limpa antes de renderizar
-                    clientes.forEach(c => {
+                .then(dados => {
+                    corpoTabela.innerHTML = ""; // Limpa a tabela
+                    
+                    // Cria uma lista de produtores únicos baseada no histórico retornado
+                    const produtoresUnicos = [];
+                    dados.forEach(item => {
+                        if (!produtoresUnicos.some(p => p.cpf === item.cpf)) {
+                            produtoresUnicos.push({
+                                nome: item.produtor_name,
+                                cpf: item.cpf || 'Não informado',
+                                telefone: item.telefone || 'Não informado'
+                            });
+                        }
+                    });
+
+                    if(produtoresUnicos.length === 0) {
+                        corpoTabela.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum produtor listado no histórico recente.</td></tr>`;
+                        return;
+                    }
+
+                    produtoresUnicos.forEach(p => {
                         corpoTabela.innerHTML += `
                             <tr>
-                                <td><strong>${c.nome}</strong></td>
-                                <td>${c.cpf}</td>
-                                <td>${c.telefone}</td>
+                                <td><strong>${p.nome}</strong></td>
+                                <td>${p.cpf}</td>
+                                <td>${p.telefone}</td>
                             </tr>`;
                     });
                 })
-                .catch(err => console.error("Erro ao listar produtores rurais:", err));
+                .catch(err => {
+                    console.error('Erro ao listar produtores:', err);
+                    corpoTabela.innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Erro ao carregar dados.</td></tr>`;
+                });
         }
 
-        // Carrega ao iniciar a página
-        window.onload = carregarProdutores;
+        // 2. Evento de Envio do Formulário de Cadastro
+        formProdutor.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede a página de recarregar
 
-        // AJAX para salvar sem recarregar a tela inteira (Deixa o sistema mais fluido)
-        document.getElementById('form-produtor').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
+            // Captura os dados digitados nos campos
             const nome = document.getElementById('nome').value;
             const cpf = document.getElementById('cpf').value;
             const telefone = document.getElementById('telefone').value;
 
-            fetch('/salvar-cliente', {
+            // Envia os dados para a API do seu servidor Node.js
+            fetch('/api/produtores/cadastro', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ nome, cpf, telefone })
             })
             .then(res => {
-                if (res.ok) {
-                    alert("Produtor cadastrado com sucesso!");
-                    document.getElementById('form-produtor').reset();
-                    carregarProdutores(); // Atualiza a tabela dinamicamente
-                } else {
-                    alert("Erro ao salvar produtor.");
+                if (!res.ok) {
+                    return res.json().then(err => { throw new Error(err.message || 'Erro no cadastro') });
+                }
+                return res.json();
+            })
+            .then(data => {
+                alert('Produtor Rural cadastrado com sucesso!');
+                
+                // Guarda os dados no navegador para que a tela de agendamentos saiba quem acabou de se cadastrar
+                localStorage.setItem('produtor_logado_id', data.produtor_id);
+                localStorage.setItem('produtor_logado_nome', nome);
+                localStorage.setItem('produtor_logado_cpf', cpf);
+
+                formProdutor.reset(); // Limpa os campos do formulário
+                carregarProdutores(); // Atualiza a lista na tabela
+
+                // Pergunta de direcionamento automático para poupar tempo do usuário
+                const irParaAgendamento = confirm("Deseja realizar um agendamento para este produtor agora?");
+                if (irParaAgendamento) {
+                    window.location.href = "agendamentos.html";
                 }
             })
-            .catch(err => console.error("Erro na requisição:", err));
+            .catch(err => {
+                alert('Erro: ' + err.message);
+            });
         });
+
+        // Executa automaticamente ao carregar a página na tela do usuário
+        document.addEventListener('DOMContentLoaded', carregarProdutores);
     </script>
-</body>
-</html>
