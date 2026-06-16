@@ -126,15 +126,39 @@
         </div>
     </div>
 
-    <script>
+      <script>
         let servicosDb = [];
         let carrinho = [];
         let produtorLogado = null;
         const TAXA_KM = 2.50;
 
+        // Executa automaticamente ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarServicosDoServidor();
+            verificarProdutorJaCadastrado();
+        });
+
+        // Verifica se o usuário acabou de vir da tela de cadastro
+        function verificarProdutorJaCadastrado() {
+            const idSalvo = localStorage.getItem('produtor_logado_id');
+            const nomeSalvo = localStorage.getItem('produtor_logado_nome');
+            const cpfSalvo = localStorage.getItem('produtor_logado_cpf');
+
+            if (idSalvo && nomeSalvo) {
+                produtorLogado = { id: idSalvo, nome: nomeSalvo, cpf: cpfSalvo };
+                liberarPainelAgendamento();
+                
+                // Limpa o localStorage para não travar o login nas próximas visitas avulsas
+                localStorage.removeItem('produtor_logado_id');
+                localStorage.removeItem('produtor_logado_nome');
+                localStorage.removeItem('produtor_logado_cpf');
+            }
+        }
+
+        // 1. Rota de Autenticação / Busca do Produtor por CPF
         function realizarLoginDoProdutor() {
             const cpf = document.getElementById('login-cpf').value;
-            if(!cpf) return alert("Insira o CPF.");
+            if(!cpf) return alert("Por favor, insira o CPF.");
 
             fetch('/api/login', {
                 method: 'POST',
@@ -142,50 +166,131 @@
                 body: JSON.stringify({ cpf })
             })
             .then(res => {
-                if(!res.ok) throw new Error("Acesso negado. Verifique o CPF.");
+                if(!res.ok) throw new Error("Produtor não encontrado. Faça o cadastro primeiro.");
                 return res.json();
             })
             .then(produtor => {
-                produtorLogado = produtor;
-                document.getElementById('txtNomeProdutor').value = `${produtor.nome} (ID: ${produtor.id})`;
-                document.getElementById('secao-login').classList.add('hidden');
-                document.getElementById('secao-agendamento').classList.remove('hidden');
-                carregarServicosDoBackend();
+                produtorLogado = produtor; // Guarda o objeto retornado do SQLite
+                liberarPainelAgendamento();
             })
-            .catch(err => alert(err.message));
+            .catch(err => {
+                alert(err.message);
+            });
         }
 
-        function carregarServicosDoBackend() {
+        // Libera a tela de agendamento após identificar o cliente
+        function liberarPainelAgendamento() {
+            document.getElementById('txtNomeProdutor').value = produtorLogado.nome;
+            document.getElementById('secao-login').classList.add('hidden');
+            document.getElementById('secao-agendamento').classList.remove('hidden');
+        }
+
+        // 2. Carrega a lista de serviços vindos da API do Servidor
+        function carregarServicosDoServidor() {
             fetch('/api/servicos')
                 .then(res => res.json())
-                .then(dados => {
-                    servicosDb = dados;
-                    const sel = document.getElementById('selServico');
-                    dados.forEach(s => {
-                        sel.innerHTML += `<option value="${s.id}">${s.nome}</option>`;
+                .then(servicos => {
+                    servicosDb = servicos;
+                    const select = document.getElementById('selServico');
+                    servicos.forEach(s => {
+                        select.innerHTML += `<option value="${s.id}">${s.nome}</option>`;
                     });
-                });
+                })
+                .catch(err => console.error("Erro ao buscar serviços:", err));
         }
 
+        // Atualiza os campos de preço e tempo ao selecionar o serviço
         function atualizarCamposServico() {
-            const id = document.getElementById('selServico').value;
-            const serv = servicosDb.find(s => s.id == id);
-            if(serv) {
-                document.getElementById('txtPrecoBase').value = `R$ ${serv.preco.toFixed(2)}`;
-                document.getElementById('txtTempoEst').value = `${serv.tempo_estimado}h`;
+            const idSelecionado = document.getElementById('selServico').value;
+            const servico = servicosDb.find(s => s.id == idSelecionado);
+
+            if (servico) {
+                document.getElementById('txtPrecoBase').value = `R$ ${servico.preco.toFixed(2)}`;
+                document.getElementById('txtTempoEst').value = servico.tempo_estimado || 'N/A';
+            } else {
+                document.getElementById('txtPrecoBase').value = '';
+                document.getElementById('txtTempoEst').value = '';
             }
         }
 
+        // Adiciona o serviço selecionado à tabela temporária de agendamento
         function adicionarServicoCarrinho() {
-            const id = document.getElementById('selServico').value;
-            const serv = servicosDb.find(s => s.id == id);
-            if(!serv) return;
+            const idSelecionado = document.getElementById('selServico').value;
+            const servico = servicosDb.find(s => s.id == idSelecionado);
 
-            carrinho.push(serv);
-            document.getElementById('lista-servicos-agendados').innerHTML += `
-                <tr><td><b>${serv.nome}</b></td><td>${serv.tempo_estimado}h</td><td>R$ ${serv.preco.toFixed(2)}</td></tr>
-            `;
+            if (!servico) return alert("Selecione um serviço válido.");
+            if (carrinho.some(s => s.id === servico.id)) return alert("Este serviço já foi adicionado.");
+
+            carrinho.push(servico);
+            renderizarCarrinho();
+        }
+
+        // Renderiza a lista gráfica de serviços vinculados
+        function renderizarCarrinho() {
+            const tbody = document.getElementById('lista-servicos-agendados');
+            tbody.innerHTML = '';
+
+            carrinho.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.nome}</td>
+                        <td>${s.tempo_estimado || 'N/A'}</td>
+                        <td>R$ ${s.preco.toFixed(2)}</td>
+                    </tr>`;
+            });
+
             calcularOrcamentoCompleto();
         }
 
+        // Calcula o orçamento em tempo real baseado no deslocamento (KM) e serviços
         function calcularOrcamentoCompleto() {
+            const distancia = parseFloat(document.getElementById('txtDistancia').value) || 0;
+            
+            const subtotalServicos = carrinho.reduce((acc, s) => acc + s.preco, 0);
+            const custoDeslocamento = distancia * TAXA_KM;
+            const totalGeral = subtotalServicos + custoDeslocamento;
+
+            document.getElementById('resumo-subtotal').innerText = `R$ ${subtotalServicos.toFixed(2)}`;
+            document.getElementById('resumo-frete').innerText = `R$ ${custoDeslocamento.toFixed(2)}`;
+            document.getElementById('resumo-total-geral').innerText = `R$ ${totalGeral.toFixed(2)}`;
+        }
+
+        // 3. Envia o Agendamento montado estruturado para o backend persistir no Banco
+        function enviarAgendamentoCompletoServer() {
+            const agronomo = document.getElementById('txtAgronomo').value;
+            const dataHora = document.getElementById('data_agendamento').value;
+            const distancia = parseFloat(document.getElementById('txtDistancia').value) || 0;
+
+            if (!agronomo || !dataHora) return alert("Preencha o Agrônomo e a Data/Hora da visita.");
+            if (carrinho.length === 0) return alert("Adicione pelo menos um serviço para a vistoria.");
+
+            const totalServicos = carrinho.reduce((acc, s) => acc + s.preco, 0);
+
+            const dadosAgendamento = {
+                produtor_id: produtorLogado.id, // ID pego dinamicamente no banco
+                data_hora: dataHora,
+                agronomo_responsavel: agronomo,
+                distancia_km: distancia,
+                total_servicos: totalServicos
+            };
+
+            fetch('/api/agendamentos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosAgendamento)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Visita Técnica cadastrada com sucesso!\nID do Agendamento: ${data.agendamentoId}`);
+                    window.location.href = "consulta_agendamentos.html"; // Vai para a listagem
+                } else {
+                    alert("Erro ao salvar: " + data.error);
+                }
+            })
+            .catch(err => {
+                console.error("Erro na requisição:", err);
+                alert("Erro interno ao tentar salvar o agendamento.");
+            });
+        }
+    </script>
