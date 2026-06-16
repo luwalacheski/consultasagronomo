@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Produtos - Agropecuária São Cristóvão</title>
+  <meta name="description" content="Página de produtos da Agropecuária São Cristóvão - loja online, carrinho, pagamento e relatório de vendas (simulação)." />
+  <style>
+    :root{ --green:#2e7d32; --accent:#4caf50; --muted:#6b6b6b; --bg:#f4f9f4; --card:#fff; --radius:10px }
+    *{box-sizing:border-box}
+    body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);margin:0;color:#222}
+    header{background:linear-gradient(90deg,var(--green),var(--accent));color:#fff;padding:16px}
+    .container{max-width:1200px;margin:0 auto;padding:18px}
+    .topbar{display:flex;gap:12px;align-items:center}
+    .logo{background:#fff;color:var(--green);padding:10px;border-radius:8px;font-weight:800}
+    nav a{color:white;margin-left:12px;text-decoration:none}
+
+    .controls{display:flex;gap:12px;align-items:center;margin-top:16px}
+    .search{flex:1;display:flex}
+    .search input{flex:1;padding:10px;border-radius:8px;border:1px solid #ccc}
+    .category-select, .btn{padding:10px;border-radius:8px;border:1px solid #ccc;background:var(--card);cursor:pointer}
+
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:18px}
+
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .product{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,0.04)}
+    .product h4{margin:6px 0}
+    .price{font-weight:800;color:var(--green)}
+    .add{background:var(--green);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+    .sidebar{position:sticky;top:20px}
+    .cart{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,0.04)}
+    .cart h3{margin-top:0}
+    .cart-list{max-height:300px;overflow:auto;margin-bottom:8px}
+    .cart-item{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px dashed #eee}
+    .small{font-size:13px;color:var(--muted)}
+
+    .checkout{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+    .payment{background:var(--card);padding:12px;border-radius:12px}
+
+    .report{margin-top:18px;background:var(--card);padding:12px;border-radius:12px}
+
+    footer{margin-top:26px;padding:18px;background:#163f1a;color:#fff;border-radius:10px}
+
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo">AS</div>
+        <div>
+          <div style="font-weight:800">Agropecuária São Cristóvão</div>
+          <small style="color:rgba(255,255,255,0.9)">Loja online - Simulação de vendas</small>
+        </div>
+      </div>
+      <nav style="margin-left:auto">
+        <a href="index.html">Início</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="contato.html">Contato</a>
+        <a href="irrigacao.html">Irrigação</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="controls">
+      <div class="search">
+        <input id="search" placeholder="Pesquisar produtos, ex: ração, adubo, sementes..." aria-label="Pesquisar produtos" />
+        <button class="category-select" id="clearSearch">Limpar</button>
+      </div>
+      <select id="category" class="category-select" aria-label="Filtrar por categoria">
+        <option value="all">Todas as categorias</option>
+      </select>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <div class="small">Carrinho: <span id="cart-count">0</span> itens</div>
+        <button class="btn" id="open-cart">Abrir Carrinho</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section>
+        <h2 id="produtos">Produtos</h2>
+        <p class="small">Mais de 30 itens divididos por categoria. Adicione ao carrinho para simular uma compra.</p>
+
+        <div class="products" id="productsGrid" aria-live="polite"></div>
+
+        <div class="report" id="salesReport">
+          <h3>Relatório de Vendas (simulado)</h3>
+          <div id="reportContent"><p class="small">Nenhuma venda ainda.</p></div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <div class="cart" id="cartPanel">
+          <h3>Carrinho</h3>
+          <div class="cart-list" id="cartList"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="small">Total:</div>
+            <div style="font-weight:800" id="cartTotal">R$ 0,00</div>
+          </div>
+
+          <div class="checkout">
+            <div class="payment">
+              <label class="small">Forma de pagamento:</label>
+              <select id="paymentMethod">
+                <option value="pix">PIX</option>
+                <option value="cartao">Cartão de Crédito</option>
+                <option value="boleto">Boleto Bancário</option>
+              </select>
+              <div id="paymentDetails" style="margin-top:8px"></div>
+            </div>
+
+            <button class="btn" id="checkoutBtn">Finalizar Compra</button>
+          </div>
+        </div>
+
+        <div class="report" style="margin-top:12px">
+          <h4>Vendas Registradas</h4>
+          <div id="salesList" style="max-height:220px;overflow:auto"></div>
+          <button class="btn" id="clearSales" style="margin-top:8px;background:#c62828">Limpar Relatório</button>
+        </div>
+      </aside>
+    </div>
+
+    <section style="margin-top:18px" id="contato">
+      <h3>Contato</h3>
+      <p class="small">Para dúvidas sobre os produtos e compras, entre em contato.</p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Agropecuária São Cristóvão</strong><div class="small">© 2025 - Loja de demonstração</div></div>
+      <div class="small">Suporte: contato@agrocristovao.com</div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Dados de produtos (30 itens) ---
+    const products = [
+      {id:1,name:'Ração Bovina 25kg',cat:'Alimentos',price:129.90},
+      {id:2,name:'Ração Suína 20kg',cat:'Alimentos',price:99.90},
+      {id:3,name:'Ração Aves 10kg',cat:'Alimentos',price:49.90},
+      {id:4,name:'Adubo Orgânico 20kg',cat:'Fertilizantes',price:45.00},
+      {id:5,name:'Adubo NPK 20kg',cat:'Fertilizantes',price:65.00},
+      {id:6,name:'Calcário 50kg',cat:'Fertilizantes',price:89.50},
+      {id:7,name:'Semente Milho 5kg',cat:'Sementes',price:79.90},
+      {id:8,name:'Semente Soja 5kg',cat:'Sementes',price:95.00},
+      {id:9,name:'Semente Trigo 5kg',cat:'Sementes',price:59.90},
+      {id:10,name:'Herbicida 1L',cat:'Defensivos',price:39.90},
+      {id:11,name:'Inseticida 1L',cat:'Defensivos',price:49.90},
+      {id:12,name:'Fungicida 1L',cat:'Defensivos',price:54.90},
+      {id:13,name:'Bomba Pulverizadora 12V',cat:'Equipamentos',price:399.90},
+      {id:14,name:'Irrigador Automático (kit)',cat:'Equipamentos',price:799.00},
+      {id:15,name:'Válvula Solenoide 12V',cat:'Equipamentos',price:129.00},
+      {id:16,name:'Mangueira 50m',cat:'Irrigação',price:149.90},
+      {id:17,name:'Aspersor Rain 10un',cat:'Irrigação',price:89.90},
+      {id:18,name:'Timer Programável',cat:'Irrigação',price:179.00},
+      {id:19,name:'Sensor Umidade Solo FC-28',cat:'Eletrônica',price:29.90},
+      {id:20,name:'Arduino Uno',cat:'Eletrônica',price:139.90},
+      {id:21,name:'Módulo Relé 1 canal',cat:'Eletrônica',price:24.90},
+      {id:22,name:'Fonte 12V 5A',cat:'Eletrônica',price:89.90},
+      {id:23,name:'Luvas de Segurança',cat:'EPIs',price:19.90},
+      {id:24,name:'Botas Borracha',cat:'EPIs',price:99.00},
+      {id:25,name:'Óculos de Proteção',cat:'EPIs',price:29.00},
+      {id:26,name:'Carrinho de Mão',cat:'Ferramentas',price:199.90},
+      {id:27,name:'Enxada',cat:'Ferramentas',price:49.90},
+      {id:28,name:'Trado Manual',cat:'Ferramentas',price:129.90},
+      {id:29,name:'Saco 50L Silagem',cat:'Armazenamento',price:12.90},
+      {id:30,name:'Balde Plástico 20L',cat:'Armazenamento',price:24.90}
+    ];
+
+    // --- Estado da aplicação ---
+    let filtered = [...products];
+    const cart = [];
+    const sales = []; // vendas registradas
+
+    // --- Elementos DOM ---
+    const productsGrid = document.getElementById('productsGrid');
+    const categorySelect = document.getElementById('category');
+    const searchInput = document.getElementById('search');
+    const clearSearch = document.getElementById('clearSearch');
+    const cartList = document.getElementById('cartList');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cart-count');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const paymentDetails = document.getElementById('paymentDetails');
+    const reportContent = document.getElementById('reportContent');
+    const salesList = document.getElementById('salesList');
+    const clearSales = document.getElementById('clearSales');
+
+    // --- Inicialização ---
+    function init(){
+      populateCategories();
+      renderProducts(filtered);
+      updateCartUI();
+    }
+
+    function populateCategories(){
+      const cats = ['all', ...new Set(products.map(p=>p.cat))];
+      categorySelect.innerHTML = cats.map(c=>`<option value="${c}">${c==='all'?'Todas as categorias':c}</option>`).join('');
+    }
+
+    function renderProducts(list){
+      if(!list.length){ productsGrid.innerHTML = '<p class="small">Nenhum produto encontrado.</p>'; return; }
+      productsGrid.innerHTML = list.map(p=>`
+        <article class="product" data-id="${p.id}">
+          <h4>${p.name}</h4>
+          <div class="small">Categoria: ${p.cat}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <div class="price">R$ ${p.price.toFixed(2)}</div>
+            <button class="add" data-id="${p.id}">Adicionar</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // --- Filtros ---
+    searchInput.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      applyFilters(q, categorySelect.value);
+    });
+    clearSearch.addEventListener('click', ()=>{searchInput.value=''; applyFilters('', categorySelect.value)});
+    categorySelect.addEventListener('change', ()=>{applyFilters(searchInput.value.trim().toLowerCase(), categorySelect.value)});
+
+    function applyFilters(query, cat){
+      filtered = products.filter(p=>{
+        const matchesQ = !query || p.name.toLowerCase().includes(query) || p.cat.toLowerCase().includes(query);
+        const matchesCat = cat==='all' || p.cat===cat;
+        return matchesQ && matchesCat;
+      });
+      renderProducts(filtered);
+    }
+
+    // --- Carrinho ---
+    productsGrid.addEventListener('click', (e)=>{
+      const id = e.target.dataset.id;
+      if(!id) return;
+      const product = products.find(p=>p.id==id);
+      addToCart(product);
+    });
+
+    function addToCart(product){
+      const existing = cart.find(i=>i.id===product.id);
+      if(existing){ existing.qty += 1; }
+      else { cart.push({id:product.id,name:product.name,price:product.price,qty:1}); }
+      updateCartUI();
+    }
+
+    function updateCartUI(){
+      if(!cart.length) cartList.innerHTML = '<p class="small">Carrinho vazio.</p>';
+      else cartList.innerHTML = cart.map(item=>`
+        <div class="cart-item">
+          <div>
+            <strong>${item.name}</strong>
+            <div class="small">R$ ${item.price.toFixed(2)} x ${item.qty}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <div>R$ ${(item.price*item.qty).toFixed(2)}</div>
+            <div style="display:flex;gap:6px">
+              <button onclick="changeQty(${item.id},-1)" style="padding:4px 8px">-</button>
+              <button onclick="changeQty(${item.id},1)" style="padding:4px 8px">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+      cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+      cartCount.textContent = cart.reduce((s,i)=>s+i.qty,0);
+    }
+
+    window.changeQty = function(id,delta){
+      const idx = cart.findIndex(i=>i.id===id);
+      if(idx===-1) return;
+      cart[idx].qty += delta;
+      if(cart[idx].qty<=0) cart.splice(idx,1);
+      updateCartUI();
+    }
+
+    // --- Checkout / Pagamento simulado ---
+    paymentMethod.addEventListener('change', renderPaymentDetails);
+    function renderPaymentDetails(){
+      const m = paymentMethod.value;
+      if(m==='cartao'){
+        paymentDetails.innerHTML = `
+          <input placeholder="Número do cartão" id="cc-number" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-top:6px" />
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <input placeholder="MM/AA" id="cc-exp" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ddd" />
+            <input placeholder="CVV" id="cc-cvv" style="width:80px;padding:8px;border-radius:6px;border:1px solid #ddd" />
+          </div>
+        `;
+      } else if(m==='pix'){
+        paymentDetails.innerHTML = `<div class="small">Instruções PIX: Copie o código exibido após a confirmação (simulação).</div>`;
+      } else {
+        paymentDetails.innerHTML = `<div class="small">Boleto gerado (simulação) — cliente receberá um número de boleto fictício.</div>`;
+      }
+    }
+    renderPaymentDetails();
+
+    checkoutBtn.addEventListener('click', ()=>{
+      if(!cart.length){ alert('Carrinho vazio. Adicione produtos antes de finalizar.'); return; }
+      // Simular validação básica
+      const payment = paymentMethod.value;
+      const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+      const sale = { id: Date.now(), date: new Date().toLocaleString(), items: JSON.parse(JSON.stringify(cart)), total: total, paymentMethod: payment };
+      sales.push(sale);
+      // limpar carrinho
+      cart.length = 0;
+      updateCartUI();
+      renderSalesReport();
+      // gerar comprovante em nova janela
+      generateReceipt(sale);
+    });
+
+    // --- Relatório de vendas ---
+    function renderSalesReport(){
+      if(!sales.length){ reportContent.innerHTML = '<p class="small">Nenhuma venda ainda.</p>'; salesList.innerHTML=''; return; }
+      const totalVendas = sales.reduce((s,v)=>s+v.total,0);
+      reportContent.innerHTML = `<p class="small">Vendas registradas: <strong>${sales.length}</strong></p><p class="small">Total arrecadado: <strong>R$ ${totalVendas.toFixed(2)}</strong></p>`;
+      salesList.innerHTML = sales.map(s=>`<div style="border-bottom:1px dashed #eee;padding:8px"><strong>#${s.id}</strong><div class="small">${s.date} • ${s.items.length} itens • R$ ${s.total.toFixed(2)}</div></div>`).join('');
+    }
+
+    clearSales.addEventListener('click', ()=>{
+      if(!confirm('Limpar todas as vendas registradas?')) return;
+      sales.length = 0; renderSalesReport();
+    });
+
+    function generateReceipt(sale){
+      const html = `
+        <html><head><meta charset="utf-8"><title>Comprovante de Compra</title>
+        <style>body{font-family:Arial;padding:18px;color:#222} h2{color:${getComputedStyle(document.documentElement).getPropertyValue('--green') || '#2e7d32'}}</style>
+        </head><body>
+        <h2>Comprovante - Agropecuária São Cristóvão</h2>
+        <div><strong>Venda #${sale.id}</strong></div>
+        <div>${sale.date}</div>
+        <hr>
+        <table style="width:100%;border-collapse:collapse">
+          ${sale.items.map(i=>`<tr><td>${i.name} x${i.qty}</td><td style="text-align:right">R$ ${(i.price*i.qty).toFixed(2)}</td></tr>`).join('')}
+          <tr><td style="padding-top:8px"><strong>Total</strong></td><td style="text-align:right;padding-top:8px"><strong>R$ ${sale.total.toFixed(2)}</strong></td></tr>
+        </table>
+        <hr>
+        <div>Forma de pagamento: <strong>${sale.paymentMethod.toUpperCase()}</strong></div>
+        <p class="small">Este é um comprovante gerado em modo de simulação para fins didáticos.</p>
+        <button onclick="window.print()">Imprimir</button>
+        </body></html>
+      `;
+      const w = window.open('', '_blank', 'noopener');
+      w.document.write(html);
+      w.document.close();
+    }
+
+    // inicializa
+    init();
+  </script>
+</body>
+</html>
