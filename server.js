@@ -18,13 +18,30 @@ const db = new sqlite3.Database('./siscristovao.db', (err) => {
 
 // ==================== ROTAS DO SISTEMA ====================
 
-// 1. Rota de Autenticação / Login do Produtor
-app.post('/api/login', (req, require) => {
+// [NOVA] Rota para Cadastrar Novo Produtor (Cliente)
+app.post('/api/produtores/cadastro', (req, res) => {
+    const { nome, cpf, telefone } = req.body;
+    
+    const query = `INSERT INTO produtores (nome, cpf, telefone) VALUES (?, ?, ?)`;
+    
+    db.run(query, [nome, cpf, telefone], function(err) {
+        if (err) {
+            if (err.message.includes('UNIQUE')) {
+                return res.status(400).json({ message: 'Este CPF já está cadastrado.' });
+            }
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ success: true, produtor_id: this.lastID, message: 'Produtor cadastrado com sucesso!' });
+    });
+});
+
+// 1. Rota de Autenticação / Busca do Produtor por CPF (CORRIGIDA)
+app.post('/api/login', (req, res) => { // Alterado 'require' para 'res' aqui
     const { cpf } = req.body;
     db.get('SELECT * FROM produtores WHERE cpf = ?', [cpf], (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!row) return res.status(404).json({ message: 'Produtor não encontrado com este CPF.' });
-        res.json(row); // Retorna os dados do produtor logado
+        res.json(row); // Retorna os dados do produtor logado (incluindo o id)
     });
 });
 
