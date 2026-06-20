@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Agropecuária & Consultoria Agronômica</title>
+    <title>AgroForte - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
     <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-leaf"></i> AgroForte
             </a>
             <nav class="hidden md:flex space-x-6 font-medium">
-                <a href="#inicio" class="hover:text-green-200 transition">Início</a>
-                <a href="#produtos" class="hover:text-green-200 transition">Agropecuária</a>
-                <a href="#consultas" class="hover:text-green-200 transition">Consultas Agronômicas</a>
-                <a href="#contato" class="hover:text-green-200 transition">Contato</a>
+                <a href="index.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Início</a>
+                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
+                <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
+                <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
             </nav>
             <button class="md:hidden text-2xl" id="menu-btn">
                 <i class="fa-solid fa-bars"></i>
@@ -26,218 +27,51 @@
         </div>
     </header>
 
-    <section id="inicio" class="bg-cover bg-center h-[70vh] flex items-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80');">
+    <section class="bg-cover bg-center h-[65vh] flex items-center relative flex-grow" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80');">
         <div class="container mx-auto px-4 text-white text-center md:text-left">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">Produtividade e Soluções <br>para o seu Campo</h1>
             <p class="text-lg md:text-xl mb-8 max-w-2xl">Do plantio à colheita, oferecemos os melhores insumos agropecuários e o suporte técnico especializado que sua lavoura precisa.</p>
-            <div class="space-x-4">
-                <a href="#produtos" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition shadow-lg">Ver Produtos</a>
-                <a href="#consultas" class="bg-transparent border-2 border-white hover:bg-white hover:text-green-700 text-white font-bold py-3 px-6 rounded-lg transition">Agendar Consulta</a>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <a href="agropecuaria.html" class="bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-3 px-6 rounded-lg transition shadow-lg">Ver Produtos da Loja</a>
+                <a href="agendamento.html" class="bg-green-600 hover:bg-green-500 text-white text-center font-bold py-3 px-6 rounded-lg transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-calendar-check"></i> Agendar Visita na Lavoura
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="produtos" class="py-16 container mx-auto px-4">
-        <div class="text-center mb-12">
-            <span class="text-green-700 font-bold uppercase tracking-wider">Nossa Loja</span>
-            <h2 class="text-3xl font-bold mt-2 text-gray-900">Produtos Agropecuários</h2>
-            <p class="text-gray-600 mt-2">Insumos de alta qualidade para nutrição, proteção e manejo.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
-                <img src="https://images.unsplash.com/photo-1595341595378-fc7b9662b2d6?auto=format&fit=crop&w=400&q=80" alt="Sementes" class="h-48 w-full object-cover">
-                <div class="p-5">
-                    <span class="text-xs font-bold text-green-600 uppercase">Sementes</span>
-                    <h3 class="font-bold text-lg mt-1 mb-2">Sementes Selecionadas de Milho</h3>
-                    <p class="text-gray-600 text-sm mb-4">Alta taxa de germinação e resistência a pragas sazonais.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
-                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
-                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=400&q=80" alt="Fertilizantes" class="h-48 w-full object-cover">
-                <div class="p-5">
-                    <span class="text-xs font-bold text-green-600 uppercase">Nutrição</span>
-                    <h3 class="font-bold text-lg mt-1 mb-2">Fertilizante NPK Concentrado</h3>
-                    <p class="text-gray-600 text-sm mb-4">Fórmula ideal para o rápido desenvolvimento foliar e radicular.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
-                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
-                <img src="https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&w=400&q=80" alt="Defensivos" class="h-48 w-full object-cover">
-                <div class="p-5">
-                    <span class="text-xs font-bold text-green-600 uppercase">Defensivos</span>
-                    <h3 class="font-bold text-lg mt-1 mb-2">Protetor Biológico de Culturas</h3>
-                    <p class="text-gray-600 text-sm mb-4">Controle eficiente com baixo impacto ambiental.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
-                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
-                <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=400&q=80" alt="Veterinária" class="h-48 w-full object-cover">
-                <div class="p-5">
-                    <span class="text-xs font-bold text-green-600 uppercase">Veterinária</span>
-                    <h3 class="font-bold text-lg mt-1 mb-2">Suplemento Mineral Bovino</h3>
-                    <p class="text-gray-600 text-sm mb-4">Engorda saudável e aumento da imunidade do rebanho.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
-                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="consultas" class="bg-green-50 py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <span class="text-green-700 font-bold uppercase tracking-wider">Suporte Técnico</span>
-                <h2 class="text-3xl font-bold mt-2 text-gray-900">Consultoria Agronômica Especializada</h2>
-                <p class="text-gray-600 mt-2">Visitas técnicas, análise de solo e receituário agronômico com engenheiros qualificados.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <div class="space-y-6">
-                    <h3 class="text-2xl font-bold text-gray-900">Por que agendar uma consulta?</h3>
-                    
-                    <div class="flex gap-4 items-start">
-                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
-                            <i class="fa-solid fa-flask text-xl w-6 text-center"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg">Análise de Solo e Recomendação</h4>
-                            <p class="text-gray-600">Evite desperdícios aplicando exatamente o que sua terra precisa para produzir mais.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-4 items-start">
-                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
-                            <i class="fa-solid fa-bug-slash text-xl w-6 text-center"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg">Manejo Integrado de Pragas (MIP)</h4>
-                            <p class="text-gray-600">Diagnóstico preciso de doenças e pragas com recomendações seguras e eficazes.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-4 items-start">
-                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
-                            <i class="fa-solid fa-chart-line text-xl w-6 text-center"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg">Acompanhamento de Safra</h4>
-                            <p class="text-gray-600">Visitas periódicas de um Engenheiro Agrônomo para garantir o sucesso do plantio à colheita.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                    <h3 class="text-xl font-bold mb-6 text-gray-900 text-center md:text-left"><i class="fa-regular fa-calendar-check text-green-700 mr-2"></i> Solicitar Atendimento Técnico</h3>
-                    
-                    <form action="#" method="POST" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                                <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: João Silva">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Telefone / WhatsApp</label>
-                                <input type="tel" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="(00) 00000-0000">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Localização da Propriedade (Cidade/UF)</label>
-                            <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: Rio Verde - GO">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Serviço</label>
-                                <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
-                                    <option>Análise e Recomendação de Solo</option>
-                                    <option>Identificação de Pragas/Doenças</option>
-                                    <option>Planejamento de Safra</option>
-                                    <option>Outros Serviços</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Data Preferencial</label>
-                                <input type="date" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição do Problema ou Cultura (Opcional)</label>
-                            <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: Cultura da soja apresentando manchas amarelas nas folhas..."></textarea>
-                        </div>
-
-                        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
-                            Enviar Solicitação de Consulta
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contato" class="bg-gray-900 text-gray-300 py-12">
+    <section class="py-16 bg-white">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-leaf text-green-500"></i> AgroForte</h4>
-                <p class="text-sm leading-relaxed text-gray-400">Parceiro fiel do produtor rural, unindo tradição comercial com inovação tecnológica e agronômica para o campo.</p>
+            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
+                <i class="fa-solid fa-shop text-4xl text-green-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Loja Completa</h3>
+                <p class="text-gray-600">Sementes, fertilizantes e defensivos com as melhores condições do mercado.</p>
+                <a href="agropecuaria.html" class="text-green-700 font-bold block mt-4 hover:underline">Acessar Loja &rarr;</a>
             </div>
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4">Canais de Atendimento</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><i class="fa-solid fa-phone text-green-500 mr-2"></i> (00) 3333-4444</li>
-                    <li><i class="fa-brands fa-whatsapp text-green-500 mr-2"></i> (00) 99999-8888</li>
-                    <li><i class="fa-solid fa-envelope text-green-500 mr-2"></i> contato@agroforte.com.br</li>
-                    <li><i class="fa-solid fa-location-dot text-green-500 mr-2"></i> Av. das Agruras, 1500 - Zona Rural</li>
-                </ul>
+            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
+                <i class="fa-solid fa-user-doctor text-4xl text-green-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Consultoria Técnica</h3>
+                <p class="text-gray-600">Análises laboratoriais, receituários e planejamento estratégico completo para sua safra.</p>
+                <a href="consultas.html" class="text-green-700 font-bold block mt-4 hover:underline">Ver Serviços &rarr;</a>
             </div>
-            <div>
-                <h4 class="text-white text-lg font-bold mb-4">Horário de Funcionamento</h4>
-                <p class="text-sm text-gray-400 mb-2">Segunda a Sexta: 07:30 às 17:30</p>
-                <p class="text-sm text-gray-400 mb-4">Sábado: 07:30 às 12:00</p>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-youtube"></i></a>
-                </div>
+            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
+                <i class="fa-solid fa-tractor text-4xl text-green-700 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Visita de Campo</h3>
+                <p class="text-gray-600">Agende um horário para que nosso engenheiro agrônomo examine sua lavoura pessoalmente.</p>
+                <a href="agendamento.html" class="text-green-700 font-bold block mt-4 hover:underline">Agendar Agora &rarr;</a>
             </div>
         </div>
-        <div class="border-t border-gray-800 text-center text-xs text-gray-500 mt-8 pt-4">
-            &copy; 2026 AgroForte. Todos os direitos reservados.
+    </section>
+
+    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <script>
-        const btn = document.getElementById('menu-btn');
-        const nav = document.querySelector('nav');
-        btn.addEventListener('click', () => {
-            nav.classList.toggle('hidden');
-            nav.classList.toggle('flex');
-            nav.classList.toggle('flex-col');
-            nav.classList.toggle('absolute');
-            nav.classList.toggle('top-16');
-            nav.classList.toggle('left-0');
-            nav.classList.toggle('w-full');
-            nav.classList.toggle('bg-green-700');
-            nav.classList.toggle('p-4');
-            nav.classList.toggle('space-y-4');
-        });
+        const btn = document.getElementById('menu-btn'); const nav = document.querySelector('nav');
+        btn.addEventListener('click', () => { nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); });
     </script>
 </body>
 </html>
