@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Home</title>
+    <title>AgroForte - Loja Agropecuária</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
+    <!-- MENU DE NAVEGAÇÃO -->
     <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-leaf"></i> AgroForte
             </a>
             <nav class="hidden md:flex space-x-6 font-medium">
-                <a href="index.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Início</a>
-                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="index.html" class="hover:text-green-200 transition">Início</a>
+                <a href="agropecuaria.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Agropecuária</a>
                 <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
                 <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
                 <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
@@ -27,51 +28,102 @@
         </div>
     </header>
 
-    <section class="bg-cover bg-center h-[65vh] flex items-center relative flex-grow" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80');">
-        <div class="container mx-auto px-4 text-white text-center md:text-left">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Produtividade e Soluções <br>para o seu Campo</h1>
-            <p class="text-lg md:text-xl mb-8 max-w-2xl">Do plantio à colheita, oferecemos os melhores insumos agropecuários e o suporte técnico especializado que sua lavoura precisa.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="agropecuaria.html" class="bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-3 px-6 rounded-lg transition shadow-lg">Ver Produtos da Loja</a>
-                <a href="agendamento.html" class="bg-green-600 hover:bg-green-500 text-white text-center font-bold py-3 px-6 rounded-lg transition shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa-regular fa-calendar-check"></i> Agendar Visita na Lavoura
-                </a>
-            </div>
+    <!-- BANNER DA LOJA -->
+    <section class="bg-green-800 text-white py-12 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-2">Nossa Loja Agropecuária</h1>
+            <p class="text-green-100 max-w-xl mx-auto">Os melhores insumos, sementes e defensivos para garantir a máxima produtividade da sua lavoura.</p>
         </div>
     </section>
 
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
-                <i class="fa-solid fa-shop text-4xl text-green-700 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Loja Completa</h3>
-                <p class="text-gray-600">Sementes, fertilizantes e defensivos com as melhores condições do mercado.</p>
-                <a href="agropecuaria.html" class="text-green-700 font-bold block mt-4 hover:underline">Acessar Loja &rarr;</a>
-            </div>
-            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
-                <i class="fa-solid fa-user-doctor text-4xl text-green-700 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Consultoria Técnica</h3>
-                <p class="text-gray-600">Análises laboratoriais, receituários e planejamento estratégico completo para sua safra.</p>
-                <a href="consultas.html" class="text-green-700 font-bold block mt-4 hover:underline">Ver Serviços &rarr;</a>
-            </div>
-            <div class="p-6 border border-gray-100 rounded-xl bg-gray-50 text-center">
-                <i class="fa-solid fa-tractor text-4xl text-green-700 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Visita de Campo</h3>
-                <p class="text-gray-600">Agende um horário para que nosso engenheiro agrônomo examine sua lavoura pessoalmente.</p>
-                <a href="agendamento.html" class="text-green-700 font-bold block mt-4 hover:underline">Agendar Agora &rarr;</a>
-            </div>
-        </div>
-    </section>
+    <!-- VITRINE DE PRODUTOS -->
+    <main class="container mx-auto px-4 py-12 flex-grow max-w-6xl">
+        <h2 class="text-2xl font-bold mb-8 text-gray-900 border-b pb-2 flex items-center gap-2">
+            <i class="fa-solid fa-basket-shopping text-green-700"></i> Produtos em Destaque
+        </h2>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            
+            <!-- PRODUTO 1: Sementes -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col">
+                <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-400 text-5xl">
+                    <i class="fa-solid fa-seedling text-green-600"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Sementes</span>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Semente de Milho Híbrido</h3>
+                    <p class="text-gray-600 text-sm mb-4 flex-grow">Alta tolerância a pragas e excelente estabilidade produtiva para safrinha.</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <span class="text-2xl font-black text-gray-900">R$ 340,00</span>
+                        <a href="contato.html" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1">
+                            Cotar <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 2: Fertilizantes -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col">
+                <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-400 text-5xl">
+                    <i class="fa-solid fa-jar-wheat text-orange-500"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Nutrição</span>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Fertilizante NPK 04-14-08</h3>
+                    <p class="text-gray-600 text-sm mb-4 flex-grow">Ideal para o arranque inicial do plantio, promovendo raízes fortes e saudáveis.</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <span class="text-2xl font-black text-gray-900">R$ 185,00</span>
+                        <a href="contato.html" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1">
+                            Cotar <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 3: Defensivos -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col">
+                <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-400 text-5xl">
+                    <i class="fa-solid fa-spray-can-sparkles text-blue-500"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Proteção</span>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Defensivo Fungicida Global</h3>
+                    <p class="text-gray-600 text-sm mb-4 flex-grow">Controle preventivo e curativo eficaz contra ferrugem e manchas foliares.</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <span class="text-2xl font-black text-gray-900">R$ 290,00</span>
+                        <a href="contato.html" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1">
+                            Cotar <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- RODAPÉ -->
     <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
         <div class="container mx-auto px-4 text-center">
             <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <!-- SCRIPT DO MENU MOBILE -->
     <script>
-        const btn = document.getElementById('menu-btn'); const nav = document.querySelector('nav');
-        btn.addEventListener('click', () => { nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); });
+        const btn = document.getElementById('menu-btn'); 
+        const nav = document.querySelector('nav');
+        btn.addEventListener('click', () => { 
+            nav.classList.toggle('hidden'); 
+            nav.classList.toggle('flex'); 
+            nav.classList.toggle('flex-col'); 
+            nav.classList.toggle('absolute'); 
+            nav.classList.toggle('top-16'); 
+            nav.classList.toggle('left-0'); 
+            nav.classList.toggle('w-full'); 
+            nav.classList.toggle('bg-green-700'); 
+            nav.classList.toggle('p-4'); 
+            nav.classList.toggle('space-y-4'); 
+        });
     </script>
 </body>
 </html>
