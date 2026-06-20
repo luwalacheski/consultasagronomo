@@ -61,7 +61,7 @@
                 <i class="fa-regular fa-calendar-plus text-green-700"></i> Preencha os dados da sua propriedade
             </h2>
             
-            <form action="#" method="POST" class="space-y-5">
+            <form id="formAgendamento" class="space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo do Produtor</label>
@@ -120,15 +120,63 @@
                     <span><strong>Nota:</strong> Após o envio, nossa equipe técnica entrará em contato via WhatsApp para confirmar a disponibilidade do agrônomo e alinhar os custos de deslocamento técnico.</span>
                 </div>
 
-                <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                <button type="submit" id="btnEnviar" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
                     <i class="fa-regular fa-paper-plane"></i> Enviar Solicitação de Agendamento
                 </button>
             </form>
+
+            <div id="mensagemSucesso" class="hidden mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-lg text-center font-bold flex items-center justify-center gap-2 shadow-inner">
+                <i class="fa-solid fa-circle-check text-xl text-green-600"></i>
+                <span>Solicitação enviada com sucesso! Entraremos em contato via WhatsApp.</span>
+            </div>
         </div>
     </section>
 
     <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
         <div class="container mx-auto px-4 text-center"><p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p></div>
     </footer>
+
+    <script>
+        // Lógica do menu responsivo (copiado do index para manter o comportamento)
+        const btnMenu = document.getElementById('menu-btn'); 
+        const nav = document.querySelector('nav');
+        btnMenu.addEventListener('click', () => { 
+            nav.classList.toggle('hidden'); 
+            nav.classList.toggle('flex'); 
+            nav.classList.toggle('flex-col'); 
+            nav.classList.toggle('absolute'); 
+            nav.classList.toggle('top-16'); 
+            nav.classList.toggle('left-0'); 
+            nav.classList.toggle('w-full'); 
+            nav.classList.toggle('bg-green-700'); 
+            nav.classList.toggle('p-4'); 
+            nav.classList.toggle('space-y-4'); 
+        });
+
+        // Lógica do formulário de agendamento
+        document.getElementById('formAgendamento').addEventListener('submit', function(event) {
+            // Impede o envio padrão para o '#' que recarregaria a página gerando erro
+            event.preventDefault(); 
+
+            // Desativa o botão para evitar cliques duplicados enquanto processa
+            const btnEnviar = document.getElementById('btnEnviar');
+            btnEnviar.disabled = true;
+            btnEnviar.classList.add('opacity-50', 'cursor-not-allowed');
+            btnEnviar.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Processando...';
+
+            // Pequeno delay de simulação (500ms) apenas para dar feedback visual antes de mostrar a mensagem
+            setTimeout(() => {
+                // Esconde o botão de envio definitivamente
+                btnEnviar.classList.add('hidden');
+
+                // Remove a classe 'hidden' da div de sucesso para torná-la visível
+                const caixaSucesso = document.getElementById('mensagemSucesso');
+                caixaSucesso.classList.remove('hidden');
+
+                // Opcional: Limpa os campos preenchidos do formulário
+                document.getElementById('formAgendamento').reset();
+            }, 500);
+        });
+    </script>
 </body>
 </html>
