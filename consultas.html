@@ -8,5 +8,178 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
-    </body>
+
+    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-leaf"></i> AgroForte
+            </a>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <a href="index.html" class="hover:text-green-200 transition">Início</a>
+                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="consultas.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Consultas Agronômicas</a>
+                <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
+                <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
+            </nav>
+            <button class="md:hidden text-2xl" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow flex items-center justify-center">
+        
+        <div id="secao-login" class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 w-full max-w-md">
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-user-shield text-4xl text-green-700 mb-2"></i>
+                <h2 class="text-2xl font-bold text-gray-950">Acesso ao Sistema</h2>
+                <p class="text-gray-500 text-sm">Insira seus dados para acessar seus laudos e consultas.</p>
+            </div>
+
+            <form id="form-login" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                    <input type="text" id="login-nome" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: luh walacheski">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">CPF</label>
+                    <input type="text" id="login-cpf" required max-length="14" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="000.000.000-00">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Perfil</label>
+                    <select id="login-perfil" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
+                        <option value="produtor">Produtor</option>
+                        <option value="agronomo">Agrônomo</option>
+                        <option value="cliente">Cliente</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-lg transition flex justify-center items-center gap-2 shadow">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar no Painel
+                </button>
+            </form>
+        </div>
+
+        <div id="secao-busca" class="hidden bg-white p-8 rounded-2xl shadow-lg border border-gray-100 w-full max-w-2xl">
+            <div class="flex justify-between items-center border-b pb-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Olá, <span id="usuario-logado" class="text-green-700"></span>!</h2>
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold" id="perfil-logado"></p>
+                </div>
+                <button id="btn-sair" class="text-sm bg-red-50 hover:bg-red-100 text-red-600 font-bold py-1.5 px-3 rounded-lg transition">
+                    <i class="fa-solid fa-power-off"></i> Sair
+                </button>
+            </div>
+
+            <p class="text-gray-600 mb-4 text-sm">Digite seu nome completo exatamente como cadastrado para encontrar sua pasta de arquivos digitais:</p>
+            
+            <div class="flex gap-2 mb-6">
+                <input type="text" id="input-busca" class="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Pesquise por seu nome completo...">
+                <button id="btn-buscar" class="bg-green-700 hover:bg-green-800 text-white font-bold px-6 rounded-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                </button>
+            </div>
+
+            <div id="resultado-pasta" class="hidden border rounded-xl p-5 bg-gray-50 border-gray-200">
+                </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center"><p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p></div>
+    </footer>
+
+    <script>
+        // Menu Responsivo
+        const btnMenu = document.getElementById('menu-btn'); const nav = document.querySelector('nav');
+        btnMenu.addEventListener('click', () => { nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); });
+
+        // Elementos de Controle do Login e Busca
+        const secaoLogin = document.getElementById('secao-login');
+        const secaoBusca = document.getElementById('secao-busca');
+        const formLogin = document.getElementById('form-login');
+        const usuarioLogadoSpan = document.getElementById('usuario-logado');
+        const perfilLogadoSpan = document.getElementById('perfil-logado');
+        const btnSair = document.getElementById('btn-sair');
+        
+        const inputBusca = document.getElementById('input-busca');
+        const btnBuscar = document.getElementById('btn-buscar');
+        const resultadoPasta = document.getElementById('resultado-pasta');
+
+        // Variável para armazenar dados da sessão atual
+        let dadosUsuario = null;
+
+        // Ação de Login
+        formLogin.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coleta os dados salvando em formato padronizado (minúsculo e sem espaços extras nas pontas)
+            dadosUsuario = {
+                nome: document.getElementById('login-nome').value.trim(),
+                cpf: document.getElementById('login-cpf').value.trim(),
+                perfil: document.getElementById('login-perfil').value
+            };
+
+            // Atualiza o visual para o Painel logado
+            usuarioLogadoSpan.innerText = dadosUsuario.nome;
+            perfilLogadoSpan.innerText = `Acesso nível: ${dadosUsuario.perfil}`;
+            
+            secaoLogin.classList.add('hidden');
+            secaoBusca.classList.remove('hidden');
+        });
+
+        // Ação de Logout
+        btnSair.addEventListener('click', function() {
+            dadosUsuario = null;
+            formLogin.reset();
+            inputBusca.value = '';
+            resultadoPasta.classList.add('hidden');
+            secaoBusca.classList.add('hidden');
+            secaoLogin.classList.remove('hidden');
+        });
+
+        // Ação de Busca Restrita por Nome
+        function executarBusca() {
+            const termoBusca = inputBusca.value.trim();
+            resultadoPasta.classList.remove('hidden');
+
+            // Verifica se o nome pesquisado bate EXATAMENTE com o nome de login do usuário
+            if (termoBusca.toLowerCase() === dadosUsuario.nome.toLowerCase() && termoBusca !== "") {
+                
+                // Formata o nome para criar uma pasta limpa (Ex: "luh walacheski" vira "luh-walacheski")
+                const nomePastaFormatado = termoBusca.toLowerCase().replace(/\s+/g, '-');
+                
+                // Monta o link simulando a pasta no GitHub Pages
+                const linkDaPasta = `./pastas/${nomePastaFormatado}/`;
+
+                resultadoPasta.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-folder-open text-amber-500 text-4xl"></i>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-900 text-lg">Pasta localizada com sucesso!</h4>
+                            <p class="text-sm text-gray-500 mb-3">Sua área restrita de consultas está disponível.</p>
+                            <a href="${linkDaPasta}" target="_blank" class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir minha pasta (${nomePastaFormatado})
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Se tentar buscar o nome de outra pessoa, o acesso é negado
+                resultadoPasta.innerHTML = `
+                    <div class="flex items-start gap-4 text-red-700">
+                        <i class="fa-solid fa-circle-xmark text-4xl"></i>
+                        <div>
+                            <h4 class="font-bold text-lg">Acesso Negado ou Não Encontrado</h4>
+                            <p class="text-sm text-red-600">Você só tem permissão para buscar e abrir documentos vinculados ao seu próprio nome de usuário logado.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        btnBuscar.addEventListener('click', executarBusca);
+        inputBusca.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') executarBusca();
+        });
+    </script>
+</body>
 </html>
