@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroForte - Agendar Visita do Agrônomo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-leaf"></i> AgroForte
+            </a>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <a href="index.html" class="hover:text-green-200 transition">Início</a>
+                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
+                <a href="agendamento.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Agendar Visita</a>
+                <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
+            </nav>
+            <button class="md:hidden text-2xl" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <section class="py-12 container mx-auto px-4 flex-grow max-w-4xl">
+        <div class="text-center mb-10">
+            <span class="text-green-700 font-bold uppercase tracking-wider">Atendimento Presencial</span>
+            <h1 class="text-4xl font-bold mt-2 text-gray-900">Agendamento de Visita na Lavoura</h1>
+            <p class="text-gray-600 mt-2">Solicite a presença de um de nossos engenheiros agrônomos na sua propriedade para examinar sua cultura, identificar gargalos e diagnosticar pragas.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-sm">
+            <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-magnifying-glass-chart text-green-700 text-2xl"></i>
+                <div>
+                    <h4 class="font-bold">Exame Local</h4>
+                    <p class="text-gray-500 text-xs">Análise detalhada "in loco" das plantas.</p>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-bug text-green-700 text-2xl"></i>
+                <div>
+                    <h4 class="font-bold">Combate a Doenças</h4>
+                    <p class="text-gray-500 text-xs">Identificação precisa de pragas e vetores.</p>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-map-location-dot text-green-700 text-2xl"></i>
+                <div>
+                    <h4 class="font-bold">Laudo Técnico</h4>
+                    <p class="text-gray-500 text-xs">Recomendações e mapa de ação imediata.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+            <h2 class="text-xl font-bold mb-6 text-gray-900 flex items-center gap-2">
+                <i class="fa-regular fa-calendar-plus text-green-700"></i> Preencha os dados da sua propriedade
+            </h2>
+            
+            <form action="#" method="POST" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo do Produtor</label>
+                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: João da Silva">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp / Telefone de Contato</label>
+                        <input type="tel" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="(00) 99999-0000">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome da Propriedade / Fazenda</label>
+                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Fazenda Boa Vista">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cidade e Estado (UF)</label>
+                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Sorriso - MT">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Principal Cultura no Local</label>
+                        <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
+                            <option>Soja</option>
+                            <option>Milho</option>
+                            <option>Algodão</option>
+                            <option>Pastagem / Pecuária</option>
+                            <option>Hortifrúti</option>
+                            <option>Outra Cultura</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Data Desejada para Visita</label>
+                        <input type="date" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Período de Preferência</label>
+                        <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
+                            <option>Manhã (07:30 - 12:00)</option>
+                            <option>Tarde (13:00 - 17:30)</option>
+                            <option>Qualquer horário</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descreva o Sintoma ou Motivo da Visita</label>
+                    <textarea rows="4" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Manchas amareladas e perda de folhas na área sul do plantio, suspeita de praga ou deficiência de potássio..."></textarea>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200 flex gap-2 items-start text-sm text-green-800">
+                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                    <span><strong>Nota:</strong> Após o envio, nossa equipe técnica entrará em contato via WhatsApp para confirmar a disponibilidade do agrônomo e alinhar os custos de deslocamento técnico.</span>
+                </div>
+
+                <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                    <i class="fa-regular fa-paper-plane"></i> Enviar Solicitação de Agendamento
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center"><p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p></div>
+    </footer>
+</body>
+</html>
