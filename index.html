@@ -1,444 +1,243 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SisAgro - Inteligência no Agronegócio & Agropecuária</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #1b4332;
-            --primary-light: #2d6a4f;
-            --primary-dark: #081c15;
-            --accent: #b58226;
-            --accent-light: #e9c46a;
-            --background: #f4f7f5;
-            --surface: #ffffff;
-            --text: #212529;
-            --text-muted: #5c677d;
-            --border: #e9ecef;
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
-            --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--background);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Header e Navbar */
-        header.nav-container {
-            background-color: var(--surface);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        nav {
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            padding: 0.6rem 1rem;
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            color: var(--primary);
-            background-color: #e8f5e9;
-        }
-
-        nav a.active {
-            color: var(--surface);
-            background-color: var(--primary);
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(27, 67, 50, 0.92), rgba(8, 28, 21, 0.85)), 
-                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
-            color: white;
-            padding: 7rem 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-banner h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .hero-banner p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            font-weight: 300;
-            max-width: 750px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        /* Container Principal */
-        .container {
-            max-width: 1200px;
-            margin: -3rem auto 4rem auto;
-            padding: 0 1.5rem;
-            flex: 1;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Card de Boas-vindas */
-        .welcome-card {
-            background: var(--surface);
-            padding: 3rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--accent));
-        }
-
-        .welcome-card h2 {
-            color: var(--primary-dark);
-            font-size: 1.85rem;
-            margin-bottom: 1.25rem;
-            font-weight: 700;
-        }
-
-        .welcome-card p {
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 1.25rem;
-            font-size: 1.05rem;
-        }
-        
-        .welcome-card p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Títulos de Seção */
-        .section-title {
-            font-size: 1.6rem;
-            color: var(--primary-dark);
-            margin-bottom: 2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        /* Grid de Módulos */
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .module-card {
-            background: var(--surface);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .module-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border-color: var(--primary-light);
-        }
-
-        .img-wrapper {
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            background-color: #eee;
-        }
-
-        .module-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .module-card:hover .module-img {
-            transform: scale(1.05);
-        }
-
-        .module-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex: 1;
-        }
-
-        .module-content h4 {
-            color: var(--primary-dark);
-            font-size: 1.15rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .module-card:hover .module-content h4 {
-            color: var(--primary-light);
-        }
-
-        .module-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Seção Tecnológica */
-        .tech-card {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 3.5rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            position: relative;
-        }
-
-        .tech-item {
-            position: relative;
-        }
-
-        .tech-item h5 {
-            color: var(--accent-light);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .tech-item p {
-            opacity: 0.85;
-            font-size: 1rem;
-            line-height: 1.6;
-            font-weight: 300;
-        }
-
-        /* Rodapé */
-        footer {
-            background-color: var(--primary-dark);
-            color: rgba(255, 255, 255, 0.5);
-            padding: 3rem 1.5rem;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: auto;
-        }
-
-        footer p:first-child {
-            color: white;
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .nav-content {
-                flex-direction: column;
-                height: auto;
-                padding: 1rem;
-                gap: 1rem;
-            }
-            nav {
-                width: 100%;
-                justify-content: flex-start;
-                padding-bottom: 0.5rem;
-            }
-            .hero-banner h1 {
-                font-size: 2.5rem;
-            }
-            .container {
-                margin-top: -1.5rem;
-            }
-            .welcome-card {
-                padding: 2rem;
-            }
-            .tech-card {
-                padding: 2rem;
-                gap: 2rem;
-            }
-        }
-    </style>
+    <title>AgroForte - Agropecuária & Consultoria Agronômica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-    <header class="nav-container">
-        <div class="nav-content">
-            <a href="index.html" class="logo">SisAgro<span>360</span></a>
-            <nav>
-                <a href="index.html" class="active">Painel Geral</a>
-                <a href="produtores.html">Produtores & Fazendas</a>
-                <a href="agricultura.html">Lavouras & Safras</a>
-                <a href="pecuaria.html">Pecuária (Rebanho)</a>
-                <a href="insumos.html">Insumos & Vendas</a>
-                <a href="agendamentos.html">Visitas Técnicas</a>
+    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-leaf"></i> AgroForte
+            </a>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <a href="#inicio" class="hover:text-green-200 transition">Início</a>
+                <a href="#produtos" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="#consultas" class="hover:text-green-200 transition">Consultas Agronômicas</a>
+                <a href="#contato" class="hover:text-green-200 transition">Contato</a>
             </nav>
+            <button class="md:hidden text-2xl" id="menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <section class="hero-banner">
-        <h1>SisAgro 360</h1>
-        <p>Plataforma Integrada de Gestão Agropecuária, Monitoramento de Safras e Pecuária de Precisão</p>
+    <section id="inicio" class="bg-cover bg-center h-[70vh] flex items-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80');">
+        <div class="container mx-auto px-4 text-white text-center md:text-left">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Produtividade e Soluções <br>para o seu Campo</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl">Do plantio à colheita, oferecemos os melhores insumos agropecuários e o suporte técnico especializado que sua lavoura precisa.</p>
+            <div class="space-x-4">
+                <a href="#produtos" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition shadow-lg">Ver Produtos</a>
+                <a href="#consultas" class="bg-transparent border-2 border-white hover:bg-white hover:text-green-700 text-white font-bold py-3 px-6 rounded-lg transition">Agendar Consulta</a>
+            </div>
+        </div>
     </section>
 
-    <div class="container">
-        
-        <div class="welcome-card">
-            <h2>Gestão Unificada Agropecuária — Unidade Regional</h2>
-            <p>Um ecossistema tecnológico robusto desenhado para o monitoramento de propriedades rurais mistas. O SisAgro conecta a engenharia agronômica e as melhores práticas zootécnicas diretamente ao campo, otimizando desde o manejo de grandes culturas até o controle produtivo do rebanho.</p>
-            <p>Monitore análises de solo, pastagens, sanidade animal, previsão climática e o fluxo logístico da cadeia de suprimentos em uma única interface inteligente conectada à nuvem.</p>
+    <section id="produtos" class="py-16 container mx-auto px-4">
+        <div class="text-center mb-12">
+            <span class="text-green-700 font-bold uppercase tracking-wider">Nossa Loja</span>
+            <h2 class="text-3xl font-bold mt-2 text-gray-900">Produtos Agropecuários</h2>
+            <p class="text-gray-600 mt-2">Insumos de alta qualidade para nutrição, proteção e manejo.</p>
         </div>
 
-        <h3 class="section-title">Módulos Estratégicos</h3>
-        
-        <div class="modules-grid">
-            
-            <a href="produtores.html" class="module-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&w=600&q=80" alt="Produtores Rurais" class="module-img">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1595341595378-fc7b9662b2d6?auto=format&fit=crop&w=400&q=80" alt="Sementes" class="h-48 w-full object-cover">
+                <div class="p-5">
+                    <span class="text-xs font-bold text-green-600 uppercase">Sementes</span>
+                    <h3 class="font-bold text-lg mt-1 mb-2">Sementes Selecionadas de Milho</h3>
+                    <p class="text-gray-600 text-sm mb-4">Alta taxa de germinação e resistência a pragas sazonais.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
+                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
+                    </div>
                 </div>
-                <div class="module-content">
-                    <h4>👥 Produtores e Áreas</h4>
-                    <p>Cadastro de pecuaristas e agricultores, mapeamento perimetral de fazendas e histórico de uso do solo.</p>
-                </div>
-            </a>
-
-            <a href="agricultura.html" class="module-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1532517304526-20054e0624ed?auto=format&fit=crop&w=600&q=80" alt="Agricultura de Precisão" class="module-img">
-                </div>
-                <div class="module-content">
-                    <h4>🌱 Agricultura de Precisão</h4>
-                    <p>Controle de safras, receituários agronômicos, monitoramento fitossanitário e laudos de fertilidade.</p>
-                </div>
-            </a>
-
-            <a href="pecuaria.html" class="module-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=600&q=80" alt="Pecuária de Precisão" class="module-img">
-                </div>
-                <div class="module-content">
-                    <h4>🐄 Pecuária de Precisão</h4>
-                    <p>Gestão do rebanho bovino, controle vacinal, taxa de lotação de pastagens e pesagem automatizada.</p>
-                </div>
-            </a>
-
-            <a href="insumos.html" class="module-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=600&q=80" alt="Insumos Agropecuários" class="module-img">
-                </div>
-                <div class="module-content">
-                    <h4>🚜 Insumos e Suprimentos</h4>
-                    <p>Gerenciamento de rações, sementes, defensivos e fertilizantes com balanço de estoque logístico.</p>
-                </div>
-            </a>
-
-        </div>
-
-        <div class="tech-card">
-            <div class="tech-item">
-                <h5>Sustentabilidade</h5>
-                <p>Otimização de recursos hídricos e fertilizantes baseada em dados, impulsionando a produtividade com responsabilidade ambiental.</p>
             </div>
-            <div class="tech-item">
-                <h5>Integração RTV / Campo</h5>
-                <p>Comunicação direta dos técnicos e engenheiros no campo com a base do sistema, permitindo emissão de laudos em tempo real.</p>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=400&q=80" alt="Fertilizantes" class="h-48 w-full object-cover">
+                <div class="p-5">
+                    <span class="text-xs font-bold text-green-600 uppercase">Nutrição</span>
+                    <h3 class="font-bold text-lg mt-1 mb-2">Fertilizante NPK Concentrado</h3>
+                    <p class="text-gray-600 text-sm mb-4">Fórmula ideal para o rápido desenvolvimento foliar e radicular.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
+                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&w=400&q=80" alt="Defensivos" class="h-48 w-full object-cover">
+                <div class="p-5">
+                    <span class="text-xs font-bold text-green-600 uppercase">Defensivos</span>
+                    <h3 class="font-bold text-lg mt-1 mb-2">Protetor Biológico de Culturas</h3>
+                    <p class="text-gray-600 text-sm mb-4">Controle eficiente com baixo impacto ambiental.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
+                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=400&q=80" alt="Veterinária" class="h-48 w-full object-cover">
+                <div class="p-5">
+                    <span class="text-xs font-bold text-green-600 uppercase">Veterinária</span>
+                    <h3 class="font-bold text-lg mt-1 mb-2">Suplemento Mineral Bovino</h3>
+                    <p class="text-gray-600 text-sm mb-4">Engorda saudável e aumento da imunidade do rebanho.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-gray-900">Sob Consulta</span>
+                        <button class="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1"><i class="fa-solid fa-cart-shopping"></i> Cotar</button>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
+    <section id="consultas" class="bg-green-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-bold uppercase tracking-wider">Suporte Técnico</span>
+                <h2 class="text-3xl font-bold mt-2 text-gray-900">Consultoria Agronômica Especializada</h2>
+                <p class="text-gray-600 mt-2">Visitas técnicas, análise de solo e receituário agronômico com engenheiros qualificados.</p>
+            </div>
 
-    <footer>
-        <p>SisAgro 360 — Sistema de Gestão Integrada do Agronegócio</p>
-        <p>&copy; 2026 Inteligência de Campo. Todos os direitos reservados.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-gray-900">Por que agendar uma consulta?</h3>
+                    
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
+                            <i class="fa-solid fa-flask text-xl w-6 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Análise de Solo e Recomendação</h4>
+                            <p class="text-gray-600">Evite desperdícios aplicando exatamente o que sua terra precisa para produzir mais.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
+                            <i class="fa-solid fa-bug-slash text-xl w-6 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Manejo Integrado de Pragas (MIP)</h4>
+                            <p class="text-gray-600">Diagnóstico preciso de doenças e pragas com recomendações seguras e eficazes.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-green-700 text-white p-3 rounded-lg shadow-md">
+                            <i class="fa-solid fa-chart-line text-xl w-6 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Acompanhamento de Safra</h4>
+                            <p class="text-gray-600">Visitas periódicas de um Engenheiro Agrônomo para garantir o sucesso do plantio à colheita.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-xl font-bold mb-6 text-gray-900 text-center md:text-left"><i class="fa-regular fa-calendar-check text-green-700 mr-2"></i> Solicitar Atendimento Técnico</h3>
+                    
+                    <form action="#" method="POST" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                                <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: João Silva">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Telefone / WhatsApp</label>
+                                <input type="tel" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="(00) 00000-0000">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Localização da Propriedade (Cidade/UF)</label>
+                            <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: Rio Verde - GO">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Serviço</label>
+                                <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                                    <option>Análise e Recomendação de Solo</option>
+                                    <option>Identificação de Pragas/Doenças</option>
+                                    <option>Planejamento de Safra</option>
+                                    <option>Outros Serviços</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Data Preferencial</label>
+                                <input type="date" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição do Problema ou Cultura (Opcional)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none" placeholder="Ex: Cultura da soja apresentando manchas amarelas nas folhas..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                            Enviar Solicitação de Consulta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato" class="bg-gray-900 text-gray-300 py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-leaf text-green-500"></i> AgroForte</h4>
+                <p class="text-sm leading-relaxed text-gray-400">Parceiro fiel do produtor rural, unindo tradição comercial com inovação tecnológica e agronômica para o campo.</p>
+            </div>
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4">Canais de Atendimento</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><i class="fa-solid fa-phone text-green-500 mr-2"></i> (00) 3333-4444</li>
+                    <li><i class="fa-brands fa-whatsapp text-green-500 mr-2"></i> (00) 99999-8888</li>
+                    <li><i class="fa-solid fa-envelope text-green-500 mr-2"></i> contato@agroforte.com.br</li>
+                    <li><i class="fa-solid fa-location-dot text-green-500 mr-2"></i> Av. das Agruras, 1500 - Zona Rural</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4">Horário de Funcionamento</h4>
+                <p class="text-sm text-gray-400 mb-2">Segunda a Sexta: 07:30 às 17:30</p>
+                <p class="text-sm text-gray-400 mb-4">Sábado: 07:30 às 12:00</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white text-xl"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 text-center text-xs text-gray-500 mt-8 pt-4">
+            &copy; 2026 AgroForte. Todos os direitos reservados.
+        </div>
     </footer>
 
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const nav = document.querySelector('nav');
+        btn.addEventListener('click', () => {
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('top-16');
+            nav.classList.toggle('left-0');
+            nav.classList.toggle('w-full');
+            nav.classList.toggle('bg-green-700');
+            nav.classList.toggle('p-4');
+            nav.classList.toggle('space-y-4');
+        });
+    </script>
 </body>
 </html>
