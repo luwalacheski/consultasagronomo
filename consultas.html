@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Sistema de Laudos</title>
+    <title>AgroForte - Consultas Agronômicas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -20,6 +20,7 @@
             flex-direction: column;
         }
 
+        /* Navbar baseado na imagem 1000419397.jpg */
         nav {
             background-color: #11783b;
             color: white;
@@ -47,13 +48,15 @@
         .nav-links a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
+            transition: color 0.3s;
         }
 
-        .nav-links a.active {
+        .nav-links a:hover, .nav-links a.active {
             color: #ffffff;
             font-weight: 600;
         }
 
+        /* Container do Formulário */
         .main-container {
             flex: 1;
             display: flex;
@@ -90,6 +93,7 @@
             margin-bottom: 25px;
         }
 
+        /* Inputs e Labels */
         .form-group {
             text-align: left;
             margin-bottom: 18px;
@@ -111,12 +115,18 @@
             font-size: 14px;
             color: #495057;
             outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #adb5bd;
         }
 
         .form-group input:focus, .form-group select:focus {
             border-color: #11783b;
         }
 
+        /* Botão de Enviar */
         .btn-submit {
             width: 100%;
             background-color: #11783b;
@@ -131,13 +141,15 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
         }
 
         .btn-submit:hover {
             background-color: #0d5c2d;
         }
 
-        /* Mensagem de Erro (Corrigida - Inicia Oculta) */
+        /* Mensagens de Feedback */
         .message {
             margin-top: 15px;
             font-size: 13px;
@@ -147,12 +159,13 @@
         }
 
         .message.error {
+            display: block;
             background-color: #f8d7da;
             color: #842029;
             border: 1px solid #f5c2c7;
         }
 
-        /* Painel Dashboard */
+        /* Painel Secreto (Consultas) */
         .dashboard {
             display: none;
             width: 100%;
@@ -170,53 +183,12 @@
             padding-bottom: 10px;
         }
 
-        /* Layout Dinâmico da Pasta Autorizada */
-        .pasta-container {
-            background-color: #e8f5e9;
-            border: 2px dashed #11783b;
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .pasta-container i {
-            font-size: 45px;
-            color: #11783b;
-        }
-
-        .pasta-info h3 {
-            color: #1b5e20;
-            font-size: 18px;
-            text-transform: capitalize;
-        }
-
-        .pasta-info p {
-            font-size: 13px;
-            color: #43a047;
-            margin-top: 2px;
-        }
-
-        /* Itens de Consulta */
         .consulta-item {
             background: #f8f9fa;
             padding: 15px;
             border-left: 4px solid #11783b;
             margin-bottom: 15px;
             border-radius: 0 6px 6px 0;
-        }
-
-        .consulta-item h4 {
-            color: #212529;
-            font-size: 16px;
-        }
-
-        .consulta-item p {
-            font-size: 14px;
-            color: #6c757d;
-            margin-top: 5px;
         }
     </style>
 </head>
@@ -227,7 +199,11 @@
             <i class="fas fa-leaf"></i> AgroForte
         </div>
         <ul class="nav-links">
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Agropecuária</a></li>
             <li><a href="#" class="active">Consultas Agronômicas</a></li>
+            <li><a href="#">Agendar Visita</a></li>
+            <li><a href="#">Contato</a></li>
         </ul>
     </nav>
 
@@ -238,7 +214,7 @@
                 <i class="fas fa-user-shield"></i>
             </div>
             <h2>Acesso ao Sistema</h2>
-            <p>Insira seus dados para puxar seus laudos e pastas.</p>
+            <p>Insira seus dados para acessar seus laudos e consultas.</p>
 
             <form id="loginForm">
                 <div class="form-group">
@@ -261,7 +237,7 @@
                 </div>
 
                 <button type="submit" class="btn-submit">
-                    <i class="fas fa-folder-open"></i> Puxar Minha Pasta
+                    <i class="fas fa-sign-in-alt"></i> Entrar no Painel
                 </button>
             </form>
 
@@ -269,44 +245,36 @@
         </div>
 
         <div class="dashboard" id="dashboardPanel">
-            <h2><i class="fas fa-server"></i> Repositório de Documentos</h2>
+            <h2><i class="fas fa-folder-open"></i> Painel de Consultas Agronômicas</h2>
+            <p style="margin-bottom: 20px;">Bem-vindo(a), <strong id="userWelcome"></strong>! Aqui estão os seus laudos liberados pela empresa:</p>
             
-            <div id="pastaDestino"></div>
-
-            <div id="listaConsultas"></div>
+            <div class="consulta-item">
+                <h4>Laudo Técnico #2026-01</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Análise de solo e recomendação de calagem para a safra atual.</p>
+            </div>
+            <div class="consulta-item">
+                <h4>Relatório de Monitoramento de Pragas</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Atualizado em Junho de 2026 - Controle biológico efetivo.</p>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // 1. Cadastro de Usuários Permitidos no Sistema
+        // Banco de dados simulado da empresa
         const usuariosCadastrados = [
             { nome: "luh walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
             { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" },
             { nome: "Ana Costa", cpf: "456.789.123-22", perfil: "Técnico" },
-            { nome: "Pedro Alvares", cpf: "111.222.333-44", perfil: "Produtor" } // Produtor SEM consultas cadastradas
+            { nome: "Pedro Alvares", cpf: "111.222.333-44", perfil: "Produtor" } // Produtor sem consultas para teste de bloqueio
         ];
 
-        // 2. Banco de Consultas Agronômicas Global (Filtrado por CPF)
-        const bancoConsultas = [
-            { 
-                cpfDono: "123.456.789-00", 
-                titulo: "Laudo Técnico #2026-01 (Solo)", 
-                detalhe: "Análise físico-química de solo estruturada para a janela de plantio da safra atual. Recomendação de calagem aplicada." 
-            },
-            { 
-                cpfDono: "123.456.789-00", 
-                titulo: "Relatório de Manejo Integrado de Pragas", 
-                detalhe: "Monitoramento de talhões realizado em Junho de 2026. Controle biológico efetivo sem necessidade de intervenção química." 
-            },
-            { 
-                cpfDono: "987.654.321-11", 
-                titulo: "Agenda de Vistorias Técnicas da Região Sul", 
-                detalhe: "Relatório gerencial consolidado contendo o cronograma de saídas de campo semanais do profissional." 
-            }
+        // Histórico de consultas vinculado ao CPF do Produtor
+        const historicoConsultas = [
+            { cpfProdutor: "123.456.789-00" } // Define que este CPF possui consultas ativas
         ];
 
-        // Máscara automática de CPF
+        // Máscara automática de CPF simples
         const cpfInput = document.getElementById('cpf');
         cpfInput.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -316,72 +284,44 @@
             e.target.value = value;
         });
 
-        // Evento principal de Submissão do Formulário
+        // Evento de Login
         document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Impede recarregamento da página
 
             const nomeDigitado = document.getElementById('nome').value.trim();
             const cpfDigitado = document.getElementById('cpf').value.trim();
             const perfilSelecionado = document.getElementById('perfil').value;
             const feedbackMsg = document.getElementById('feedbackMsg');
 
-            // Validação Inicial: Confere se os três dados batem com a lista de cadastros
+            // Procura se as três informações batem de forma idêntica com o banco simulado
             const usuarioValido = usuariosCadastrados.find(user => 
                 user.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
                 user.cpf === cpfDigitado &&
                 user.perfil === perfilSelecionado
             );
 
+            // Validação 1: Se os dados não conferem no cadastro
             if (!usuarioValido) {
-                feedbackMsg.innerText = "Acesso Negado: Os dados inseridos não coincidem com nenhum cadastro ativo.";
+                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema da empresa.";
                 feedbackMsg.style.display = 'block';
                 return;
             }
 
-            // Filtra as consultas agronômicas vinculadas a este CPF específico
-            const consultasDoUsuario = bancoConsultas.filter(consulta => consulta.cpfDono === cpfDigitado);
-
-            // Validação de Regra de Negócio: Produtores precisam ter consultas no histórico
-            if (perfilSelecionado === "Produtor" && consultasDoUsuario.length === 0) {
-                feedbackMsg.innerText = "Acesso Negado: O perfil de Produtor só tem acesso autorizado se possuir um histórico de consultas registrado.";
-                feedbackMsg.style.display = 'block';
-                return;
+            // Validação 2: Se for Produtor, verifica se possui histórico de consultas ativo
+            if (perfilSelecionado === "Produtor") {
+                const temHistorico = historicoConsultas.some(consulta => consulta.cpfProdutor === cpfDigitado);
+                
+                if (!temHistorico) {
+                    feedbackMsg.innerText = "Acesso Negado: O perfil de Produtor só tem acesso se possuir um histórico de consultas ativo.";
+                    feedbackMsg.style.display = 'block';
+                    return;
+                }
             }
 
-            // Se passou por tudo, oculta o erro e prepara o Painel
+            // Se passar pelas validações, limpa mensagens de erro e libera o painel
             feedbackMsg.style.display = 'none';
-
-            // --- PROCESSAMENTO E MONTAGEM DINÂMICA DA PASTA ---
-            const pastaDestino = document.getElementById('pastaDestino');
-            const listaConsultas = document.getElementById('listaConsultas');
-
-            // Cria o HTML da pasta contendo o nome do usuário validado
-            pastaDestino.innerHTML = `
-                <div class="pasta-container">
-                    <i class="fas fa-folder-open"></i>
-                    <div class="pasta-info">
-                        <h3>Pasta: ${usuarioValido.nome}</h3>
-                        <p><i class="fas fa-check-circle"></i> Repositório de Documentos Autorizado (${usuarioValido.perfil})</p>
-                    </div>
-                </div>
-            `;
-
-            // Limpa consultas exibidas anteriormente (caso existam)
-            listaConsultas.innerHTML = "";
-
-            // Injeta dinamicamente cada laudo técnico pertencente ao usuário no container
-            consultasDoUsuario.forEach(consulta => {
-                const itemHTML = `
-                    <div class="consulta-item">
-                        <h4><i class="fas fa-file-invoice"></i> ${consulta.titulo}</h4>
-                        <p>${consulta.detalhe}</p>
-                    </div>
-                `;
-                listaConsultas.innerHTML += itemHTML;
-            });
-
-            // Oculta a caixa de login e exibe o dashboard atualizado
             document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('userWelcome').innerText = usuarioValido.nome;
             document.getElementById('dashboardPanel').style.display = 'block';
         });
     </script>
