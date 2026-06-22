@@ -3,182 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Consultas Agronômicas</title>
+    <title>AgroForte - Contato</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes pulse-green {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: .5; }
+        }
+        .ping-green { animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-700 font-sans flex flex-col min-h-screen antialiased">
 
-    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-leaf"></i> AgroForte
+    <!-- MENU DE NAVEGAÇÃO -->
+    <header class="bg-[#15803d] text-white sticky top-0 z-50 shadow-sm border-b border-green-800">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center max-w-6xl">
+            <a href="index.html" class="text-xl font-bold flex items-center gap-2 tracking-tight">
+                <i class="fa-solid fa-leaf text-green-300"></i> AgroForte
             </a>
-            <nav class="hidden md:flex space-x-6 font-medium">
-                <a href="index.html" class="hover:text-green-200 transition">Início</a>
-                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
-                <a href="consultas.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Consultas Agronômicas</a>
-                <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
-                <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="index.html" class="text-white/80 hover:text-white transition">Início</a>
+                <a href="agropecuaria.html" class="text-white/80 hover:text-white transition">Agropecuária</a>
+                <a href="consultas.html" class="text-white/80 hover:text-white transition">Consultas Agronômicas</a>
+                <a href="agendamento.html" class="text-white/80 hover:text-white transition">Agendar Visita</a>
+                <a href="contato.html" class="text-white border-b-2 border-white pb-1 font-semibold">Contato</a>
             </nav>
-            <button class="md:hidden text-2xl" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
+            <button class="md:hidden text-xl text-white/90 hover:text-white" id="menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-12 flex-grow flex items-center justify-center">
-        
-        <div id="secao-login" class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 w-full max-w-md">
-            <div class="text-center mb-6">
-                <i class="fa-solid fa-user-shield text-4xl text-green-700 mb-2"></i>
-                <h2 class="text-2xl font-bold text-gray-950">Acesso ao Sistema</h2>
-                <p class="text-gray-500 text-sm">Insira seus dados para acessar seus laudos e consultas.</p>
-            </div>
-
-            <form id="form-login" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                    <input type="text" id="login-nome" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: luh walacheski">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">CPF</label>
-                    <input type="text" id="login-cpf" required max-length="14" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="000.000.000-00">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Perfil</label>
-                    <select id="login-perfil" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
-                        <option value="produtor">Produtor</option>
-                        <option value="agronomo">Agrônomo</option>
-                        <option value="cliente">Cliente</option>
-                    </select>
-                </div>
-                <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-lg transition flex justify-center items-center gap-2 shadow">
-                    <i class="fa-solid fa-right-to-bracket"></i> Entrar no Painel
-                </button>
-            </form>
+    <!-- BANNER DE CONEXÃO -->
+    <section class="bg-gradient-to-b from-[#166534] to-[#14532d] text-white py-16 text-center relative">
+        <div class="container mx-auto px-6 relative z-10 max-w-3xl">
+            <span class="bg-[#15803d]/50 text-green-200 text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-green-600/30">Suporte Corporativo</span>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight mt-4 mb-3">Central de Atendimento AgroForte</h1>
+            <p class="text-green-100/80 text-sm md:text-base font-light leading-relaxed">Conecte-se diretamente com nossos especialistas. Estamos prontos para oferecer soluções em insumos, suporte técnico de manejo ou respostas comerciais rápidas.</p>
         </div>
+    </section>
 
-        <div id="secao-busca" class="hidden bg-white p-8 rounded-2xl shadow-lg border border-gray-100 w-full max-w-2xl">
-            <div class="flex justify-between items-center border-b pb-4 mb-6">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900">Olá, <span id="usuario-logado" class="text-green-700"></span>!</h2>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold" id="perfil-logado"></p>
-                </div>
-                <button id="btn-sair" class="text-sm bg-red-50 hover:bg-red-100 text-red-600 font-bold py-1.5 px-3 rounded-lg transition">
-                    <i class="fa-solid fa-power-off"></i> Sair
-                </button>
-            </div>
-
-            <p class="text-gray-600 mb-4 text-sm">Digite seu nome completo exatamente como cadastrado para encontrar sua pasta de arquivos digitais:</p>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container mx-auto px-6 py-12 flex-grow max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
-            <div class="flex gap-2 mb-6">
-                <input type="text" id="input-busca" class="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Pesquise por seu nome completo...">
-                <button id="btn-buscar" class="bg-green-700 hover:bg-green-800 text-white font-bold px-6 rounded-lg transition flex items-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass"></i> Buscar
-                </button>
+            <!-- COLUNA INTERATIVA & INFORMAÇÕES -->
+            <div class="space-y-6 lg:col-span-1">
+                
+                <!-- Card de Status em Tempo Real -->
+                <div class="bg-white rounded-xl shadow-xs border border-slate-200/60 p-5 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Plantão Técnico</h3>
+                        <p class="text-xs text-slate-400">Suporte agronômico imediato</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 p-0.5"><span class="block h-1 w-1 bg-emerald-500 rounded-full ping-green"></span></span>
+                        <span class="text-[11px] font-semibold text-green-700">Online</span>
+                    </div>
+                </div>
+
+                <!-- Canais Rápidos de Comunicação -->
+                <div class="bg-white rounded-xl shadow-xs border border-slate-200/60 p-5 space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 border-b pb-2">Contatos Diretos</h3>
+                    
+                    <a href="https://wa.me/5500000000000" target="_blank" class="flex items-center gap-3.5 p-2 rounded-lg hover:bg-slate-50 transition group">
+                        <div class="w-9 h-9 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-base group-hover:bg-[#15803d] group-hover:text-white transition shadow-xs">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-medium">WhatsApp Comercial</p>
+                            <p class="text-sm font-semibold text-slate-800 tracking-wide">(11) 99999-9999</p>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-3.5 p-2 rounded-lg">
+                        <div class="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-base shadow-xs">
+                            <i class="fa-regular fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-medium">E-mail Institucional</p>
+                            <p class="text-sm font-semibold text-slate-800">contato@agroforte.com.br</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3.5 p-2 rounded-lg">
+                        <div class="w-9 h-9 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-base shadow-xs">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-medium">Horário de Funcionamento</p>
+                            <p class="text-xs font-semibold text-slate-700 leading-normal">Seg à Sex: 07h às 17h<br>Sábado: 07h às 12h</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Suporte IA -->
+                <div class="bg-gradient-to-br from-[#166534] to-[#14532d] text-white rounded-xl shadow-sm p-6 space-y-4">
+                    <div class="flex items-center gap-2 text-green-300 font-semibold text-[10px] uppercase tracking-widest">
+                        <i class="fa-solid fa-robot text-xs"></i> Suporte Automatizado
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold leading-snug mb-1">Diagnóstico Rápido</h3>
+                        <p class="text-xs text-green-100/70 font-light leading-relaxed">Fale com a nossa assistente virtual para esclarecer dúvidas sobre manejo de solo, fertilização e manejo integrado de pragas.</p>
+                    </div>
+                    <button id="btn-abrir-ia" class="w-full bg-white hover:bg-green-50 text-[#14532d] text-xs font-semibold py-2.5 px-4 rounded-lg transition shadow-xs flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-comments text-sm"></i> Chamar Assistente Virtual
+                    </button>
+                </div>
+
             </div>
 
-            <div id="resultado-pasta" class="hidden border rounded-xl p-5 bg-gray-50 border-gray-200">
+            <!-- FORMULÁRIO DE ATENDIMENTO -->
+            <div class="bg-white rounded-xl shadow-xs border border-slate-200/60 p-6 lg:col-span-2">
+                <div class="border-b pb-4 mb-6">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        Formulário de Protocolo Geral
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Preencha os campos corporativos para abertura de chamados e encaminhamento ao departamento responsável.</p>
                 </div>
-        </div>
 
+                <form id="form-contato" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Nome Completo / Empresa</label>
+                            <input type="text" required class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#15803d] focus:ring-1 focus:ring-[#15803d] transition bg-slate-50/50" placeholder="Ex: Cooperativa Agrícola Progresso">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Endereço de E-mail</label>
+                            <input type="email" required class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#15803d] focus:ring-1 focus:ring-[#15803d] transition bg-slate-50/50" placeholder="corporativo@empresa.com">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Telefone com DDD</label>
+                            <input type="tel" required class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#15803d] focus:ring-1 focus:ring-[#15803d] transition bg-slate-50/50" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Departamento Demandado</label>
+                            <select required class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#15803d] focus:ring-1 focus:ring-[#15803d] transition bg-slate-50/50 text-slate-600 appearance-none">
+                                <option value="" disabled selected>Selecione a área...</option>
+                                <option value="vendas">Comercial e Cotação de Insumos</option>
+                                <option value="agronomo">Engenharia Agronômica e Suporte</option>
+                                <option value="financeiro">Faturamento e Notas Fiscais</option>
+                                <option value="outros">Ouvidoria ou Assuntos Gerais</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Detalhamento da Solicitação</label>
+                        <textarea rows="5" required class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#15803d] focus:ring-1 focus:ring-[#15803d] transition bg-slate-50/50" placeholder="Forneça o máximo de informações para agilizar o atendimento técnico..."></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full sm:w-auto bg-[#15803d] hover:bg-[#166534] text-white font-semibold py-2.5 px-6 rounded-lg transition text-center text-sm shadow-sm flex items-center justify-center gap-2 tracking-wide">
+                            <i class="fa-regular fa-paper-plane text-xs"></i> Protocolar Solicitação
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </main>
 
-    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
-        <div class="container mx-auto px-4 text-center"><p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p></div>
+    <!-- MODAL CHAT IA -->
+    <div id="modal-ia" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl max-w-md w-full shadow-xl overflow-hidden flex flex-col h-[480px] border border-slate-200">
+            <!-- Cabeçalho do Chat -->
+            <div class="bg-[#14532d] p-4 text-white flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-[#166534] p-2 rounded-lg text-sm flex items-center justify-center"><i class="fa-solid fa-robot text-green-300"></i></div>
+                    <div>
+                        <h4 class="font-semibold text-sm tracking-tight">Ceres — Assistente Virtual</h4>
+                        <span class="text-[10px] text-green-300/80 flex items-center gap-1 mt-0.5">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Suporte em tempo real ativo
+                        </span>
+                    </div>
+                </div>
+                <button id="btn-fechar-ia" class="text-white/60 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Área de Mensagens -->
+            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3.5 bg-slate-50/60 text-xs leading-relaxed text-slate-700">
+                <div class="bg-white border border-slate-200/60 rounded-xl p-3.5 max-w-[85%] rounded-tl-none shadow-xs">
+                    Olá! Sou a **Ceres**, assistente inteligente da AgroForte. Como posso auxiliar nos processos ou dúvidas da sua propriedade hoje? Use os atalhos abaixo se preferir:
+                </div>
+            </div>
+
+            <!-- Sugestões -->
+            <div class="p-2.5 bg-white border-t border-slate-100 flex flex-wrap gap-1.5 justify-center">
+                <button onclick="enviarMensagemIA('Como combater a Ferrugem Asiática?')" class="bg-slate-50 hover:bg-green-50 hover:text-green-700 hover:border-green-200 transition border border-slate-200 rounded-full px-3 py-1 text-[11px] font-medium text-slate-600">🍂 Combate à Ferrugem</button>
+                <button onclick="enviarMensagemIA('Qual o NPK ideal para milho safrinha?')" class="bg-slate-50 hover:bg-green-50 hover:text-green-700 hover:border-green-200 transition border border-slate-200 rounded-full px-3 py-1 text-[11px] font-medium text-slate-600">🌽 Adubação de Milho</button>
+            </div>
+
+            <!-- Campo de Texto -->
+            <div class="p-3 bg-white border-t border-slate-200 flex gap-2 items-center">
+                <input id="chat-input" type="text" placeholder="Escreva sua dúvida técnica..." class="flex-grow border border-slate-200 rounded-lg p-2.5 text-xs bg-slate-50 focus:outline-none focus:border-[#15803d] focus:bg-white transition">
+                <button id="btn-enviar-texto" class="bg-[#15803d] hover:bg-[#166534] text-white p-2.5 rounded-lg text-xs transition flex items-center justify-center w-9 h-9 shadow-xs"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-slate-900 text-slate-400 py-12 mt-auto border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-xs leading-relaxed">
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte Soluções S.A.
+                    </h4>
+                    <p class="text-slate-400/80">Inovação e engenharia aplicadas ao desenvolvimento de cadeias produtivas do agronegócio de ponta a ponta.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-3">Centro de Distribuição Integrado</h4>
+                    <p class="text-slate-400/80">
+                        Av. das Nações Agropecuárias, 1500 — Módulo 4<br>
+                        Distrito Industrial — Ribeirão Preto / SP<br>
+                        CEP: 14000-000
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-3">Conformidade e Identificação</h4>
+                    <p class="text-slate-400/80">
+                        CNPJ: 00.000.000/0001-00<br>
+                        Inscrição Estadual: 000.000.000.000<br>
+                        Contato de Ouvidoria: ouvidoria@agroforte.com.br
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 text-center text-[11px] text-slate-500">
+                <p>&copy; 2026 AgroForte. Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
 
+    <!-- INTERAÇÕES JAVASCRIPT -->
     <script>
-        // Menu Responsivo
-        const btnMenu = document.getElementById('menu-btn'); const nav = document.querySelector('nav');
-        btnMenu.addEventListener('click', () => { nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); });
-
-        // Elementos de Controle do Login e Busca
-        const secaoLogin = document.getElementById('secao-login');
-        const secaoBusca = document.getElementById('secao-busca');
-        const formLogin = document.getElementById('form-login');
-        const usuarioLogadoSpan = document.getElementById('usuario-logado');
-        const perfilLogadoSpan = document.getElementById('perfil-logado');
-        const btnSair = document.getElementById('btn-sair');
-        
-        const inputBusca = document.getElementById('input-busca');
-        const btnBuscar = document.getElementById('btn-buscar');
-        const resultadoPasta = document.getElementById('resultado-pasta');
-
-        // Variável para armazenar dados da sessão atual
-        let dadosUsuario = null;
-
-        // Ação de Login
-        formLogin.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coleta os dados salvando em formato padronizado (minúsculo e sem espaços extras nas pontas)
-            dadosUsuario = {
-                nome: document.getElementById('login-nome').value.trim(),
-                cpf: document.getElementById('login-cpf').value.trim(),
-                perfil: document.getElementById('login-perfil').value
-            };
-
-            // Atualiza o visual para o Painel logado
-            usuarioLogadoSpan.innerText = dadosUsuario.nome;
-            perfilLogadoSpan.innerText = `Acesso nível: ${dadosUsuario.perfil}`;
-            
-            secaoLogin.classList.add('hidden');
-            secaoBusca.classList.remove('hidden');
+        // Menu de Navegação Responsivo
+        const btnMenu = document.getElementById('menu-btn'); 
+        const nav = document.querySelector('nav');
+        btnMenu.addEventListener('click', () => { 
+            nav.classList.toggle('hidden'); 
+            nav.classList.toggle('flex'); 
+            nav.classList.toggle('flex-col'); 
+            nav.classList.toggle('absolute'); 
+            nav.classList.toggle('top-14'); 
+            nav.classList.toggle('left-0'); 
+            nav.classList.toggle('w-full'); 
+            nav.classList.toggle('bg-[#15803d]'); 
+            nav.classList.toggle('p-6'); 
+            nav.classList.toggle('space-y-4'); 
+            nav.classList.toggle('border-b');
+            nav.classList.toggle('border-green-800');
         });
 
-        // Ação de Logout
-        btnSair.addEventListener('click', function() {
-            dadosUsuario = null;
-            formLogin.reset();
-            inputBusca.value = '';
-            resultadoPasta.classList.add('hidden');
-            secaoBusca.classList.add('hidden');
-            secaoLogin.classList.remove('hidden');
+        // Controle do Chat IA
+        const modalIa = document.getElementById('modal-ia');
+        const btnAbrirIa = document.getElementById('btn-abrir-ia');
+        const btnFecharIa = document.getElementById('btn-fechar-ia');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const btnEnviarTexto = document.getElementById('btn-enviar-texto');
+
+        btnAbrirIa.addEventListener('click', () => {
+            modalIa.classList.remove('hidden');
+            chatInput.focus();
         });
 
-        // Ação de Busca Restrita por Nome
-        function executarBusca() {
-            const termoBusca = inputBusca.value.trim();
-            resultadoPasta.classList.remove('hidden');
+        btnFecharIa.addEventListener('click', () => {
+            modalIa.classList.add('hidden');
+        });
 
-            // Verifica se o nome pesquisado bate EXATAMENTE com o nome de login do usuário
-            if (termoBusca.toLowerCase() === dadosUsuario.nome.toLowerCase() && termoBusca !== "") {
-                
-                // Formata o nome para criar uma pasta limpa (Ex: "luh walacheski" vira "luh-walacheski")
-                const nomePastaFormatado = termoBusca.toLowerCase().replace(/\s+/g, '-');
-                
-                // Monta o link simulando a pasta no GitHub Pages
-                const linkDaPasta = `./pastas/${nomePastaFormatado}/`;
+        window.enviarMensagemIA = function(textoPergunta) {
+            if (!textoPergunta || !textoPergunta.trim()) return;
 
-                resultadoPasta.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <i class="fa-solid fa-folder-open text-amber-500 text-4xl"></i>
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-gray-900 text-lg">Pasta localizada com sucesso!</h4>
-                            <p class="text-sm text-gray-500 mb-3">Sua área restrita de consultas está disponível.</p>
-                            <a href="${linkDaPasta}" target="_blank" class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir minha pasta (${nomePastaFormatado})
-                            </a>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Se tentar buscar o nome de outra pessoa, o acesso é negado
-                resultadoPasta.innerHTML = `
-                    <div class="flex items-start gap-4 text-red-700">
-                        <i class="fa-solid fa-circle-xmark text-4xl"></i>
-                        <div>
-                            <h4 class="font-bold text-lg">Acesso Negado ou Não Encontrado</h4>
-                            <p class="text-sm text-red-600">Você só tem permissão para buscar e abrir documentos vinculados ao seu próprio nome de usuário logado.</p>
-                        </div>
-                    </div>
-                `;
+            const userDiv = document.createElement('div');
+            userDiv.className = "bg-[#15803d] text-white rounded-xl p-3 max-w-[85%] rounded-tr-none shadow-xs ml-auto text-left mb-1";
+            userDiv.textContent = textoPergunta;
+            chatMessages.appendChild(userDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            let respostaIA = "💡 **Análise Ceres:** Recebi sua dúvida! Para diagnósticos detalhados ou recomendações adaptadas ao seu talhão, faça a abertura de um chamado no painel de triagem ao lado, optando pela área **'Engenharia Agronômica e Suporte'**.";
+            
+            const termo = textoPergunta.toLowerCase();
+            if (termo.includes('ferrugem') || termo.includes('fungo') || termo.includes('mancha') || termo.includes('doença')) {
+                respostaIA = "💡 **Análise Ceres:** Identificando risco para fungos foliares. Recomenda-se o monitoramento preventivo e a aplicação do **Defensivo Fungicida Global** combinado com protetores multissítios respeitando o fechamento de linhas.";
+            } else if (termo.includes('npk') || termo.includes('adubo') || termo.includes('fertilizante') || termo.includes('milho') || termo.includes('solo')) {
+                respostaIA = "💡 **Análise Ceres:** Para o estabelecimento inicial do milho safrinha, nossa diretriz de base foca no fornecimento de fósforo. O **Fertilizante NPK 04-14-08** garante bom enraizamento.";
+            } else if (termo.includes('preço') || termo.includes('valor') || termo.includes('comprar') || termo.includes('quanto')) {
+                respostaIA = "🛒 **Catálogo AgroForte:** A precificação e a disponibilidade de defensivos e sementes estão disponíveis em tempo real em nossa página de **Agropecuária**, acessível pelo menu superior.";
             }
-        }
 
-        btnBuscar.addEventListener('click', executarBusca);
-        inputBusca.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') executarBusca();
+            setTimeout(() => {
+                const iaDiv = document.createElement('div');
+                iaDiv.className = "bg-white border border-slate-200 rounded-xl p-3.5 text-slate-700 max-w-[85%] rounded-tl-none shadow-xs mb-1";
+                iaDiv.innerHTML = respostaIA;
+                chatMessages.appendChild(iaDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+        };
+
+        btnEnviarTexto.addEventListener('click', () => {
+            enviarMensagemIA(chatInput.value);
+            chatInput.value = '';
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                enviarMensagemIA(chatInput.value);
+                chatInput.value = '';
+            }
+        });
+
+        document.getElementById('form-contato').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Chamado protocolado com sucesso! Seus dados foram encaminhados à triagem do setor correspondente.');
+            e.target.reset();
         });
     </script>
 </body>
