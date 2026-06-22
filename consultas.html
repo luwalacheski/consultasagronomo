@@ -1,330 +1,315 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Contato</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AgroForte - Consultas Agronômicas</title>
+    <!-- Ícones FontAwesome para simular os da imagem -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @keyframes pulse-green {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: .5; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .ping-green { animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        body {
+            background-color: #f4f6f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar baseado na imagem 1000419397.jpg */
+        nav {
+            background-color: #11783b;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            font-size: 14px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Container do Formulário */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .icon-header {
+            color: #11783b;
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .login-card h2 {
+            font-size: 20px;
+            color: #212529;
+            margin-bottom: 5px;
+        }
+
+        .login-card p {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        /* Inputs e Labels */
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #495057;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #11783b;
+        }
+
+        /* Botão de Enviar */
+        .btn-submit {
+            width: 100%;
+            background-color: #11783b;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0d5c2d;
+        }
+
+        /* Mensagens de Feedback */
+        .message {
+            margin-top: 15px;
+            font-size: 13px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .message.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        /* Painel Secreto (Consultas) */
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .dashboard h2 {
+            color: #11783b;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .consulta-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #11783b;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+<body>
 
-    <!-- MENU DE NAVEGAÇÃO -->
-    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-leaf"></i> AgroForte
-            </a>
-            <nav class="hidden md:flex space-x-6 font-medium">
-                <a href="index.html" class="hover:text-green-200 transition">Início</a>
-                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
-                <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
-                <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
-                <a href="contato.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Contato</a>
-            </nav>
-            <button class="md:hidden text-2xl" id="menu-btn">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-leaf"></i> AgroForte
         </div>
-    </header>
+        <ul class="nav-links">
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Agropecuária</a></li>
+            <li><a href="#" class="active">Consultas Agronômicas</a></li>
+            <li><a href="#">Agendar Visita</a></li>
+            <li><a href="#">Contato</a></li>
+        </ul>
+    </nav>
 
-    <!-- BANNER DE CONEXÃO -->
-    <section class="bg-green-800 text-white py-12 text-center relative overflow-hidden">
-        <div class="container mx-auto px-4 relative z-10">
-            <span class="bg-green-700 text-green-200 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-green-600">Canal Direto</span>
-            <h1 class="text-4xl font-bold mt-3 mb-2">Centro de Conexão AgroForte</h1>
-            <p class="text-green-100 max-w-xl mx-auto text-sm md:text-base">Seja para fechar pedidos, tirar dúvidas de manejo ou solicitar suporte técnico de emergência, nossa equipe está pronta para te atender.</p>
+    <!-- Área Principal -->
+    <div class="main-container">
+
+        <!-- Formulário de Login (Baseado na Imagem) -->
+        <div class="login-card" id="loginCard">
+            <div class="icon-header">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>Acesso ao Sistema</h2>
+            <p>Insira seus dados para acessar seus laudos e consultas.</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Ex: luh walacheski" required>
+                </div>
+
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Perfil</label>
+                    <select id="perfil" required>
+                        <option value="Produtor">Produtor</option>
+                        <option value="Agrônomo">Agrônomo</option>
+                        <option value="Técnico">Técnico</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-sign-in-alt"></i> Entrar no Painel
+                </button>
+            </form>
+
+            <div id="feedbackMsg" class="message error"></div>
         </div>
-    </section>
 
-    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Formulário) -->
-    <main class="container mx-auto px-4 py-12 flex-grow max-w-6xl">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Painel de Consultas (Só aparece após validação bem-sucedida) -->
+        <div class="dashboard" id="dashboardPanel">
+            <h2><i class="fas fa-folder-open"></i> Painel de Consultas Agronômicas</h2>
+            <p style="margin-bottom: 20px;">Bem-vindo(a), <strong id="userWelcome"></strong>! Aqui estão os seus laudos liberados pela empresa:</p>
             
-            <!-- COLUNA INTERATIVA & INFORMAÇÕES -->
-            <div class="space-y-6 lg:col-span-1">
-                
-                <!-- Card de Status em Tempo Real -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-gray-900">Plantão Técnico</h3>
-                        <p class="text-xs text-gray-500">Suporte técnico e agronômico</p>
-                    </div>
-                    <div class="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
-                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 ping-green"></span>
-                        <span class="text-xs font-bold text-green-700">Online Agora</span>
-                    </div>
-                </div>
-
-                <!-- Canais Rápidos de Comunicação -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
-                    <h3 class="text-lg font-bold text-gray-900 border-b pb-2">Contatos Diretos</h3>
-                    
-                    <a href="https://wa.me/5500000000000" target="_blank" class="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition border border-transparent hover:border-green-200 group">
-                        <div class="w-10 h-10 bg-green-100 text-green-700 rounded-lg flex items-center justify-center text-lg group-hover:bg-green-700 group-hover:text-white transition">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-400 font-medium">WhatsApp Comercial</p>
-                            <p class="text-sm font-bold text-gray-800">(11) 99999-9999</p>
-                        </div>
-                    </a>
-
-                    <div class="flex items-center gap-3 p-3 rounded-xl border border-transparent">
-                        <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-lg">
-                            <i class="fa-regular fa-envelope"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-400 font-medium">E-mail Corporativo</p>
-                            <p class="text-sm font-bold text-gray-800">contato@agroforte.com.br</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3 p-3 rounded-xl border border-transparent">
-                        <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-400 font-medium">Horário de Atendimento</p>
-                            <p class="text-sm font-bold text-gray-800">Seg à Sex: 07h às 17h<br>Sábado: 07h às 12h</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card de Suporte IA (Inovação Modificada) -->
-                <div class="bg-gradient-to-br from-green-700 to-green-900 text-white rounded-2xl shadow-md p-6 space-y-3">
-                    <div class="flex items-center gap-2 text-green-300 font-bold text-xs uppercase tracking-wider">
-                        <i class="fa-solid fa-robot"></i> Inteligência AgroForte
-                    </div>
-                    <h3 class="text-lg font-bold leading-tight">Dúvida urgente sobre pragas ou defensivos?</h3>
-                    <p class="text-xs text-green-100 opacity-90">Experimente nosso assistente virtual agora mesmo para um diagnóstico instantâneo de manejo.</p>
-                    <button id="btn-abrir-ia" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2.5 px-4 rounded-xl transition text-center shadow flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-comments"></i> Iniciar Chat de IA
-                    </button>
-                </div>
-
+            <div class="consulta-item">
+                <h4>Laudo Técnico #2026-01</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Análise de solo e recomendação de calagem para a safra atual.</p>
             </div>
-
-            <!-- FORMULÁRIO DE ATENDIMENTO -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
-                <h3 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-                    <i class="fa-regular fa-paper-plane text-green-700"></i> Envie uma Mensagem Digital
-                </h3>
-                <p class="text-xs text-gray-500 mb-6">Preencha os dados abaixo e nosso sistema distribuirá o seu caso para o especialista mais adequado.</p>
-
-                <form id="form-contato" class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Nome Completo / Razão Social</label>
-                            <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Ex: João da Silva ou Fazenda Progresso">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Seu Melhor E-mail</label>
-                            <input type="email" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="nome@exemplo.com">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Telefone de Contato</label>
-                            <input type="tel" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="(00) 00000-0000">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Qual o seu Setor de Interesse?</label>
-                            <select required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50 text-gray-600">
-                                <option value="" disabled selected>Selecione o departamento...</option>
-                                <option value="vendas">Orçamentos e Compra de Insumos</option>
-                                <option value="agronomo">Suporte com Engenheiro Agrônomo</option>
-                                <option value="financeiro">Assuntos Financeiros / Notas Fiscais</option>
-                                <option value="outros">Outros Assuntos / Sugestões</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-gray-600 uppercase">Mensagem / Detalhes da Solicitação</label>
-                        <textarea rows="5" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Descreva aqui o que você precisa..."></textarea>
-                    </div>
-
-                    <div class="pt-2">
-                        <button type="submit" class="w-full sm:w-auto bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-8 rounded-xl transition text-center text-sm shadow-md flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-share-from-square"></i> Enviar Mensagem para Triagem
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- MODAL DO INTERATIVO DE CHAT IA (Nova Funcionalidade) -->
-    <div id="modal-ia" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col h-[450px]">
-            <!-- Cabeçalho do Chat -->
-            <div class="bg-green-800 p-4 text-white flex justify-between items-center shadow-inner">
-                <div class="flex items-center gap-2">
-                    <div class="bg-green-700 p-2 rounded-lg text-sm"><i class="fa-solid fa-robot"></i></div>
-                    <div>
-                        <h4 class="font-bold text-sm">Ceres - Inteligência AgroForte</h4>
-                        <span class="text-[10px] text-green-300 flex items-center gap-1">
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-400"></span> Assistente Virtual Ativo
-                        </span>
-                    </div>
-                </div>
-                <button id="btn-fechar-ia" class="text-white/70 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <!-- Área de Mensagens -->
-            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-gray-50 text-xs">
-                <div class="bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm">
-                    Olá! Sou o assistente **Ceres**. Como posso ajudar no manejo da sua lavoura hoje? Você pode digitar sua pergunta abaixo ou usar um destes atalhos sugeridos:
-                </div>
-            </div>
-
-            <!-- Sugestões de Cliques Rápidos -->
-            <div class="p-2 bg-white border-t flex flex-wrap gap-1.5 justify-center">
-                <button onclick="enviarMensagemIA('Como combater a Ferrugem Asiática?')" class="bg-gray-100 hover:bg-green-50 hover:text-green-700 transition border rounded-full px-2.5 py-1 text-[11px] font-medium text-gray-600">🍂 Combate à Ferrugem</button>
-                <button onclick="enviarMensagemIA('Qual o NPK ideal para milho safrinha?')" class="bg-gray-100 hover:bg-green-50 hover:text-green-700 transition border rounded-full px-2.5 py-1 text-[11px] font-medium text-gray-600">🌽 Adubação de Milho</button>
-            </div>
-
-            <!-- Campo de Texto (Desbloqueado e Ativado) -->
-            <div class="p-3 bg-white border-t flex gap-2 items-center">
-                <input id="chat-input" type="text" placeholder="Digite sua dúvida agrícola..." class="flex-grow border rounded-xl p-2 text-xs bg-gray-50 focus:outline-none focus:border-green-600 transition">
-                <button id="btn-enviar-texto" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-xl text-xs transition cursor-pointer flex items-center justify-center w-8 h-8"><i class="fa-solid fa-paper-plane"></i></button>
+            <div class="consulta-item">
+                <h4>Relatório de Monitoramento de Pragas</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Atualizado em Junho de 2026 - Controle biológico efetivo.</p>
             </div>
         </div>
+
     </div>
 
-    <!-- RODAPÉ CORPORATIVO COMPLETO -->
-    <footer class="bg-gray-900 text-gray-400 py-12 mt-auto border-t-4 border-green-700">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 text-sm text-left">
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte Soluções S.A.
-                    </h4>
-                    <p class="text-xs leading-relaxed text-gray-400">Transformando o ecossistema agropecuário com inovação tecnológica, insumos de alta performance e suporte agronômico personalizado de ponta a ponta.</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3">Sede Administrativa e CD</h4>
-                    <p class="text-xs leading-relaxed text-gray-400">
-                        Av. das Nações Agropecuárias, 1500 - Galpão 04<br>
-                        Distrito Industrial - Ribeirão Preto / SP<br>
-                        CEP: 14000-000
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3">Informações Legais</h4>
-                    <p class="text-xs leading-relaxed text-gray-400">
-                        <strong>CNPJ:</strong> 00.000.000/0001-00<br>
-                        <strong>Inscrição Estadual:</strong> 000.000.000.000<br>
-                        <strong>Contato de Ouvidoria:</strong> ouvidoria@agroforte.com.br
-                    </p>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-6 text-center text-xs">
-                <p>&copy; 2026 AgroForte. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SCRIPT DO MENU MOBILE, FORMULÁRIO E CHATBOT INTERATIVO -->
+    <!-- Lógica de Validação -->
     <script>
-        // Menu de Navegação Responsivo
-        const btnMenu = document.getElementById('menu-btn'); 
-        const nav = document.querySelector('nav');
-        btnMenu.addEventListener('click', () => { 
-            nav.classList.toggle('hidden'); 
-            nav.classList.toggle('flex'); 
-            nav.classList.toggle('flex-col'); 
-            nav.classList.toggle('absolute'); 
-            nav.classList.toggle('top-16'); 
-            nav.classList.toggle('left-0'); 
-            nav.classList.toggle('w-full'); 
-            nav.classList.toggle('bg-green-700'); 
-            nav.classList.toggle('p-4'); 
-            nav.classList.toggle('space-y-4'); 
+        // Banco de dados simulado da empresa
+        const usuariosCadastrados = [
+            { nome: "luh walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
+            { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" },
+            { nome: "Ana Costa", cpf: "456.789.123-22", perfil: "Técnico" }
+        ];
+
+        // Máscara automática de CPF simples
+        const cpfInput = document.getElementById('cpf');
+        cpfInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 3) value = value.substring(0,3) + '.' + value.substring(3);
+            if (value.length > 7) value = value.substring(0,7) + '.' + value.substring(7);
+            if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11,13);
+            e.target.value = value;
         });
 
-        // Controle do Modal de IA
-        const modalIa = document.getElementById('modal-ia');
-        const btnAbrirIa = document.getElementById('btn-abrir-ia');
-        const btnFecharIa = document.getElementById('btn-fechar-ia');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const btnEnviarTexto = document.getElementById('btn-enviar-texto');
+        // Evento de Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede recarregamento da página
 
-        btnAbrirIa.addEventListener('click', () => {
-            modalIa.classList.remove('hidden');
-            chatInput.focus();
-        });
+            const nomeDigitado = document.getElementById('nome').value.trim();
+            const cpfDigitado = document.getElementById('cpf').value.trim();
+            const perfilSelecionado = document.getElementById('perfil').value;
+            const feedbackMsg = document.getElementById('feedbackMsg');
 
-        btnFecharIa.addEventListener('click', () => {
-            modalIa.classList.add('hidden');
-        });
+            // Procura se as três informações batem de forma idêntica com o banco simulado
+            const usuarioValido = usuariosCadastrados.find(user => 
+                user.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
+                user.cpf === cpfDigitado &&
+                user.perfil === perfilSelecionado
+            );
 
-        // Lógica Unificada de Mensagens e Respostas Inteligentes
-        window.enviarMensagemIA = function(textoPergunta) {
-            if (!textoPergunta || !textoPergunta.trim()) return;
-
-            // Criar balão do usuário no chat
-            const userDiv = document.createElement('div');
-            userDiv.className = "bg-green-700 text-white rounded-xl p-3 max-w-[85%] rounded-tr-none shadow-sm ml-auto text-right mb-1";
-            userDiv.textContent = textoPergunta;
-            chatMessages.appendChild(userDiv);
-
-            // Rolar automaticamente para a última mensagem
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Resposta padrão (Caso não ative filtros)
-            let respostaIA = "💡 **Análise Ceres:** Entendi seu ponto! Para análises profundas de manejo ou recomendações personalizadas para sua região, preencha o formulário de triagem ao lado escolhendo a opção **'Suporte com Engenheiro Agrônomo'**.";
-            
-            // Filtro por varredura de termos digitados
-            const termo = textoPergunta.toLowerCase();
-            if (termo.includes('ferrugem') || termo.includes('fungo') || termo.includes('mancha') || termo.includes('doença')) {
-                respostaIA = "💡 **Análise Ceres:** Para o controle da *Ferrugem Asiática* ou fungos foliares, realize aplicações preventivas com nosso **Defensivo Fungicida Global** associado a multissítios. Cuide do fechamento de linhas!";
-            } else if (termo.includes('npk') || termo.includes('adubo') || termo.includes('fertilizante') || termo.includes('milho') || termo.includes('solo')) {
-                respostaIA = "💡 **Análise Ceres:** Para culturas exigentes como o milho safrinha, nossa recomendação padrão de arranque é o **Fertilizante NPK 04-14-08**, que oferece fósforo focado no rápido enraizamento.";
-            } else if (termo.includes('preço') || termo.includes('valor') || termo.includes('comprar') || termo.includes('carrinho') || termo.includes('quanto')) {
-                respostaIA = "🛒 **Dica da Ceres:** Todos os preços e produtos agrícolas estão listados com estoque atualizado diretamente na nossa aba **Agropecuária** no menu superior. Passe lá para conferir!";
+            if (usuarioValido) {
+                // Oculta a tela de login e mostra o painel
+                document.getElementById('loginCard').style.display = 'none';
+                document.getElementById('userWelcome').innerText = usuarioValido.nome;
+                document.getElementById('dashboardPanel').style.display = 'block';
+            } else {
+                // Exibe erro caso os dados não confiram
+                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema da empresa.";
+                feedbackMsg.classList.add('error');
             }
-
-            // Simular atraso na resposta do robô (500ms)
-            setTimeout(() => {
-                const iaDiv = document.createElement('div');
-                iaDiv.className = "bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm mb-1";
-                iaDiv.innerHTML = respostaIA;
-                chatMessages.appendChild(iaDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 500);
-        };
-
-        // Evento de clique na setinha de enviar
-        btnEnviarTexto.addEventListener('click', () => {
-            enviarMensagemIA(chatInput.value);
-            chatInput.value = '';
-        });
-
-        // Evento de apertar a tecla "Enter" dentro do input
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                enviarMensagemIA(chatInput.value);
-                chatInput.value = '';
-            }
-        });
-
-        // Interação de Envio do Formulário Tradicional
-        document.getElementById('form-contato').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Mensagem enviada com sucesso! Nossa triagem automatizada repassou sua demanda para um agrônomo especialista.');
-            e.target.reset();
         });
     </script>
 </body>
