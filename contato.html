@@ -184,7 +184,7 @@
             <!-- Área de Mensagens -->
             <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-gray-50 text-xs">
                 <div class="bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm">
-                    Olá! Sou o assistente **Ceres**. Como posso otimizar o manejo da sua lavoura hoje? Selecione uma opção rápida abaixo para testar minha resposta:
+                    Olá! Sou o assistente **Ceres**. Como posso ajudar no manejo da sua lavoura hoje? Você pode digitar sua pergunta abaixo ou usar um destes atalhos sugeridos:
                 </div>
             </div>
 
@@ -194,10 +194,10 @@
                 <button onclick="enviarMensagemIA('Qual o NPK ideal para milho safrinha?')" class="bg-gray-100 hover:bg-green-50 hover:text-green-700 transition border rounded-full px-2.5 py-1 text-[11px] font-medium text-gray-600">🌽 Adubação de Milho</button>
             </div>
 
-            <!-- Campo de Texto (Visual) -->
+            <!-- Campo de Texto (Desbloqueado e Ativado) -->
             <div class="p-3 bg-white border-t flex gap-2 items-center">
-                <input id="chat-input" type="text" placeholder="Digite sua dúvida agrícola..." class="flex-grow border rounded-xl p-2 text-xs bg-gray-50 focus:outline-none" disabled>
-                <button class="bg-gray-300 text-white p-2 rounded-xl text-xs cursor-not-allowed" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                <input id="chat-input" type="text" placeholder="Digite sua dúvida agrícola..." class="flex-grow border rounded-xl p-2 text-xs bg-gray-50 focus:outline-none focus:border-green-600 transition">
+                <button id="btn-enviar-texto" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-xl text-xs transition cursor-pointer flex items-center justify-center w-8 h-8"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
@@ -235,7 +235,7 @@
         </div>
     </footer>
 
-    <!-- SCRIPT DO MENU MOBILE, FORMULÁRIO E CHATBOT SIMULADO -->
+    <!-- SCRIPT DO MENU MOBILE, FORMULÁRIO E CHATBOT INTERATIVO -->
     <script>
         // Menu de Navegação Responsivo
         const btnMenu = document.getElementById('menu-btn'); 
@@ -258,43 +258,67 @@
         const btnAbrirIa = document.getElementById('btn-abrir-ia');
         const btnFecharIa = document.getElementById('btn-fechar-ia');
         const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const btnEnviarTexto = document.getElementById('btn-enviar-texto');
 
         btnAbrirIa.addEventListener('click', () => {
             modalIa.classList.remove('hidden');
+            chatInput.focus();
         });
 
         btnFecharIa.addEventListener('click', () => {
             modalIa.classList.add('hidden');
         });
 
-        // Lógica de Mensagens e Respostas da IA
+        // Lógica Unificada de Mensagens e Respostas Inteligentes
         window.enviarMensagemIA = function(textoPergunta) {
-            // Criar balão do usuário
+            if (!textoPergunta || !textoPergunta.trim()) return;
+
+            // Criar balão do usuário no chat
             const userDiv = document.createElement('div');
-            userDiv.className = "bg-green-700 text-white rounded-xl p-3 max-w-[85%] rounded-tr-none shadow-sm ml-auto text-right";
+            userDiv.className = "bg-green-700 text-white rounded-xl p-3 max-w-[85%] rounded-tr-none shadow-sm ml-auto text-right mb-1";
             userDiv.textContent = textoPergunta;
             chatMessages.appendChild(userDiv);
 
-            // Rolar para baixo
+            // Rolar automaticamente para a última mensagem
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Determinar a resposta simulada inteligente
-            let respostaIA = "Hum, não entendi bem essa dúvida. Mas você pode detalhar isso no nosso formulário de triagem ao lado!";
-            if (textoPergunta.includes('Ferrugem')) {
-                respostaIA = "💡 **Análise Ceres:** Para a *Ferrugem Asiática*, o ideal é o controle preventivo usando o nosso **Defensivo Fungicida Global** associado a fungicidas multissítios. Monitore o fechamento das entrelinhas!";
-            } else if (textoPergunta.includes('NPK')) {
-                respostaIA = "💡 **Análise Ceres:** Para o arranque do milho safrinha, nossa recomendação padrão é o **Fertilizante NPK 04-14-08**, que fornece fósforo concentrado para um enraizamento profundo.";
+            // Resposta padrão (Caso não ative filtros)
+            let respostaIA = "💡 **Análise Ceres:** Entendi seu ponto! Para análises profundas de manejo ou recomendações personalizadas para sua região, preencha o formulário de triagem ao lado escolhendo a opção **'Suporte com Engenheiro Agrônomo'**.";
+            
+            // Filtro por varredura de termos digitados
+            const termo = textoPergunta.toLowerCase();
+            if (termo.includes('ferrugem') || termo.includes('fungo') || termo.includes('mancha') || termo.includes('doença')) {
+                respostaIA = "💡 **Análise Ceres:** Para o controle da *Ferrugem Asiática* ou fungos foliares, realize aplicações preventivas com nosso **Defensivo Fungicida Global** associado a multissítios. Cuide do fechamento de linhas!";
+            } else if (termo.includes('npk') || termo.includes('adubo') || termo.includes('fertilizante') || termo.includes('milho') || termo.includes('solo')) {
+                respostaIA = "💡 **Análise Ceres:** Para culturas exigentes como o milho safrinha, nossa recomendação padrão de arranque é o **Fertilizante NPK 04-14-08**, que oferece fósforo focado no rápido enraizamento.";
+            } else if (termo.includes('preço') || termo.includes('valor') || termo.includes('comprar') || termo.includes('carrinho') || termo.includes('quanto')) {
+                respostaIA = "🛒 **Dica da Ceres:** Todos os preços e produtos agrícolas estão listados com estoque atualizado diretamente na nossa aba **Agropecuária** no menu superior. Passe lá para conferir!";
             }
 
-            // Simular tempo de resposta da IA (500ms)
+            // Simular atraso na resposta do robô (500ms)
             setTimeout(() => {
                 const iaDiv = document.createElement('div');
-                iaDiv.className = "bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm";
+                iaDiv.className = "bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm mb-1";
                 iaDiv.innerHTML = respostaIA;
                 chatMessages.appendChild(iaDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 500);
         };
+
+        // Evento de clique na setinha de enviar
+        btnEnviarTexto.addEventListener('click', () => {
+            enviarMensagemIA(chatInput.value);
+            chatInput.value = '';
+        });
+
+        // Evento de apertar a tecla "Enter" dentro do input
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                enviarMensagemIA(chatInput.value);
+                chatInput.value = '';
+            }
+        });
 
         // Interação de Envio do Formulário Tradicional
         document.getElementById('form-contato').addEventListener('submit', (e) => {
