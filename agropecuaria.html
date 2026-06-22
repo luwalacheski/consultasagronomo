@@ -177,6 +177,66 @@
 
     </main>
 
+    <div id="modal-pagamento" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-green-700 p-5 text-white flex justify-between items-center">
+                <h3 class="text-lg font-bold"><i class="fa-solid fa-credit-card mr-1"></i> Escolha a Forma de Pagamento</h3>
+                <button id="fechar-modal" class="text-white/80 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <p class="text-gray-500 text-sm font-medium">Valor a Pagar</p>
+                    <p class="text-3xl font-black text-green-700">R$ <span id="modal-valor-total">0,00</span></p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 mb-6 border-b pb-4">
+                    <button onclick="mudarAbaPagamento('pix')" id="tab-pix" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-green-50 text-green-700 border border-green-200 flex flex-col items-center gap-1 transition">
+                        <i class="fa-brands fa-pix text-lg text-cyan-500"></i> Pix
+                    </button>
+                    <button onclick="mudarAbaPagamento('qrcode')" id="tab-qrcode" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition">
+                        <i class="fa-solid fa-qrcode text-lg text-gray-700"></i> QR Code
+                    </button>
+                    <button onclick="mudarAbaPagamento('cartao')" id="tab-cartao" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition">
+                        <i class="fa-solid fa-credit-card text-lg text-amber-600"></i> Cartão
+                    </button>
+                </div>
+
+                <div id="conteudo-pix" class="space-y-3">
+                    <p class="text-xs text-gray-600 text-center">Clique abaixo para copiar a chave Pix aleatória da AgroForte e realizar o pagamento no app do seu banco.</p>
+                    <div class="bg-gray-50 border p-3 rounded-xl flex items-center justify-between gap-2">
+                        <span class="text-xs font-mono text-gray-500 select-all truncate">agroforte-2026-pagamentos-insumos-091283</span>
+                        <button onclick="alert('Chave Pix copiada!')" class="bg-green-700 hover:bg-green-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap"><i class="fa-regular fa-copy"></i> Copiar</button>
+                    </div>
+                </div>
+
+                <div id="conteudo-qrcode" class="hidden text-center space-y-3">
+                    <p class="text-xs text-gray-600">Abra o app do seu banco e aponte a câmera para o código abaixo:</p>
+                    <div class="w-36 h-36 bg-gray-200 mx-auto rounded-xl flex items-center justify-center border text-gray-400">
+                        <i class="fa-solid fa-qrcode text-6xl text-gray-800"></i>
+                    </div>
+                </div>
+
+                <div id="conteudo-cartao" class="hidden space-y-3">
+                    <div class="space-y-2">
+                        <input type="text" placeholder="Número do Cartão" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" placeholder="Validade (MM/AA)" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
+                            <input type="text" placeholder="CVV" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
+                        </div>
+                        <input type="text" placeholder="Nome impresso no cartão" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
+                    </div>
+                </div>
+
+                <button onclick="confirmarPagamentoFinal()" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-xl mt-6 transition text-center text-sm shadow-md">
+                    Confirmar e Concluir
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
         <div class="container mx-auto px-4 text-center">
             <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
@@ -209,6 +269,11 @@
         const btnLimpar = document.getElementById('btn-limpar');
         const carrinhoVazioMsg = document.getElementById('carrinho-vazio');
 
+        // Elementos do Modal de Pagamento
+        const modalPagamento = document.getElementById('modal-pagamento');
+        const fecharModalBtn = document.getElementById('fechar-modal');
+        const modalValorTotal = document.getElementById('modal-valor-total');
+
         // Escutar cliques nos botões "Adicionar"
         document.querySelectorAll('.btn-add').forEach(botao => {
             botao.addEventListener('click', (e) => {
@@ -233,16 +298,16 @@
             atualizarInterfaceCarrinho();
         }
 
-        function removerDoCarrinho(id) {
+        // Esta função agora é global para funcionar com o atributo onclick=""
+        window.removerDoCarrinho = function(id) {
             carrinho = carrinho.filter(item => item.id !== id);
             atualizarInterfaceCarrinho();
         }
 
         function atualizarInterfaceCarrinho() {
-            // Limpa as linhas anteriores (exceto a mensagem de vazio que controlamos manualmente)
             listaCarrinho.innerHTML = '';
             let total = 0;
-            let totalItens unidades = 0;
+            let totalItensUnidades = 0;
 
             if (carrinho.length === 0) {
                 listaCarrinho.appendChild(carrinhoVazioMsg);
@@ -265,18 +330,19 @@
                         </div>
                         <div class="text-right flex flex-col items-end gap-1">
                             <span class="font-bold text-gray-900">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
-                            <button onclick="removerDoCarrinho('${item.id}')" class="text-xs text-red-500 hover:text-red-700 underline"><i class="fa-regular fa-trash-can"></i> tirar</button>
+                            <button onclick="removerDoCarrinho('${item.id}')" class="text-xs text-red-500 hover:text-red-700 underline flex items-center gap-0.5"><i class="fa-regular fa-trash-can"></i> tirar</button>
                         </div>
                     `;
                     listaCarrinho.appendChild(li);
                     total += item.preco * item.quantidade;
-                    totalItensunidades += item.quantidade;
+                    totalItensUnidades += item.quantidade;
                 });
 
-                cartCountElement.textContent = totalItensunidades;
+                cartCountElement.textContent = totalItensUnidades;
             }
 
             valorTotalElement.textContent = total.toFixed(2).replace('.', ',');
+            modalValorTotal.textContent = total.toFixed(2).replace('.', ',');
         }
 
         // Ação de limpar carrinho
@@ -285,12 +351,40 @@
             atualizarInterfaceCarrinho();
         });
 
-        // Ação de finalizar compra
+        // 3. LOGICA DO MODAL DE PAGAMENTO
         btnFinalizar.addEventListener('click', () => {
-            alert('Compra finalizada com sucesso! Obrigado por comprar na AgroForte.');
+            modalPagamento.classList.remove('hidden');
+        });
+
+        fecharModalBtn.addEventListener('click', () => {
+            modalPagamento.classList.add('hidden');
+        });
+
+        // Função para alternar as abas internas do pagamento
+        window.mudarAbaPagamento = function(tipo) {
+            const abas = ['pix', 'qrcode', 'cartao'];
+            
+            abas.forEach(aba => {
+                const botao = document.getElementById(`tab-${aba}`);
+                const conteudo = document.getElementById(`conteudo-${aba}`);
+                
+                if (aba === tipo) {
+                    botao.className = "py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-green-50 text-green-700 border border-green-200 flex flex-col items-center gap-1 transition";
+                    conteudo.classList.remove('hidden');
+                } else {
+                    botao.className = "py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition";
+                    conteudo.classList.add('hidden');
+                }
+            });
+        }
+
+        // Confirmação final após selecionar o meio de pagamento
+        window.confirmarPagamentoFinal = function() {
+            alert('Pagamento processado e recebido com sucesso! O seu pedido na AgroForte já está sendo preparado.');
+            modalPagamento.classList.add('hidden');
             carrinho = [];
             atualizarInterfaceCarrinho();
-        });
+        }
     </script>
 </body>
 </html>
