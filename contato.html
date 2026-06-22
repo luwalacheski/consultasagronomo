@@ -6,7 +6,225 @@
     <title>AgroForte - Contato</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes pulse-green {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: .5; }
+        }
+        .ping-green { animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
-    </body>
+
+    <!-- MENU DE NAVEGAÇÃO -->
+    <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-leaf"></i> AgroForte
+            </a>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <a href="index.html" class="hover:text-green-200 transition">Início</a>
+                <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+                <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
+                <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
+                <a href="contato.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Contato</a>
+            </nav>
+            <button class="md:hidden text-2xl" id="menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- BANNER DE CONEXÃO -->
+    <section class="bg-green-800 text-white py-12 text-center relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <span class="bg-green-700 text-green-200 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-green-600">Canal Direto</span>
+            <h1 class="text-4xl font-bold mt-3 mb-2">Centro de Conexão AgroForte</h1>
+            <p class="text-green-100 max-w-xl mx-auto text-sm md:text-base">Seja para fechar pedidos, tirar dúvidas de manejo ou solicitar suporte técnico de emergência, nossa equipe está pronta para te atender.</p>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Formulário) -->
+    <main class="container mx-auto px-4 py-12 flex-grow max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- COLUNA INTERATIVA & INFORMAÇÕES (Ocupa 1/3 no desktop) -->
+            <div class="space-y-6 lg:col-span-1">
+                
+                <!-- Card de Status em Tempo Real (Inovação) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-gray-900">Plantão Técnico</h3>
+                        <p class="text-xs text-gray-500">Suporte técnico e agronômico</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 ping-green"></span>
+                        <span class="text-xs font-bold text-green-700">Online Agora</span>
+                    </div>
+                </div>
+
+                <!-- Canais Rápidos de Comunicação -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-gray-900 border-b pb-2">Contatos Diretos</h3>
+                    
+                    <a href="https://wa.me/5500000000000" target="_blank" class="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition border border-transparent hover:border-green-200 group">
+                        <div class="w-10 h-10 bg-green-100 text-green-700 rounded-lg flex items-center justify-center text-lg group-hover:bg-green-700 group-hover:text-white transition">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium">WhatsApp Comercial</p>
+                            <p class="text-sm font-bold text-gray-800">(11) 99999-9999</p>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-3 p-3 rounded-xl border border-transparent">
+                        <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-lg">
+                            <i class="fa-regular fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium">E-mail Corporativo</p>
+                            <p class="text-sm font-bold text-gray-800">contato@agroforte.com.br</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 rounded-xl border border-transparent">
+                        <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium">Horário de Atendimento</p>
+                            <p class="text-sm font-bold text-gray-800">Seg à Sex: 07h às 17h<br>Sábado: 07h às 12h</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Suporte IA (Inovação Conceitual) -->
+                <div class="bg-gradient-to-br from-green-700 to-green-900 text-white rounded-2xl shadow-md p-6 space-y-3">
+                    <div class="flex items-center gap-2 text-green-300 font-bold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-robot"></i> Inteligência AgroForte
+                    </div>
+                    <h3 class="text-lg font-bold leading-tight">Dúvida urgente sobre pragas ou defensivos?</h3>
+                    <p class="text-xs text-green-100 opacity-90">Clientes cadastrados contam com nosso assistente virtual inteligente 24 horas por dia diretamente pelo aplicativo.</p>
+                    <button onclick="alert('Funcionalidade integrada ao aplicativo mobile corporativo da AgroForte.')" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2 px-4 rounded-xl transition text-center shadow">
+                        Acessar Portal do Produtor
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- FORMULÁRIO DE ATENDIMENTO INTELIGENTE (Ocupa 2/3 no desktop) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                <h3 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    <i class="fa-regular fa-paper-plane text-green-700"></i> Envie uma Mensagem Digital
+                </h3>
+                <p class="text-xs text-gray-500 mb-6">Preencha os dados abaixo e nosso sistema distribuirá o seu caso para o especialista mais adequado.</p>
+
+                <form id="form-contato" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-gray-600 uppercase">Nome Completo / Razão Social</label>
+                            <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Ex: João da Silva ou Fazenda Progresso">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-gray-600 uppercase">Seu Melhor E-mail</label>
+                            <input type="email" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="nome@exemplo.com">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-gray-600 uppercase">Telefone de Contato</label>
+                            <input type="tel" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-gray-600 uppercase">Qual o seu Setor de Interesse?</label>
+                            <select required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50 text-gray-600">
+                                <option value="" disabled selected>Selecione o departamento...</option>
+                                <option value="vendas">Orçamentos e Compra de Insumos</option>
+                                <option value="agronomo">Suporte com Engenheiro Agrônomo</option>
+                                <option value="financeiro">Assuntos Financeiros / Notas Fiscais</option>
+                                <option value="outros">Outros Assuntos / Sugestões</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-gray-600 uppercase">Mensagem / Detalhes da Solicitação</label>
+                        <textarea rows="5" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Descreva aqui o que você precisa para podermos te ajudar da melhor forma..."></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full sm:w-auto bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-8 rounded-xl transition text-center text-sm shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-share-from-square"></i> Enviar Mensagem para Triagem
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- RODAPÉ CORPORATIVO COMPLETO -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-auto border-t-4 border-green-700">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 text-sm text-left">
+                <!-- Informação Institucional -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte Soluções S.A.
+                    </h4>
+                    <p class="text-xs leading-relaxed text-gray-400">Transformando o ecossistema agropecuário com inovação tecnológica, insumos de alta performance e suporte agronômico personalizado de ponta a ponta.</p>
+                </div>
+                <!-- Localização Física -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-3">Sede Administrativa e CD</h4>
+                    <p class="text-xs leading-relaxed text-gray-400">
+                        Av. das Nações Agropecuárias, 1500 - Galpão 04<br>
+                        Distrito Industrial - Ribeirão Preto / SP<br>
+                        CEP: 14000-000
+                    </p>
+                </div>
+                <!-- Dados Jurídicos Relevantes -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-3">Informações Legais</h4>
+                    <p class="text-xs leading-relaxed text-gray-400">
+                        <strong>CNPJ:</strong> 00.000.000/0001-00<br>
+                        <strong>Inscrição Estadual:</strong> 000.000.000.000<br>
+                        <strong>Contato de Ouvidoria:</strong> ouvidoria@agroforte.com.br
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-6 text-center text-xs">
+                <p>&copy; 2026 AgroForte. Todos os direitos reservados. Desenvolvido com foco em alta produtividade para o campo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DO MENU MOBILE & SUBMISSÃO -->
+    <script>
+        // Menu de Navegação Responsivo
+        const btnMenu = document.getElementById('menu-btn'); 
+        const nav = document.querySelector('nav');
+        btnMenu.addEventListener('click', () => { 
+            nav.classList.toggle('hidden'); 
+            nav.classList.toggle('flex'); 
+            nav.classList.toggle('flex-col'); 
+            nav.classList.toggle('absolute'); 
+            nav.classList.toggle('top-16'); 
+            nav.classList.toggle('left-0'); 
+            nav.classList.toggle('w-full'); 
+            nav.classList.toggle('bg-green-700'); 
+            nav.classList.toggle('p-4'); 
+            nav.classList.toggle('space-y-4'); 
+        });
+
+        // Interação de Envio do Formulário
+        document.getElementById('form-contato').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Mensagem enviada com sucesso! Nossa triagem automatizada repassou sua demanda e entraremos em contato em até 2 horas úteis.');
+            e.target.reset();
+        });
+    </script>
+</body>
 </html>
