@@ -90,7 +90,33 @@
         .login-card p {
             font-size: 13px;
             color: #6c757d;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* Alternador de formulário (Login / Cadastro) */
+        .form-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #11783b;
+            color: white;
         }
 
         .form-group {
@@ -162,6 +188,13 @@
             border: 1px solid #f5c2c7;
         }
 
+        .message.success {
+            display: block;
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
         .dashboard {
             display: none;
             width: 100%;
@@ -186,6 +219,21 @@
             margin-bottom: 15px;
             border-radius: 0 6px 6px 0;
         }
+
+        .btn-logout {
+            margin-top: 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-logout:hover {
+            background-color: #bb2d3b;
+        }
     </style>
 </head>
 <body>
@@ -209,10 +257,16 @@
             <div class="icon-header">
                 <i class="fas fa-user-shield"></i>
             </div>
-            <h2>Acesso ao Sistema</h2>
-            <p>Insira seus dados para acessar seus laudos e consultas.</p>
+            
+            <div class="form-tabs">
+                <button type="button" class="tab-btn active" id="tabLogin" onclick="alternarAba('login')">Entrar</button>
+                <button type="button" class="tab-btn" id="tabCadastro" onclick="alternarAba('cadastro')">Cadastrar</button>
+            </div>
 
-            <form id="loginForm">
+            <h2 id="cardTitle">Acesso ao Sistema</h2>
+            <p id="cardSubtitle">Insira seus dados para acessar seus laudos e consultas.</p>
+
+            <form id="authForm">
                 <div class="form-group">
                     <label>Nome Completo</label>
                     <input type="text" id="nome" placeholder="Ex: luh walacheski" required>
@@ -232,12 +286,12 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit" id="btnSubmit">
                     <i class="fas fa-sign-in-alt"></i> Entrar no Painel
                 </button>
             </form>
 
-            <div id="feedbackMsg" class="message error"></div>
+            <div id="feedbackMsg" class="message"></div>
         </div>
 
         <div class="dashboard" id="dashboardPanel">
@@ -252,23 +306,72 @@
                 <h4>Relatório de Monitoramento de Pragas</h4>
                 <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Atualizado em Junho de 2026 - Controle biológico efetivo.</p>
             </div>
+
+            <button class="btn-logout" onclick="sair()"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </div>
 
     </div>
 
     <script>
-        // Banco de dados simulado da empresa
-        const usuariosCadastrados = [
+        // Dados padrão iniciais
+        const dadosIniciais = [
             { nome: "luh walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
             { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" },
             { nome: "Ana Costa", cpf: "456.789.123-22", perfil: "Técnico" },
             { nome: "Pedro Alvares", cpf: "111.222.333-44", perfil: "Produtor" }
         ];
 
-        // Histórico de consultas vinculado ao CPF do Produtor
-        const historicoConsultas = [
+        const historicoInicial = [
             { cpfProdutor: "123.456.789-00" }
         ];
+
+        // Carrega do localStorage ou inicia com os padrões
+        function obterUsuarios() {
+            const armazenados = localStorage.getItem('agro_usuarios');
+            if (!armazenados) {
+                localStorage.setItem('agro_usuarios', JSON.stringify(dadosIniciais));
+                return dadosIniciais;
+            }
+            return JSON.parse(armazenados);
+        }
+
+        function obterHistorico() {
+            const armazenado = localStorage.getItem('agro_historico');
+            if (!armazenado) {
+                localStorage.setItem('agro_historico', JSON.stringify(historicoInicial));
+                return historicoInicial;
+            }
+            return JSON.parse(armazenado);
+        }
+
+        let modoAtual = 'login'; // 'login' ou 'cadastro'
+
+        // Função para alternar entre as abas Login e Cadastro
+        function alternarAba(modo) {
+            modoAtual = modo;
+            const tabLogin = document.getElementById('tabLogin');
+            const tabCadastro = document.getElementById('tabCadastro');
+            const cardTitle = document.getElementById('cardTitle');
+            const cardSubtitle = document.getElementById('cardSubtitle');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const feedbackMsg = document.getElementById('feedbackMsg');
+
+            feedbackMsg.style.display = 'none';
+
+            if (modo === 'login') {
+                tabLogin.classList.add('active');
+                tabCadastro.classList.remove('active');
+                cardTitle.innerText = "Acesso ao Sistema";
+                cardSubtitle.innerText = "Insira seus dados para acessar seus laudos e consultas.";
+                btnSubmit.innerHTML = `<i class="fas fa-sign-in-alt"></i> Entrar no Painel`;
+            } else {
+                tabCadastro.classList.add('active');
+                tabLogin.classList.remove('active');
+                cardTitle.innerText = "Criar Nova Conta";
+                cardSubtitle.innerText = "Preencha os dados abaixo para se cadastrar.";
+                btnSubmit.innerHTML = `<i class="fas fa-user-plus"></i> Finalizar Cadastro`;
+            }
+        }
 
         // Máscara automática de CPF
         const cpfInput = document.getElementById('cpf');
@@ -280,8 +383,8 @@
             e.target.value = value;
         });
 
-        // Evento de Login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Evento do Formulário
+        document.getElementById('authForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const nomeDigitado = document.getElementById('nome').value.trim();
@@ -289,6 +392,41 @@
             const perfilSelecionado = document.getElementById('perfil').value;
             const feedbackMsg = document.getElementById('feedbackMsg');
 
+            let usuariosCadastrados = obterUsuarios();
+            let historicoConsultas = obterHistorico();
+
+            // MODO CADASTRO
+            if (modoAtual === 'cadastro') {
+                const usuarioExiste = usuariosCadastrados.some(user => user.cpf === cpfDigitado);
+                
+                if (usuarioExiste) {
+                    feedbackMsg.className = 'message error';
+                    feedbackMsg.innerText = "Erro: Já existe um usuário cadastrado com este CPF.";
+                    feedbackMsg.style.display = 'block';
+                    return;
+                }
+
+                // Salva novo usuário
+                const novoUsuario = { nome: nomeDigitado, cpf: cpfDigitado, perfil: perfilSelecionado };
+                usuariosCadastrados.push(novoUsuario);
+                localStorage.setItem('agro_usuarios', JSON.stringify(usuariosCadastrados));
+
+                // Se for Produtor, vincula um histórico inicial por padrão
+                if (perfilSelecionado === 'Produtor') {
+                    historicoConsultas.push({ cpfProdutor: cpfDigitado });
+                    localStorage.setItem('agro_historico', JSON.stringify(historicoConsultas));
+                }
+
+                feedbackMsg.className = 'message success';
+                feedbackMsg.innerText = "Cadastro realizado com sucesso! Agora você pode fazer o login.";
+                feedbackMsg.style.display = 'block';
+
+                document.getElementById('authForm').reset();
+                setTimeout(() => alternarAba('login'), 1500);
+                return;
+            }
+
+            // MODO LOGIN
             const usuarioValido = usuariosCadastrados.find(user => 
                 user.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
                 user.cpf === cpfDigitado &&
@@ -296,7 +434,8 @@
             );
 
             if (!usuarioValido) {
-                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema da empresa.";
+                feedbackMsg.className = 'message error';
+                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema.";
                 feedbackMsg.style.display = 'block';
                 return;
             }
@@ -305,17 +444,26 @@
                 const temHistorico = historicoConsultas.some(consulta => consulta.cpfProdutor === cpfDigitado);
                 
                 if (!temHistorico) {
+                    feedbackMsg.className = 'message error';
                     feedbackMsg.innerText = "Acesso Negado: O perfil de Produtor só tem acesso se possuir um histórico de consultas ativo.";
                     feedbackMsg.style.display = 'block';
                     return;
                 }
             }
 
+            // Sucesso no login
             feedbackMsg.style.display = 'none';
             document.getElementById('loginCard').style.display = 'none';
             document.getElementById('userWelcome').innerText = usuarioValido.nome;
             document.getElementById('dashboardPanel').style.display = 'block';
         });
+
+        function sair() {
+            document.getElementById('dashboardPanel').style.display = 'none';
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('authForm').reset();
+            alternarAba('login');
+        }
     </script>
 </body>
 </html>
