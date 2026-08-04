@@ -1,329 +1,321 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroForte - Consultas Agronômicas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroForte - Consultas Agronômicas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        body {
-            background-color: #f4f6f9;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        body {
+            background-color: #f4f6f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* Navbar baseado na imagem 1000419397.jpg */
-        nav {
-            background-color: #11783b;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            font-size: 14px;
-        }
+        nav {
+            background-color: #11783b;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            font-size: 14px;
+        }
 
-        .logo {
-            font-weight: bold;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+        }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
 
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
 
-        .nav-links a:hover, .nav-links a.active {
-            color: #ffffff;
-            font-weight: 600;
-        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            font-weight: 600;
+        }
 
-        /* Container do Formulário */
-        .main-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        .login-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
 
-        .icon-header {
-            color: #11783b;
-            font-size: 45px;
-            margin-bottom: 15px;
-        }
+        .icon-header {
+            color: #11783b;
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
 
-        .login-card h2 {
-            font-size: 20px;
-            color: #212529;
-            margin-bottom: 5px;
-        }
+        .login-card h2 {
+            font-size: 20px;
+            color: #212529;
+            margin-bottom: 5px;
+        }
 
-        .login-card p {
-            font-size: 13px;
-            color: #6c757d;
-            margin-bottom: 25px;
-        }
+        .login-card p {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
 
-        /* Inputs e Labels */
-        .form-group {
-            text-align: left;
-            margin-bottom: 18px;
-        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
 
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 6px;
-        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 6px;
+        }
 
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #495057;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #495057;
+            outline: none;
+            transition: border-color 0.2s;
+        }
 
-        .form-group input::placeholder {
-            color: #adb5bd;
-        }
+        .form-group input::placeholder {
+            color: #adb5bd;
+        }
 
-        .form-group input:focus, .form-group select:focus {
-            border-color: #11783b;
-        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #11783b;
+        }
 
-        /* Botão de Enviar */
-        .btn-submit {
-            width: 100%;
-            background-color: #11783b;
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            transition: background-color 0.2s;
-        }
+        .btn-submit {
+            width: 100%;
+            background-color: #11783b;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
 
-        .btn-submit:hover {
-            background-color: #0d5c2d;
-        }
+        .btn-submit:hover {
+            background-color: #0d5c2d;
+        }
 
-        /* Mensagens de Feedback */
-        .message {
-            margin-top: 15px;
-            font-size: 13px;
-            padding: 10px;
-            border-radius: 6px;
-            display: none;
-        }
+        .message {
+            margin-top: 15px;
+            font-size: 13px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
 
-        .message.error {
-            display: block;
-            background-color: #f8d7da;
-            color: #842029;
-            border: 1px solid #f5c2c7;
-        }
+        .message.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
 
-        /* Painel Secreto (Consultas) */
-        .dashboard {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
 
-        .dashboard h2 {
-            color: #11783b;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 10px;
-        }
+        .dashboard h2 {
+            color: #11783b;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
 
-        .consulta-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-left: 4px solid #11783b;
-            margin-bottom: 15px;
-            border-radius: 0 6px 6px 0;
-        }
-    </style>
+        .consulta-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #11783b;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+        }
+    </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">
-            <i class="fas fa-leaf"></i> AgroForte
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Agropecuária</a></li>
-            <li><a href="#" class="active">Consultas Agronômicas</a></li>
-            <li><a href="#">Agendar Visita</a></li>
-            <li><a href="#">Contato</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <a href="index.html" class="logo">
+            <i class="fas fa-leaf"></i> AgroForte
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="agropecuaria.html">Agropecuária</a></li>
+            <li><a href="consultas.html" class="active">Consultas Agronômicas</a></li>
+            <li><a href="agendamento.html">Agendar Visita</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
 
-    <div class="main-container">
+    <div class="main-container">
 
-        <div class="login-card" id="loginCard">
-            <div class="icon-header">
-                <i class="fas fa-user-shield"></i>
-            </div>
-            <h2>Acesso ao Sistema</h2>
-            <p>Insira seus dados para acessar seus laudos e consultas.</p>
+        <div class="login-card" id="loginCard">
+            <div class="icon-header">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>Acesso ao Sistema</h2>
+            <p>Insira seus dados para acessar seus laudos e consultas.</p>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Nome Completo</label>
-                    <input type="text" id="nome" placeholder="Ex: luh walacheski" required>
-                </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Ex: luh walacheski" required>
+                </div>
 
-                <div class="form-group">
-                    <label>CPF</label>
-                    <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
-                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
 
-                <div class="form-group">
-                    <label>Tipo de Perfil</label>
-                    <select id="perfil" required>
-                        <option value="Produtor">Produtor</option>
-                        <option value="Agrônomo">Agrônomo</option>
-                        <option value="Técnico">Técnico</option>
-                    </select>
-                </div>
+                <div class="form-group">
+                    <label>Tipo de Perfil</label>
+                    <select id="perfil" required>
+                        <option value="Produtor">Produtor</option>
+                        <option value="Agrônomo">Agrônomo</option>
+                        <option value="Técnico">Técnico</option>
+                    </select>
+                </div>
 
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-sign-in-alt"></i> Entrar no Painel
-                </button>
-            </form>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-sign-in-alt"></i> Entrar no Painel
+                </button>
+            </form>
 
-            <div id="feedbackMsg" class="message error"></div>
-        </div>
+            <div id="feedbackMsg" class="message error"></div>
+        </div>
 
-        <div class="dashboard" id="dashboardPanel">
-            <h2><i class="fas fa-folder-open"></i> Painel de Consultas Agronômicas</h2>
-            <p style="margin-bottom: 20px;">Bem-vindo(a), <strong id="userWelcome"></strong>! Aqui estão os seus laudos liberados pela empresa:</p>
-            
-            <div class="consulta-item">
-                <h4>Laudo Técnico #2026-01</h4>
-                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Análise de solo e recomendação de calagem para a safra atual.</p>
-            </div>
-            <div class="consulta-item">
-                <h4>Relatório de Monitoramento de Pragas</h4>
-                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Atualizado em Junho de 2026 - Controle biológico efetivo.</p>
-            </div>
-        </div>
+        <div class="dashboard" id="dashboardPanel">
+            <h2><i class="fas fa-folder-open"></i> Painel de Consultas Agronômicas</h2>
+            <p style="margin-bottom: 20px;">Bem-vindo(a), <strong id="userWelcome"></strong>! Aqui estão os seus laudos liberados pela empresa:</p>
+            
+            <div class="consulta-item">
+                <h4>Laudo Técnico #2026-01</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Análise de solo e recomendação de calagem para a safra atual.</p>
+            </div>
+            <div class="consulta-item">
+                <h4>Relatório de Monitoramento de Pragas</h4>
+                <p style="font-size: 14px; color: #6c757d; margin-top: 5px;">Atualizado em Junho de 2026 - Controle biológico efetivo.</p>
+            </div>
+        </div>
 
-    </div>
+    </div>
 
-    <script>
-        // Banco de dados simulado da empresa
-        const usuariosCadastrados = [
-            { nome: "luh walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
-            { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" },
-            { nome: "Ana Costa", cpf: "456.789.123-22", perfil: "Técnico" },
-            { nome: "Pedro Alvares", cpf: "111.222.333-44", perfil: "Produtor" } // Produtor sem consultas para teste de bloqueio
-        ];
+    <script>
+        // Banco de dados simulado da empresa
+        const usuariosCadastrados = [
+            { nome: "luh walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
+            { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" },
+            { nome: "Ana Costa", cpf: "456.789.123-22", perfil: "Técnico" },
+            { nome: "Pedro Alvares", cpf: "111.222.333-44", perfil: "Produtor" }
+        ];
 
-        // Histórico de consultas vinculado ao CPF do Produtor
-        const historicoConsultas = [
-            { cpfProdutor: "123.456.789-00" } // Define que este CPF possui consultas ativas
-        ];
+        // Histórico de consultas vinculado ao CPF do Produtor
+        const historicoConsultas = [
+            { cpfProdutor: "123.456.789-00" }
+        ];
 
-        // Máscara automática de CPF simples
-        const cpfInput = document.getElementById('cpf');
-        cpfInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 3) value = value.substring(0,3) + '.' + value.substring(3);
-            if (value.length > 7) value = value.substring(0,7) + '.' + value.substring(7);
-            if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11,13);
-            e.target.value = value;
-        });
+        // Máscara automática de CPF
+        const cpfInput = document.getElementById('cpf');
+        cpfInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 3) value = value.substring(0,3) + '.' + value.substring(3);
+            if (value.length > 7) value = value.substring(0,7) + '.' + value.substring(7);
+            if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11,13);
+            e.target.value = value;
+        });
 
-        // Evento de Login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Impede recarregamento da página
+        // Evento de Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-            const nomeDigitado = document.getElementById('nome').value.trim();
-            const cpfDigitado = document.getElementById('cpf').value.trim();
-            const perfilSelecionado = document.getElementById('perfil').value;
-            const feedbackMsg = document.getElementById('feedbackMsg');
+            const nomeDigitado = document.getElementById('nome').value.trim();
+            const cpfDigitado = document.getElementById('cpf').value.trim();
+            const perfilSelecionado = document.getElementById('perfil').value;
+            const feedbackMsg = document.getElementById('feedbackMsg');
 
-            // Procura se as três informações batem de forma idêntica com o banco simulado
-            const usuarioValido = usuariosCadastrados.find(user => 
-                user.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
-                user.cpf === cpfDigitado &&
-                user.perfil === perfilSelecionado
-            );
+            const usuarioValido = usuariosCadastrados.find(user => 
+                user.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
+                user.cpf === cpfDigitado &&
+                user.perfil === perfilSelecionado
+            );
 
-            // Validação 1: Se os dados não conferem no cadastro
-            if (!usuarioValido) {
-                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema da empresa.";
-                feedbackMsg.style.display = 'block';
-                return;
-            }
+            if (!usuarioValido) {
+                feedbackMsg.innerText = "Acesso Negado: Os dados informados não conferem com o sistema da empresa.";
+                feedbackMsg.style.display = 'block';
+                return;
+            }
 
-            // Validação 2: Se for Produtor, verifica se possui histórico de consultas ativo
-            if (perfilSelecionado === "Produtor") {
-                const temHistorico = historicoConsultas.some(consulta => consulta.cpfProdutor === cpfDigitado);
-                
-                if (!temHistorico) {
-                    feedbackMsg.innerText = "Acesso Negado: O perfil de Produtor só tem acesso se possuir um histórico de consultas ativo.";
-                    feedbackMsg.style.display = 'block';
-                    return;
-                }
-            }
+            if (perfilSelecionado === "Produtor") {
+                const temHistorico = historicoConsultas.some(consulta => consulta.cpfProdutor === cpfDigitado);
+                
+                if (!temHistorico) {
+                    feedbackMsg.innerText = "Acesso Negado: O perfil de Produtor só tem acesso se possuir um histórico de consultas ativo.";
+                    feedbackMsg.style.display = 'block';
+                    return;
+                }
+            }
 
-            // Se passar pelas validações, limpa mensagens de erro e libera o painel
-            feedbackMsg.style.display = 'none';
-            document.getElementById('loginCard').style.display = 'none';
-            document.getElementById('userWelcome').innerText = usuarioValido.nome;
-            document.getElementById('dashboardPanel').style.display = 'block';
-        });
-    </script>
+            feedbackMsg.style.display = 'none';
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('userWelcome').innerText = usuarioValido.nome;
+            document.getElementById('dashboardPanel').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
