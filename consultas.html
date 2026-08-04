@@ -260,6 +260,54 @@
             color: #11783b;
         }
 
+        /* ÁREA DA AGENDA */
+        .agenda-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .agenda-box h3 {
+            color: #11783b;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .agenda-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            align-items: end;
+        }
+
+        .agenda-form input, .agenda-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .btn-agenda {
+            background-color: #11783b;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-agenda:hover {
+            background-color: #0d5c2d;
+        }
+
         /* TABELA DE APLICAÇÕES DE DEFENSIVOS */
         .section-title {
             font-size: 16px;
@@ -334,7 +382,7 @@
             </div>
 
             <h2 id="cardTitle">Acesso ao Sistema</h2>
-            <p id="cardSubtitle">Insira seus dados para acessar o histórico da sua lavoura.</p>
+            <p id="cardSubtitle">Insira seus dados para acessar o histórico da lavoura.</p>
 
             <form id="authForm">
                 <div class="form-group">
@@ -371,8 +419,37 @@
             </div>
 
             <p style="margin-bottom: 20px; font-size: 14px; color: #6c757d;">
-                Bem-vindo(a), <strong id="userWelcome" style="color: #212529;"></strong>! Confira abaixo as informações técnicas registradas para a sua propriedade.
+                Bem-vindo(a), <strong id="userWelcome" style="color: #212529;"></strong>! Confira abaixo o histórico e a agenda da propriedade.
             </p>
+
+            <div class="agenda-box" id="agendaSection">
+                <h3 id="agendaTitle"><i class="fas fa-calendar-plus"></i> Agendar Lembrete / Aplicação</h3>
+                
+                <div id="seletorProdutorBox" style="display: none; margin-bottom: 12px;">
+                    <label style="font-size: 11px; font-weight: bold; color: #11783b;">Selecione o Produtor / Propriedade:</label>
+                    <select id="selectProdutor" onchange="trocarPropriedadeVisivel()"></select>
+                </div>
+
+                <form id="agendaForm" class="agenda-form">
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold;">Data da Aplicação</label>
+                        <input type="date" id="agData" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold;">Produto / Veneno</label>
+                        <input type="text" id="agProduto" placeholder="Ex: Glifosato" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold;">Finalidade / Alvo</label>
+                        <input type="text" id="agAlvo" placeholder="Ex: Ferrugem Asiática" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold;">Dosagem</label>
+                        <input type="text" id="agDose" placeholder="Ex: 2.5 L/ha" required>
+                    </div>
+                    <button type="submit" class="btn-agenda"><i class="fas fa-plus"></i> Salvar Lembrete</button>
+                </form>
+            </div>
 
             <div class="grid-cards">
                 <div class="info-card">
@@ -390,7 +467,7 @@
                 </div>
             </div>
 
-            <h3 class="section-title"><i class="fas fa-spray-can"></i> Histórico de Aplicação de Defensivos</h3>
+            <h3 class="section-title"><i class="fas fa-spray-can"></i> Histórico & Agendamentos de Aplicação</h3>
             
             <table>
                 <thead>
@@ -412,7 +489,7 @@
     </div>
 
     <script>
-        // Banco de Dados Simulado Inicial (Pode ser estendido e fica salvo no navegador)
+        // Banco de Dados Simulado Inicial
         const usuariosIniciais = [
             { nome: "Luh Walacheski", cpf: "123.456.789-00", perfil: "Produtor" },
             { nome: "Carlos Silva", cpf: "987.654.321-11", perfil: "Agrônomo" }
@@ -426,12 +503,14 @@
                 aplicacoes: [
                     { data: "15/01/2026", produto: "Glifosato 480", alvo: "Dessecação Pré-Plantio", dose: "2.5 L/ha", status: "Concluído" },
                     { data: "10/02/2026", produto: "Fox Xpro (Fungicida)", alvo: "Ferrugem Asiática", dose: "0.5 L/ha", status: "Concluído" },
-                    { data: "28/02/2026", produto: "Intrepid Edge (Inseticida)", alvo: "Lagarta-da-soja", dose: "0.3 L/ha", status: "Concluído" }
+                    { data: "12/06/2027", produto: "Inseticida Premio", alvo: "Lagarta", dose: "0.3 L/ha", status: "Recomendação Agrônomo" }
                 ]
             }
         };
 
-        // Carregar ou Inicializar localStorage
+        let usuarioLogado = null;
+        let cpfPropriedadeAtual = "";
+
         function obterUsuarios() {
             const dados = localStorage.getItem('agro_usuarios');
             if (!dados) {
@@ -457,7 +536,7 @@
             document.getElementById('tabLogin').classList.toggle('active', modo === 'login');
             document.getElementById('tabCadastro').classList.toggle('active', modo === 'cadastro');
             document.getElementById('cardTitle').innerText = modo === 'login' ? "Acesso ao Sistema" : "Criar Nova Conta";
-            document.getElementById('cardSubtitle').innerText = modo === 'login' ? "Insira seus dados para acessar o histórico da sua lavoura." : "Cadastre-se para acompanhar sua propriedade.";
+            document.getElementById('cardSubtitle').innerText = modo === 'login' ? "Insira seus dados para acessar o histórico da lavoura." : "Cadastre-se para acompanhar sua propriedade.";
             document.getElementById('btnSubmit').innerHTML = modo === 'login' ? `<i class="fas fa-sign-in-alt"></i> Entrar no Painel` : `<i class="fas fa-user-plus"></i> Finalizar Cadastro`;
             document.getElementById('feedbackMsg').style.display = 'none';
         }
@@ -471,7 +550,7 @@
             e.target.value = value;
         });
 
-        // Submissão do Formulário
+        // Submissão do Form de Login/Cadastro
         document.getElementById('authForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -483,7 +562,6 @@
             let usuarios = obterUsuarios();
             let historicos = obterHistoricos();
 
-            // MODO CADASTRO
             if (modoAtual === 'cadastro') {
                 if (usuarios.some(u => u.cpf === cpfDigitado)) {
                     feedbackMsg.className = 'message error';
@@ -492,19 +570,17 @@
                     return;
                 }
 
-                // Salva o novo usuário
                 usuarios.push({ nome: nomeDigitado, cpf: cpfDigitado, perfil: perfilSelecionado });
                 localStorage.setItem('agro_usuarios', JSON.stringify(usuarios));
 
-                // Cria um histórico padrão para a nova propriedade
-                historicos[cpfDigitado] = {
-                    solo: { ph: "5.8 (Ajuste recomendado)", umidade: "20%", calagem: "Pendente" },
-                    safra: { semente: "Brasmax Desafio RR", temporada: "2025/2026", area: "50 Hectares" },
-                    aplicacoes: [
-                        { data: "05/01/2026", produto: "Herbicida Exemplo", alvo: "Plantas Daninhas", dose: "2.0 L/ha", status: "Concluído" }
-                    ]
-                };
-                localStorage.setItem('agro_historicos_detalhados', JSON.stringify(historicos));
+                if (perfilSelecionado === 'Produtor') {
+                    historicos[cpfDigitado] = {
+                        solo: { ph: "5.8 (Ajuste recomendado)", umidade: "20%", calagem: "Pendente" },
+                        safra: { semente: "Brasmax Desafio RR", temporada: "2025/2026", area: "50 Hectares" },
+                        aplicacoes: []
+                    };
+                    localStorage.setItem('agro_historicos_detalhados', JSON.stringify(historicos));
+                }
 
                 feedbackMsg.className = 'message success';
                 feedbackMsg.innerText = "Cadastro realizado! Alternando para Login...";
@@ -513,7 +589,6 @@
                 return;
             }
 
-            // MODO LOGIN
             const usuarioValido = usuarios.find(u => 
                 u.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
                 u.cpf === cpfDigitado &&
@@ -527,54 +602,135 @@
                 return;
             }
 
-            // Carrega e Exibe as informações do Histórico do Usuário
-            carregarDadosDaPropriedade(cpfDigitado, usuarioValido);
+            usuarioLogado = usuarioValido;
+            carregarPainel();
         });
 
-        function carregarDadosDaPropriedade(cpf, usuario) {
+        function carregarPainel() {
+            const usuarios = obterUsuarios();
+            const produtores = usuarios.filter(u => u.perfil === "Produtor");
+
+            document.getElementById('userWelcome').innerText = usuarioLogado.nome;
+            document.getElementById('userRoleBadge').innerText = usuarioLogado.perfil;
+
+            const seletorBox = document.getElementById('seletorProdutorBox');
+            const selectProdutor = document.getElementById('selectProdutor');
+
+            if (usuarioLogado.perfil === "Agrônomo" || usuarioLogado.perfil === "Técnico") {
+                seletorBox.style.display = "block";
+                document.getElementById('agendaTitle').innerHTML = `<i class="fas fa-user-md"></i> Adicionar Lembrete/Recomendação para o Produtor`;
+                
+                selectProdutor.innerHTML = "";
+                produtores.forEach(p => {
+                    selectProdutor.innerHTML += `<option value="${p.cpf}">${p.nome} (CPF: ${p.cpf})</option>`;
+                });
+
+                if (produtores.length > 0) {
+                    cpfPropriedadeAtual = produtores[0].cpf;
+                }
+            } else {
+                seletorBox.style.display = "none";
+                document.getElementById('agendaTitle').innerHTML = `<i class="fas fa-calendar-plus"></i> Agenda do Produtor - Anotar Manejo`;
+                cpfPropriedadeAtual = usuarioLogado.cpf;
+            }
+
+            exibirDadosPropriedade(cpfPropriedadeAtual);
+
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('dashboardPanel').style.display = 'block';
+        }
+
+        function trocarPropriedadeVisivel() {
+            cpfPropriedadeAtual = document.getElementById('selectProdutor').value;
+            exibirDadosPropriedade(cpfPropriedadeAtual);
+        }
+
+        function exibirDadosPropriedade(cpf) {
             const historicos = obterHistoricos();
-            const dadosUsuario = historicos[cpf] || {
+            const dados = historicos[cpf] || {
                 solo: { ph: "Não registrado", umidade: "-", calagem: "-" },
                 safra: { semente: "Não registrada", temporada: "-", area: "-" },
                 aplicacoes: []
             };
 
-            // Preenche o Cabeçalho
-            document.getElementById('userWelcome').innerText = usuario.nome;
-            document.getElementById('userRoleBadge').innerText = usuario.perfil;
+            document.getElementById('soilPh').innerText = dados.solo.ph;
+            document.getElementById('soilHumidity').innerText = dados.solo.umidade;
+            document.getElementById('lastLime').innerText = dados.solo.calagem;
 
-            // Preenche Dados do Solo
-            document.getElementById('soilPh').innerText = dadosUsuario.solo.ph;
-            document.getElementById('soilHumidity').innerText = dadosUsuario.solo.umidade;
-            document.getElementById('lastLime').innerText = dadosUsuario.solo.calagem;
+            document.getElementById('soyVariety').innerText = dados.safra.semente;
+            document.getElementById('harvestSeason').innerText = dados.safra.temporada;
+            document.getElementById('plantedArea').innerText = dados.safra.area;
 
-            // Preenche Dados da Safra
-            document.getElementById('soyVariety').innerText = dadosUsuario.safra.semente;
-            document.getElementById('harvestSeason').innerText = dadosUsuario.safra.temporada;
-            document.getElementById('plantedArea').innerText = dadosUsuario.safra.area;
+            renderTabelaAplicacoes(dados.aplicacoes);
+        }
 
-            // Preenche Tabela de Defensivos / Veneno
+        // SALVAR LEMBRETE DA AGENDA
+        document.getElementById('agendaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const dataRaw = document.getElementById('agData').value;
+            const produto = document.getElementById('agProduto').value.trim();
+            const alvo = document.getElementById('agAlvo').value.trim();
+            const dose = document.getElementById('agDose').value.trim();
+
+            const partes = dataRaw.split('-');
+            const dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+            let historicos = obterHistoricos();
+
+            if (!historicos[cpfPropriedadeAtual]) {
+                historicos[cpfPropriedadeAtual] = {
+                    solo: { ph: "5.8 (Ajuste recomendado)", umidade: "20%", calagem: "Pendente" },
+                    safra: { semente: "Brasmax Desafio RR", temporada: "2025/2026", area: "50 Hectares" },
+                    aplicacoes: []
+                };
+            }
+
+            const statusTexto = usuarioLogado.perfil === "Produtor" ? "Agendado pelo Produtor" : "Recomendação Agrônomo";
+
+            historicos[cpfPropriedadeAtual].aplicacoes.push({
+                data: dataFormatada,
+                produto: produto,
+                alvo: alvo,
+                dose: dose,
+                status: statusTexto
+            });
+
+            localStorage.setItem('agro_historicos_detalhados', JSON.stringify(historicos));
+
+            document.getElementById('agendaForm').reset();
+            renderTabelaAplicacoes(historicos[cpfPropriedadeAtual].aplicacoes);
+        });
+
+        function renderTabelaAplicacoes(lista) {
             const tbody = document.getElementById('chemicalTableBody');
             tbody.innerHTML = '';
 
-            if (dadosUsuario.aplicacoes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhuma aplicação registrada.</td></tr>';
+            if (!lista || lista.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhuma aplicação ou agendamento registrado.</td></tr>';
             } else {
-                dadosUsuario.aplicacoes.forEach(app => {
+                lista.forEach(app => {
+                    let statusCor = "#11783b";
+                    let icone = "fa-check-circle";
+
+                    if (app.status.includes("Agendado")) {
+                        statusCor = "#d97706";
+                        icone = "fa-clock";
+                    } else if (app.status.includes("Agrônomo")) {
+                        statusCor = "#2563eb";
+                        icone = "fa-user-md";
+                    }
+
                     const row = `<tr>
                         <td>${app.data}</td>
                         <td><strong>${app.produto}</strong></td>
                         <td>${app.alvo}</td>
                         <td>${app.dose}</td>
-                        <td><span style="color: #11783b; font-weight: 600;"><i class="fas fa-check-circle"></i> ${app.status}</span></td>
+                        <td><span style="color: ${statusCor}; font-weight: 600;"><i class="fas ${icone}"></i> ${app.status}</span></td>
                     </tr>`;
                     tbody.innerHTML += row;
                 });
             }
-
-            // Exibe o Painel
-            document.getElementById('loginCard').style.display = 'none';
-            document.getElementById('dashboardPanel').style.display = 'block';
         }
 
         function sair() {
@@ -584,3 +740,5 @@
             alternarAba('login');
         }
     </script>
+</body>
+</html>
