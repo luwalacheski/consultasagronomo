@@ -425,4 +425,162 @@
                 safra: { semente: "Monsoy 6410 IPRO", temporada: "2025/2026", area: "120 Hectares" },
                 aplicacoes: [
                     { data: "15/01/2026", produto: "Glifosato 480", alvo: "Dessecação Pré-Plantio", dose: "2.5 L/ha", status: "Concluído" },
-                    { data: "10/02/2026", produto: "Fox Xpro (Fungicida)", alvo: "Ferrugem Asiática", dose: "0.5 L/ha",
+                    { data: "10/02/2026", produto: "Fox Xpro (Fungicida)", alvo: "Ferrugem Asiática", dose: "0.5 L/ha", status: "Concluído" },
+                    { data: "28/02/2026", produto: "Intrepid Edge (Inseticida)", alvo: "Lagarta-da-soja", dose: "0.3 L/ha", status: "Concluído" }
+                ]
+            }
+        };
+
+        // Carregar ou Inicializar localStorage
+        function obterUsuarios() {
+            const dados = localStorage.getItem('agro_usuarios');
+            if (!dados) {
+                localStorage.setItem('agro_usuarios', JSON.stringify(usuariosIniciais));
+                return usuariosIniciais;
+            }
+            return JSON.parse(dados);
+        }
+
+        function obterHistoricos() {
+            const dados = localStorage.getItem('agro_historicos_detalhados');
+            if (!dados) {
+                localStorage.setItem('agro_historicos_detalhados', JSON.stringify(historicosIniciais));
+                return historicosIniciais;
+            }
+            return JSON.parse(dados);
+        }
+
+        let modoAtual = 'login';
+
+        function alternarAba(modo) {
+            modoAtual = modo;
+            document.getElementById('tabLogin').classList.toggle('active', modo === 'login');
+            document.getElementById('tabCadastro').classList.toggle('active', modo === 'cadastro');
+            document.getElementById('cardTitle').innerText = modo === 'login' ? "Acesso ao Sistema" : "Criar Nova Conta";
+            document.getElementById('cardSubtitle').innerText = modo === 'login' ? "Insira seus dados para acessar o histórico da sua lavoura." : "Cadastre-se para acompanhar sua propriedade.";
+            document.getElementById('btnSubmit').innerHTML = modo === 'login' ? `<i class="fas fa-sign-in-alt"></i> Entrar no Painel` : `<i class="fas fa-user-plus"></i> Finalizar Cadastro`;
+            document.getElementById('feedbackMsg').style.display = 'none';
+        }
+
+        // Máscara de CPF
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 3) value = value.substring(0,3) + '.' + value.substring(3);
+            if (value.length > 7) value = value.substring(0,7) + '.' + value.substring(7);
+            if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11,13);
+            e.target.value = value;
+        });
+
+        // Submissão do Formulário
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nomeDigitado = document.getElementById('nome').value.trim();
+            const cpfDigitado = document.getElementById('cpf').value.trim();
+            const perfilSelecionado = document.getElementById('perfil').value;
+            const feedbackMsg = document.getElementById('feedbackMsg');
+
+            let usuarios = obterUsuarios();
+            let historicos = obterHistoricos();
+
+            // MODO CADASTRO
+            if (modoAtual === 'cadastro') {
+                if (usuarios.some(u => u.cpf === cpfDigitado)) {
+                    feedbackMsg.className = 'message error';
+                    feedbackMsg.innerText = "CPF já cadastrado no sistema!";
+                    feedbackMsg.style.display = 'block';
+                    return;
+                }
+
+                // Salva o novo usuário
+                usuarios.push({ nome: nomeDigitado, cpf: cpfDigitado, perfil: perfilSelecionado });
+                localStorage.setItem('agro_usuarios', JSON.stringify(usuarios));
+
+                // Cria um histórico padrão para a nova propriedade
+                historicos[cpfDigitado] = {
+                    solo: { ph: "5.8 (Ajuste recomendado)", umidade: "20%", calagem: "Pendente" },
+                    safra: { semente: "Brasmax Desafio RR", temporada: "2025/2026", area: "50 Hectares" },
+                    aplicacoes: [
+                        { data: "05/01/2026", produto: "Herbicida Exemplo", alvo: "Plantas Daninhas", dose: "2.0 L/ha", status: "Concluído" }
+                    ]
+                };
+                localStorage.setItem('agro_historicos_detalhados', JSON.stringify(historicos));
+
+                feedbackMsg.className = 'message success';
+                feedbackMsg.innerText = "Cadastro realizado! Alternando para Login...";
+                feedbackMsg.style.display = 'block';
+                setTimeout(() => alternarAba('login'), 1500);
+                return;
+            }
+
+            // MODO LOGIN
+            const usuarioValido = usuarios.find(u => 
+                u.nome.toLowerCase() === nomeDigitado.toLowerCase() &&
+                u.cpf === cpfDigitado &&
+                u.perfil === perfilSelecionado
+            );
+
+            if (!usuarioValido) {
+                feedbackMsg.className = 'message error';
+                feedbackMsg.innerText = "Dados incorretos. Verifique Nome, CPF e Perfil.";
+                feedbackMsg.style.display = 'block';
+                return;
+            }
+
+            // Carrega e Exibe as informações do Histórico do Usuário
+            carregarDadosDaPropriedade(cpfDigitado, usuarioValido);
+        });
+
+        function carregarDadosDaPropriedade(cpf, usuario) {
+            const historicos = obterHistoricos();
+            const dadosUsuario = historicos[cpf] || {
+                solo: { ph: "Não registrado", umidade: "-", calagem: "-" },
+                safra: { semente: "Não registrada", temporada: "-", area: "-" },
+                aplicacoes: []
+            };
+
+            // Preenche o Cabeçalho
+            document.getElementById('userWelcome').innerText = usuario.nome;
+            document.getElementById('userRoleBadge').innerText = usuario.perfil;
+
+            // Preenche Dados do Solo
+            document.getElementById('soilPh').innerText = dadosUsuario.solo.ph;
+            document.getElementById('soilHumidity').innerText = dadosUsuario.solo.umidade;
+            document.getElementById('lastLime').innerText = dadosUsuario.solo.calagem;
+
+            // Preenche Dados da Safra
+            document.getElementById('soyVariety').innerText = dadosUsuario.safra.semente;
+            document.getElementById('harvestSeason').innerText = dadosUsuario.safra.temporada;
+            document.getElementById('plantedArea').innerText = dadosUsuario.safra.area;
+
+            // Preenche Tabela de Defensivos / Veneno
+            const tbody = document.getElementById('chemicalTableBody');
+            tbody.innerHTML = '';
+
+            if (dadosUsuario.aplicacoes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhuma aplicação registrada.</td></tr>';
+            } else {
+                dadosUsuario.aplicacoes.forEach(app => {
+                    const row = `<tr>
+                        <td>${app.data}</td>
+                        <td><strong>${app.produto}</strong></td>
+                        <td>${app.alvo}</td>
+                        <td>${app.dose}</td>
+                        <td><span style="color: #11783b; font-weight: 600;"><i class="fas fa-check-circle"></i> ${app.status}</span></td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
+
+            // Exibe o Painel
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('dashboardPanel').style.display = 'block';
+        }
+
+        function sair() {
+            document.getElementById('dashboardPanel').style.display = 'none';
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('authForm').reset();
+            alternarAba('login');
+        }
+    </script>
