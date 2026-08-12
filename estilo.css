@@ -254,3 +254,131 @@ td button:hover {
     color: var(--gold-sun); /* Nome do sistema ganha cor de trigo maduro */
     font-weight: bold;
 }
+/* Container Geral da Aba */
+.aba-compras {
+    max-width: 750px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+.titulo-aba {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Card do Pedido */
+.card-pedido {
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.tag-status.enviado {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.info-entrega {
+    color: #00a650; /* Verde Mercado Livre para prazos */
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.endereco-destino {
+    font-size: 14px;
+    color: #666;
+}
+
+.divisor {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Estutura da Linha de Rastreio */
+.titulo-rastreio {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.linha-tempo {
+    position: relative;
+    padding-left: 24px;
+}
+
+/* A linha vertical cinza de fundo */
+.linha-tempo::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background-color: #e6e6e6;
+}
+
+.ponto-rastreio {
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.ponto-rastreio:last-child {
+    padding-bottom: 0;
+}
+
+/* As bolinhas indicadoras */
+.ponto-rastreio .circulo {
+    position: absolute;
+    left: -24px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: 2px solid #fff;
+    z-index: 1;
+}
+
+/* Estilo para a etapa atual (Verde ativa) */
+.ponto-rastreio.atual .circulo {
+    background-color: #00a650;
+    box-shadow: 0 0 0 3px rgba(0, 166, 80, 0.2);
+}
+
+.ponto-rastreio.atual .status-texto {
+    color: #00a650;
+    font-weight: bold;
+}
+
+/* Estilo para etapas já concluídas */
+.ponto-rastreio.concluido .circulo {
+    background-color: #00a650;
+}
+
+/* Textos internos da linha do tempo */
+.conteudo-rastreio {
+    margin-left: 10px;
+}
+
+.status-texto {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.status-data {
+    margin: 3px 0 0 0;
+    font-size: 12px;
+    color: #999;
+}
+
