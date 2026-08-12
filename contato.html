@@ -44,7 +44,7 @@
         </div>
     </section>
 
-    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Formulário) -->
+    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Triagem IA) -->
     <main class="container mx-auto px-4 py-12 flex-grow max-w-6xl">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
@@ -98,234 +98,71 @@
                     </div>
                 </div>
 
-                <!-- Card de Suporte IA (Inovação Modificada) -->
+                <!-- Card de Suporte IA -->
                 <div class="bg-gradient-to-br from-green-700 to-green-900 text-white rounded-2xl shadow-md p-6 space-y-3">
                     <div class="flex items-center gap-2 text-green-300 font-bold text-xs uppercase tracking-wider">
                         <i class="fa-solid fa-robot"></i> Inteligência AgroForte
                     </div>
                     <h3 class="text-lg font-bold leading-tight">Dúvida urgente sobre pragas ou defensivos?</h3>
                     <p class="text-xs text-green-100 opacity-90">Experimente nosso assistente virtual agora mesmo para um diagnóstico instantâneo de manejo.</p>
-                    <button id="btn-abrir-ia" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2.5 px-4 rounded-xl transition text-center shadow flex items-center justify-center gap-1">
+                    <button onclick="reiniciarQuiz()" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2.5 px-4 rounded-xl transition text-center shadow flex items-center justify-center gap-1">
                         <i class="fa-solid fa-comments"></i> Iniciar Chat de IA
                     </button>
                 </div>
 
             </div>
 
-            <!-- FORMULÁRIO DE ATENDIMENTO -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
-                <h3 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-                    <i class="fa-regular fa-paper-plane text-green-700"></i> Envie uma Mensagem Digital
-                </h3>
-                <p class="text-xs text-gray-500 mb-6">Preencha os dados abaixo e nosso sistema distribuirá o seu caso para o especialista mais adequado.</p>
-
-                <form id="form-contato" class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Nome Completo / Razão Social</label>
-                            <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Ex: João da Silva ou Fazenda Progresso">
+            <!-- CONTAINER DO QUIZ DIAGNÓSTICO DA IA (SUBSTITUINDO O FORMULÁRIO) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:col-span-2 flex flex-col justify-between">
+                <div>
+                    <!-- Cabeçalho do Quiz -->
+                    <div class="flex items-center gap-3 border-b border-gray-100 pb-4 mb-6">
+                        <div class="bg-green-100 text-green-700 p-2 rounded-xl">
+                            <i class="fa-solid fa-robot text-xl"></i>
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Seu Melhor E-mail</label>
-                            <input type="email" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="nome@exemplo.com">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Assistente Técnico Virtual</h3>
+                            <p class="text-xs text-gray-500">Responda clicando nas alternativas para solucionar o seu problema</p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Telefone de Contato</label>
-                            <input type="tel" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="(00) 00000-0000">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-gray-600 uppercase">Qual o seu Setor de Interesse?</label>
-                            <select required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50 text-gray-600">
-                                <option value="" disabled selected>Selecione o departamento...</option>
-                                <option value="vendas">Orçamentos e Compra de Insumos</option>
-                                <option value="agronomo">Suporte com Engenheiro Agrônomo</option>
-                                <option value="financeiro">Assuntos Financeiros / Notas Fiscais</option>
-                                <option value="outros">Outros Assuntos / Sugestões</option>
-                            </select>
-                        </div>
+                    <!-- Pergunta Dinâmica -->
+                    <div class="mb-6">
+                        <span class="text-xs font-bold text-green-700 uppercase tracking-wider bg-green-50 px-2 py-1 rounded">Pergunta</span>
+                        <h4 id="texto-pergunta" class="text-lg md:text-xl font-bold text-gray-800 mt-3">Você quer ver sobre qual assunto ou cultura?</h4>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-gray-600 uppercase">Mensagem / Detalhes da Solicitação</label>
-                        <textarea rows="5" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Descreva aqui o que você precisa..."></textarea>
+                    <!-- Grid de Alternativas Cliváveis -->
+                    <div id="container-alternativas" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Botões injetados via JavaScript -->
                     </div>
+                </div>
 
-                    <div class="pt-2">
-                        <button type="submit" class="w-full sm:w-auto bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-8 rounded-xl transition text-center text-sm shadow-md flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-share-from-square"></i> Enviar Mensagem para Triagem
-                        </button>
-                    </div>
-                </form>
+                <!-- Botão de Voltar / Reiniciar Consulta -->
+                <div id="container-reset" class="mt-8 pt-4 border-t border-gray-100 hidden">
+                    <button onclick="reiniciarQuiz()" class="text-xs font-bold text-gray-400 hover:text-green-700 flex items-center gap-1 transition uppercase tracking-wider">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Reiniciar Diagnóstico
+                    </button>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <!-- MODAL DO INTERATIVO DE CHAT IA (Nova Funcionalidade) -->
-    <div id="modal-ia" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col h-[450px]">
-            <!-- Cabeçalho do Chat -->
-            <div class="bg-green-800 p-4 text-white flex justify-between items-center shadow-inner">
-                <div class="flex items-center gap-2">
-                    <div class="bg-green-700 p-2 rounded-lg text-sm"><i class="fa-solid fa-robot"></i></div>
-                    <div>
-                        <h4 class="font-bold text-sm">Ceres - Inteligência AgroForte</h4>
-                        <span class="text-[10px] text-green-300 flex items-center gap-1">
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-400"></span> Assistente Virtual Ativo
-                        </span>
-                    </div>
-                </div>
-                <button id="btn-fechar-ia" class="text-white/70 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <!-- Área de Mensagens -->
-            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-gray-50 text-xs">
-                <div class="bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm">
-                    Olá! Sou o assistente **Ceres**. Como posso ajudar no manejo da sua lavoura hoje? Você pode digitar sua pergunta abaixo ou usar um destes atalhos sugeridos:
-                </div>
-            </div>
-
-            <!-- Sugestões de Cliques Rápidos -->
-            <div class="p-2 bg-white border-t flex flex-wrap gap-1.5 justify-center">
-                <button onclick="enviarMensagemIA('Como combater a Ferrugem Asiática?')" class="bg-gray-100 hover:bg-green-50 hover:text-green-700 transition border rounded-full px-2.5 py-1 text-[11px] font-medium text-gray-600">🍂 Combate à Ferrugem</button>
-                <button onclick="enviarMensagemIA('Qual o NPK ideal para milho safrinha?')" class="bg-gray-100 hover:bg-green-50 hover:text-green-700 transition border rounded-full px-2.5 py-1 text-[11px] font-medium text-gray-600">🌽 Adubação de Milho</button>
-            </div>
-
-            <!-- Campo de Texto (Desbloqueado e Ativado) -->
-            <div class="p-3 bg-white border-t flex gap-2 items-center">
-                <input id="chat-input" type="text" placeholder="Digite sua dúvida agrícola..." class="flex-grow border rounded-xl p-2 text-xs bg-gray-50 focus:outline-none focus:border-green-600 transition">
-                <button id="btn-enviar-texto" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-xl text-xs transition cursor-pointer flex items-center justify-center w-8 h-8"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- RODAPÉ CORPORATIVO COMPLETO -->
-    <footer class="bg-gray-900 text-gray-400 py-12 mt-auto border-t-4 border-green-700">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 text-sm text-left">
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte Soluções S.A.
-                    </h4>
-                    <p class="text-xs leading-relaxed text-gray-400">Transformando o ecossistema agropecuário com inovação tecnológica, insumos de alta performance e suporte agronômico personalizado de ponta a ponta.</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3">Sede Administrativa e CD</h4>
-                    <p class="text-xs leading-relaxed text-gray-400">
-                        Av. das Nações Agropecuárias, 1500 - Galpão 04<br>
-                        Distrito Industrial - Ribeirão Preto / SP<br>
-                        CEP: 14000-000
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-base mb-3">Informações Legais</h4>
-                    <p class="text-xs leading-relaxed text-gray-400">
-                        <strong>CNPJ:</strong> 00.000.000/0001-00<br>
-                        <strong>Inscrição Estadual:</strong> 000.000.000.000<br>
-                        <strong>Contato de Ouvidoria:</strong> ouvidoria@agroforte.com.br
-                    </p>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-6 text-center text-xs">
-                <p>&copy; 2026 AgroForte. Todos os direitos reservados.</p>
-            </div>
+    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT DO MENU MOBILE, FORMULÁRIO E CHATBOT INTERATIVO -->
     <script>
-        // Menu de Navegação Responsivo
-        const btnMenu = document.getElementById('menu-btn'); 
+        // Menu Responsivo Mobile
+        const btn = document.getElementById('menu-btn'); 
         const nav = document.querySelector('nav');
-        btnMenu.addEventListener('click', () => { 
-            nav.classList.toggle('hidden'); 
-            nav.classList.toggle('flex'); 
-            nav.classList.toggle('flex-col'); 
-            nav.classList.toggle('absolute'); 
-            nav.classList.toggle('top-16'); 
-            nav.classList.toggle('left-0'); 
-            nav.classList.toggle('w-full'); 
-            nav.classList.toggle('bg-green-700'); 
-            nav.classList.toggle('p-4'); 
-            nav.classList.toggle('space-y-4'); 
+        btn.addEventListener('click', () => { 
+            nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); 
         });
 
-        // Controle do Modal de IA
-        const modalIa = document.getElementById('modal-ia');
-        const btnAbrirIa = document.getElementById('btn-abrir-ia');
-        const btnFecharIa = document.getElementById('btn-fechar-ia');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const btnEnviarTexto = document.getElementById('btn-enviar-texto');
-
-        btnAbrirIa.addEventListener('click', () => {
-            modalIa.classList.remove('hidden');
-            chatInput.focus();
-        });
-
-        btnFecharIa.addEventListener('click', () => {
-            modalIa.classList.add('hidden');
-        });
-
-        // Lógica Unificada de Mensagens e Respostas Inteligentes
-        window.enviarMensagemIA = function(textoPergunta) {
-            if (!textoPergunta || !textoPergunta.trim()) return;
-
-            // Criar balão do usuário no chat
-            const userDiv = document.createElement('div');
-            userDiv.className = "bg-green-700 text-white rounded-xl p-3 max-w-[85%] rounded-tr-none shadow-sm ml-auto text-right mb-1";
-            userDiv.textContent = textoPergunta;
-            chatMessages.appendChild(userDiv);
-
-            // Rolar automaticamente para a última mensagem
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Resposta padrão (Caso não ative filtros)
-            let respostaIA = "💡 **Análise Ceres:** Entendi seu ponto! Para análises profundas de manejo ou recomendações personalizadas para sua região, preencha o formulário de triagem ao lado escolhendo a opção **'Suporte com Engenheiro Agrônomo'**.";
-            
-            // Filtro por varredura de termos digitados
-            const termo = textoPergunta.toLowerCase();
-            if (termo.includes('ferrugem') || termo.includes('fungo') || termo.includes('mancha') || termo.includes('doença')) {
-                respostaIA = "💡 **Análise Ceres:** Para o controle da *Ferrugem Asiática* ou fungos foliares, realize aplicações preventivas com nosso **Defensivo Fungicida Global** associado a multissítios. Cuide do fechamento de linhas!";
-            } else if (termo.includes('npk') || termo.includes('adubo') || termo.includes('fertilizante') || termo.includes('milho') || termo.includes('solo')) {
-                respostaIA = "💡 **Análise Ceres:** Para culturas exigentes como o milho safrinha, nossa recomendação padrão de arranque é o **Fertilizante NPK 04-14-08**, que oferece fósforo focado no rápido enraizamento.";
-            } else if (termo.includes('preço') || termo.includes('valor') || termo.includes('comprar') || termo.includes('carrinho') || termo.includes('quanto')) {
-                respostaIA = "🛒 **Dica da Ceres:** Todos os preços e produtos agrícolas estão listados com estoque atualizado diretamente na nossa aba **Agropecuária** no menu superior. Passe lá para conferir!";
-            }
-
-            // Simular atraso na resposta do robô (500ms)
-            setTimeout(() => {
-                const iaDiv = document.createElement('div');
-                iaDiv.className = "bg-white border rounded-xl p-3 text-gray-700 max-w-[85%] rounded-tl-none shadow-sm mb-1";
-                iaDiv.innerHTML = respostaIA;
-                chatMessages.appendChild(iaDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 500);
-        };
-
-        // Evento de clique na setinha de enviar
-        btnEnviarTexto.addEventListener('click', () => {
-            enviarMensagemIA(chatInput.value);
-            chatInput.value = '';
-        });
-
-        // Evento de apertar a tecla "Enter" dentro do input
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                enviarMensagemIA(chatInput.value);
-                chatInput.value = '';
-            }
-        });
-
-        // Interação de Envio do Formulário Tradicional
-        document.getElementById('form-contato').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Mensagem enviada com sucesso! Nossa triagem automatizada repassou sua demanda para um agrônomo especialista.');
-            e.target.reset();
-        });
-    </script>
-</body>
-</html>
+        // ÁRVORE DE DECISÃO INTEGRADA (Apenas Botões e Alternativas)
+        const fluxoQuiz = {
+            inicio: {
