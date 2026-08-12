@@ -1,0 +1,50 @@
+<!-- Conteúdo da Aba Minhas Compras -->
+<div class="aba-compras">
+    <h2 class="titulo-aba">Minhas Compras</h2>
+    
+    <!-- Card do Pedido (Baseado no seu produto da imagem) -->
+    <div class="card-pedido">
+        <div class="detalhes-produto">
+            <span class="tag-status enviado">Em trânsito</span>
+            <h3>Semente de Milho Híbrido</h3>
+            <p class="info-entrega">Entrega estimada: <strong>14 a 17 de Agosto</strong></p>
+            <p class="endereco-destino">Enviando para: <span>Av. Principal, 1000 - Centro</span></p>
+        </div>
+
+        <hr class="divisor">
+
+        <!-- Linha do Tempo Estilo Mercado Livre -->
+        <div class="rastreamento-container">
+            <h4 class="titulo-rastreio">Acompanhe seu envio</h4>
+            
+            <div class="linha-tempo">
+                <!-- Status Atual (Ativo) -->
+                <div class="ponto-rastreio atual">
+                    <div class="circulo"></div>
+                    <div class="conteudo-rastreio">
+                        <p class="status-texto">A caminho do endereço de entrega</p>
+                        <p class="status-data">Hoje, 08:30h - Curitiba / PR</p>
+                    </div>
+                </div>
+
+                <!-- Status Passado -->
+                <div class="ponto-rastreio concluido">
+                    <div class="circulo"></div>
+                    <div class="conteudo-rastreio">
+                        <p class="status-texto">Objeto recebido no centro de distribuição</p>
+                        <p class="status-data">Ontem, 14:15h - São Paulo / SP</p>
+                    </div>
+                </div>
+
+                <!-- Status Inicial -->
+                <div class="ponto-rastreio concluido">
+                    <div class="circulo"></div>
+                    <div class="conteudo-rastreio">
+                        <p class="status-texto">Pedido postado pelo vendedor</p>
+                        <p class="status-data">10 Ago, 10:00h</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
