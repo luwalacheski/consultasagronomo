@@ -44,7 +44,7 @@
         </div>
     </section>
 
-    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Triagem IA) -->
+    <!-- CONTEÚDO PRINCIPAL (Informações de Contato + Formulário) -->
     <main class="container mx-auto px-4 py-12 flex-grow max-w-6xl">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
@@ -98,71 +98,32 @@
                     </div>
                 </div>
 
-                <!-- Card de Suporte IA -->
+                <!-- Card de Suporte IA (Inovação Modificada) -->
                 <div class="bg-gradient-to-br from-green-700 to-green-900 text-white rounded-2xl shadow-md p-6 space-y-3">
                     <div class="flex items-center gap-2 text-green-300 font-bold text-xs uppercase tracking-wider">
                         <i class="fa-solid fa-robot"></i> Inteligência AgroForte
                     </div>
                     <h3 class="text-lg font-bold leading-tight">Dúvida urgente sobre pragas ou defensivos?</h3>
                     <p class="text-xs text-green-100 opacity-90">Experimente nosso assistente virtual agora mesmo para um diagnóstico instantâneo de manejo.</p>
-                    <button onclick="reiniciarQuiz()" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2.5 px-4 rounded-xl transition text-center shadow flex items-center justify-center gap-1">
+                    <button id="btn-abrir-ia" class="w-full bg-white text-green-800 hover:bg-green-50 text-xs font-bold py-2.5 px-4 rounded-xl transition text-center shadow flex items-center justify-center gap-1">
                         <i class="fa-solid fa-comments"></i> Iniciar Chat de IA
                     </button>
                 </div>
 
             </div>
 
-            <!-- CONTAINER DO QUIZ DIAGNÓSTICO DA IA (SUBSTITUINDO O FORMULÁRIO) -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:col-span-2 flex flex-col justify-between">
-                <div>
-                    <!-- Cabeçalho do Quiz -->
-                    <div class="flex items-center gap-3 border-b border-gray-100 pb-4 mb-6">
-                        <div class="bg-green-100 text-green-700 p-2 rounded-xl">
-                            <i class="fa-solid fa-robot text-xl"></i>
+            <!-- FORMULÁRIO DE ATENDIMENTO -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                <h3 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    <i class="fa-regular fa-paper-plane text-green-700"></i> Envie uma Mensagem Digital
+                </h3>
+                <p class="text-xs text-gray-500 mb-6">Preencha os dados abaixo e nosso sistema distribuirá o seu caso para o especialista mais adequado.</p>
+
+                <form id="form-contato" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-gray-600 uppercase">Nome Completo / Razão Social</label>
+                            <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 transition bg-gray-50/50" placeholder="Ex: João da Silva ou Fazenda Progresso">
                         </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900">Assistente Técnico Virtual</h3>
-                            <p class="text-xs text-gray-500">Responda clicando nas alternativas para solucionar o seu problema</p>
-                        </div>
-                    </div>
-
-                    <!-- Pergunta Dinâmica -->
-                    <div class="mb-6">
-                        <span class="text-xs font-bold text-green-700 uppercase tracking-wider bg-green-50 px-2 py-1 rounded">Pergunta</span>
-                        <h4 id="texto-pergunta" class="text-lg md:text-xl font-bold text-gray-800 mt-3">Você quer ver sobre qual assunto ou cultura?</h4>
-                    </div>
-
-                    <!-- Grid de Alternativas Cliváveis -->
-                    <div id="container-alternativas" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Botões injetados via JavaScript -->
-                    </div>
-                </div>
-
-                <!-- Botão de Voltar / Reiniciar Consulta -->
-                <div id="container-reset" class="mt-8 pt-4 border-t border-gray-100 hidden">
-                    <button onclick="reiniciarQuiz()" class="text-xs font-bold text-gray-400 hover:text-green-700 flex items-center gap-1 transition uppercase tracking-wider">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Reiniciar Diagnóstico
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Menu Responsivo Mobile
-        const btn = document.getElementById('menu-btn'); 
-        const nav = document.querySelector('nav');
-        btn.addEventListener('click', () => { 
-            nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); 
-        });
-
-        // ÁRVORE DE DECISÃO INTEGRADA (Apenas Botões e Alternativas)
-        const fluxoQuiz = {
-            inicio: {
+                        <div class="space-y-1">
+                            <label class="text-xs font
