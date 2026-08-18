@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroForte - Loja Agropecuária</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
+    <!-- Cabeçalho -->
     <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
@@ -27,6 +28,7 @@
         </div>
     </header>
 
+    <!-- Banner Hero -->
     <section class="bg-green-800 text-white py-12 text-center">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl font-bold mb-2">Nossa Loja Agropecuária</h1>
@@ -34,8 +36,10 @@
         </div>
     </section>
 
+    <!-- Conteúdo Principal -->
     <main class="container mx-auto px-4 py-12 flex-grow max-w-7xl lg:flex lg:gap-8">
         
+        <!-- Vitrine de Produtos -->
         <div class="lg:w-3/4 w-full">
             <h2 class="text-2xl font-bold mb-8 text-gray-900 border-b pb-2 flex items-center gap-2">
                 <i class="fa-solid fa-basket-shopping text-green-700"></i> Nossos Produtos
@@ -43,9 +47,10 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="1" data-nome="Semente de Milho Híbrido" data-preco="340.00">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="sementedemilho.webp" alt="Semente de Milho" class="w-full h-full object-cover">
+                <!-- Produto 1 -->
+                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="1" data-nome="Semente de Milho Híbrido 5KG" data-preco="340.00">
+                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
+                        <img src="sementedemilho.webp" alt="Semente de Milho" class="w-full h-full object-contain">
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Sementes</span>
@@ -60,9 +65,10 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="2" data-nome="Fertilizante NPK 04-14-08 1KG" data-preco="32.00">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="FERTILIZANTE.jpg" alt="Fertilizante" class="w-full h-full object-cover">
+                <!-- Produto 2 -->
+                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="2" data-nome="Fertilizante NPK 04-14-08" data-preco="185.00">
+                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
+                        <img src="FERTILIZANTE.jpg" alt="Fertilizante" class="w-full h-full object-contain">
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Nutrição Vegetal</span>
@@ -77,30 +83,28 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="3" data-nome="Defensivo Fungicida Global" data-preco="290.00">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=500&q=80" alt="Fungicida" class="w-full h-full object-cover">
+                <!-- Produto 3 -->
+                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="3" data-nome="Verango Prime Bayer 5L" data-preco="290.00">
+                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
+                        <img src="verando_prime_1_.jpg" alt="Verango Prime" class="w-full h-full object-contain">
                     </div>
-               <div class="p-5 flex flex-col flex-grow">
-    <!-- Imagem do Produto Adicionada -->
-    <img src="verando_prime_1_.jpg" alt="Verango Prime Bayer 5L" class="w-full h-48 object-contain mb-4 rounded-lg">
-    
-    <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Proteção</span>
-    <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Verango Prime Bayer 5L</h3>
-    <p class="text-gray-600 text-xs mb-4 flex-grow">Controle preventivo e curativo eficaz contra ferrugem e manchas foliares.</p>
-    <div class="flex items-center justify-between mt-auto">
-        <span class="text-xl font-black text-gray-900">R$ 290,00</span>
-        <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-            <i class="fa-solid fa-cart-plus"></i> Adicionar
-        </button>
-    </div>
-</div>
-
+                    <div class="p-5 flex flex-col flex-grow">
+                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Proteção</span>
+                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Verango Prime Bayer 5L</h3>
+                        <p class="text-gray-600 text-xs mb-4 flex-grow">Controle preventivo e curativo eficaz contra ferrugem e manchas foliares.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-black text-gray-900">R$ 290,00</span>
+                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                                <i class="fa-solid fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Produto 4 -->
                 <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="4" data-nome="Ração de Corte Pro 25kg" data-preco="95.50">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1546445317-29f4545f9d52?w=500&q=80" alt="Ração Animal" class="w-full h-full object-cover">
+                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
+                        <img src="https://unsplash.com" alt="Ração Animal" class="w-full h-full object-cover">
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Nutrição Animal</span>
@@ -115,14 +119,15 @@
                     </div>
                 </div>
 
+                <!-- Produto 5 -->
                 <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="5" data-nome="Pulverizador Costal 20L" data-preco="210.00">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?w=500&q=80" alt="Pulverizador" class="w-full h-full object-cover">
+                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
+                        <img src="https://unsplash.com" alt="Pulverizador" class="w-full h-full object-cover">
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Equipamentos</span>
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Pulverizador Costal 20L</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Design ergonômico com hastes metálicas resistentes e bicos reguláveis.</p>
+                        <p class="text-gray-600 text-xs mb-4 flex-grow">Design ergonômico com bicos ajustáveis, ideal para aplicação precisa.</p>
                         <div class="flex items-center justify-between mt-auto">
                             <span class="text-xl font-black text-gray-900">R$ 210,00</span>
                             <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
@@ -132,259 +137,8 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="6" data-nome="Arame Farpado 500m" data-preco="389.00">
-                    <div class="h-44 bg-gray-100 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&q=80" alt="Arame Farpado" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Infraestrutura</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Arame Farpado 500m</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Cercamento de alta torção, galvanizado e protegido contra oxidação temporal.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 389,00</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
-        <aside class="w-full lg:w-1/4 mt-12 lg:mt-0 bg-white rounded-2xl shadow-md border border-gray-100 p-6 self-start sticky top-24">
-            <h2 class="text-xl font-bold mb-4 text-gray-900 border-b pb-2 flex items-center justify-between">
-                <span><i class="fa-solid fa-shopping-cart text-green-700 mr-1"></i> Seu Carrinho</span>
-                <span id="cart-count" class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0</span>
-            </h2>
-
-            <ul id="itens-carrinho" class="divide-y divide-gray-100 max-h-64 overflow-y-auto mb-4 pr-1">
-                <li id="carrinho-vazio" class="py-4 text-center text-gray-400 text-sm">
-                    O carrinho está vazio.
-                </li>
-            </ul>
-
-            <div class="border-t pt-4 font-bold text-gray-900 flex justify-between items-center mb-6">
-                <span>Total:</span>
-                <span class="text-xl text-green-700">R$ <span id="valor-total">0,00</span></span>
-            </div>
-
-            <div class="space-y-2">
-                <button id="btn-finalizar" class="w-full bg-green-700 hover:bg-green-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition text-center text-sm" disabled>
-                    Finalizar Compra
-                </button>
-                <button id="btn-limpar" class="w-full bg-transparent hover:bg-red-50 text-red-600 border border-red-200 font-medium py-2 px-4 rounded-xl transition text-center text-xs" style="display: none;">
-                    Limpar Carrinho
-                </button>
-            </div>
-        </aside>
-
-    </main>
-
-    <div id="modal-pagamento" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-green-700 p-5 text-white flex justify-between items-center">
-                <h3 class="text-lg font-bold"><i class="fa-solid fa-credit-card mr-1"></i> Escolha a Forma de Pagamento</h3>
-                <button id="fechar-modal" class="text-white/80 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <div class="p-6">
-                <div class="text-center mb-6">
-                    <p class="text-gray-500 text-sm font-medium">Valor a Pagar</p>
-                    <p class="text-3xl font-black text-green-700">R$ <span id="modal-valor-total">0,00</span></p>
-                </div>
-
-                <div class="grid grid-cols-3 gap-2 mb-6 border-b pb-4">
-                    <button onclick="mudarAbaPagamento('pix')" id="tab-pix" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-green-50 text-green-700 border border-green-200 flex flex-col items-center gap-1 transition">
-                        <i class="fa-brands fa-pix text-lg text-cyan-500"></i> Pix
-                    </button>
-                    <button onclick="mudarAbaPagamento('qrcode')" id="tab-qrcode" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition">
-                        <i class="fa-solid fa-qrcode text-lg text-gray-700"></i> QR Code
-                    </button>
-                    <button onclick="mudarAbaPagamento('cartao')" id="tab-cartao" class="py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition">
-                        <i class="fa-solid fa-credit-card text-lg text-amber-600"></i> Cartão
-                    </button>
-                </div>
-
-                <div id="conteudo-pix" class="space-y-3">
-                    <p class="text-xs text-gray-600 text-center">Clique abaixo para copiar a chave Pix aleatória da AgroForte e realizar o pagamento no app do seu banco.</p>
-                    <div class="bg-gray-50 border p-3 rounded-xl flex items-center justify-between gap-2">
-                        <span class="text-xs font-mono text-gray-500 select-all truncate">agroforte-2026-pagamentos-insumos-091283</span>
-                        <button onclick="alert('Chave Pix copiada!')" class="bg-green-700 hover:bg-green-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap"><i class="fa-regular fa-copy"></i> Copiar</button>
-                    </div>
-                </div>
-
-                <div id="conteudo-qrcode" class="hidden text-center space-y-3">
-                    <p class="text-xs text-gray-600">Abra o app do seu banco e aponte a câmera para o código abaixo:</p>
-                    <div class="w-36 h-36 bg-gray-200 mx-auto rounded-xl flex items-center justify-center border text-gray-400">
-                        <i class="fa-solid fa-qrcode text-6xl text-gray-800"></i>
-                    </div>
-                </div>
-
-                <div id="conteudo-cartao" class="hidden space-y-3">
-                    <div class="space-y-2">
-                        <input type="text" placeholder="Número do Cartão" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" placeholder="Validade (MM/AA)" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
-                            <input type="text" placeholder="CVV" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
-                        </div>
-                        <input type="text" placeholder="Nome impresso no cartão" class="w-full border rounded-xl p-2 text-sm focus:outline-none focus:border-green-600">
-                    </div>
-                </div>
-
-                <button onclick="confirmarPagamentoFinal()" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-xl mt-6 transition text-center text-sm shadow-md">
-                    Confirmar e Concluir
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
-    <script>
-        // 1. MENU MOBILE
-        const btnMenu = document.getElementById('menu-btn'); 
-        const nav = document.querySelector('nav');
-        btnMenu.addEventListener('click', () => { 
-            nav.classList.toggle('hidden'); 
-            nav.classList.toggle('flex'); 
-            nav.classList.toggle('flex-col'); 
-            nav.classList.toggle('absolute'); 
-            nav.classList.toggle('top-16'); 
-            nav.classList.toggle('left-0'); 
-            nav.classList.toggle('w-full'); 
-            nav.classList.toggle('bg-green-700'); 
-            nav.classList.toggle('p-4'); 
-            nav.classList.toggle('space-y-4'); 
-        });
-
-        // 2. SISTEMA DO CARRINHO DE COMPRAS
-        let carrinho = [];
-        const listaCarrinho = document.getElementById('itens-carrinho');
-        const valorTotalElement = document.getElementById('valor-total');
-        const cartCountElement = document.getElementById('cart-count');
-        const btnFinalizar = document.getElementById('btn-finalizar');
-        const btnLimpar = document.getElementById('btn-limpar');
-        const carrinhoVazioMsg = document.getElementById('carrinho-vazio');
-
-        // Elementos do Modal de Pagamento
-        const modalPagamento = document.getElementById('modal-pagamento');
-        const fecharModalBtn = document.getElementById('fechar-modal');
-        const modalValorTotal = document.getElementById('modal-valor-total');
-
-        // Escutar cliques nos botões "Adicionar"
-        document.querySelectorAll('.btn-add').forEach(botao => {
-            botao.addEventListener('click', (e) => {
-                const card = e.target.closest('.produto-card');
-                const id = card.getAttribute('data-id');
-                const nome = card.getAttribute('data-nome');
-                const preco = parseFloat(card.getAttribute('data-preco'));
-
-                adicionarAoCarrinho(id, nome, preco);
-            });
-        });
-
-        function adicionarAoCarrinho(id, nome, preco) {
-            const itemExistente = carrinho.find(item => item.id === id);
-
-            if (itemExistente) {
-                itemExistente.quantidade++;
-            } else {
-                carrinho.push({ id, nome, preco, quantidade: 1 });
-            }
-
-            atualizarInterfaceCarrinho();
-        }
-
-        window.removerDoCarrinho = function(id) {
-            carrinho = carrinho.filter(item => item.id !== id);
-            atualizarInterfaceCarrinho();
-        }
-
-        function atualizarInterfaceCarrinho() {
-            listaCarrinho.innerHTML = '';
-            let total = 0;
-            let totalItensUnidades = 0;
-
-            if (carrinho.length === 0) {
-                listaCarrinho.appendChild(carrinhoVazioMsg);
-                carrinhoVazioMsg.style.display = 'block';
-                btnFinalizar.disabled = true;
-                btnLimpar.style.display = 'none';
-                cartCountElement.textContent = '0';
-            } else {
-                carrinhoVazioMsg.style.display = 'none';
-                btnFinalizar.disabled = false;
-                btnLimpar.style.display = 'block';
-
-                carrinho.forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = "py-3 flex justify-between items-start text-sm gap-2";
-                    li.innerHTML = `
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-gray-800">${item.nome}</h4>
-                            <span class="text-xs text-gray-500">Qtd: ${item.quantidade} × R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                        <div class="text-right flex flex-col items-end gap-1">
-                            <span class="font-bold text-gray-900">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
-                            <button onclick="removerDoCarrinho('${item.id}')" class="text-xs text-red-500 hover:text-red-700 underline flex items-center gap-0.5"><i class="fa-regular fa-trash-can"></i> tirar</button>
-                        </div>
-                    `;
-                    listaCarrinho.appendChild(li);
-                    total += item.preco * item.quantidade;
-                    totalItensUnidades += item.quantidade;
-                });
-
-                cartCountElement.textContent = totalItensUnidades;
-            }
-
-            valorTotalElement.textContent = total.toFixed(2).replace('.', ',');
-            modalValorTotal.textContent = total.toFixed(2).replace('.', ',');
-        }
-
-        btnLimpar.addEventListener('click', () => {
-            carrinho = [];
-            atualizarInterfaceCarrinho();
-        });
-
-        // 3. LOGICA DO MODAL DE PAGAMENTO
-        btnFinalizar.addEventListener('click', () => {
-            modalPagamento.classList.remove('hidden');
-        });
-
-        fecharModalBtn.addEventListener('click', () => {
-            modalPagamento.classList.add('hidden');
-        });
-
-        window.mudarAbaPagamento = function(tipo) {
-            const abas = ['pix', 'qrcode', 'cartao'];
-            
-            abas.forEach(aba => {
-                const botao = document.getElementById(`tab-${aba}`);
-                const conteudo = document.getElementById(`conteudo-${aba}`);
-                
-                if (aba === tipo) {
-                    botao.className = "py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-green-50 text-green-700 border border-green-200 flex flex-col items-center gap-1 transition";
-                    conteudo.classList.remove('hidden');
-                } else {
-                    botao.className = "py-2.5 px-2 text-center rounded-xl font-bold text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 flex flex-col items-center gap-1 transition";
-                    conteudo.classList.add('hidden');
-                }
-            });
-        }
-
-        window.confirmarPagamentoFinal = function() {
-            alert('Pagamento processado e recebido com sucesso! O seu pedido na AgroForte já está sendo preparado.');
-            modalPagamento.classList.add('hidden');
-            carrinho = [];
-            atualizarInterfaceCarrinho();
-        }
-    </script>
-</body>
-</html>
+        <!-- Sidebar do Carrinho -->
+        <div class="lg:w-1/4 w-full mt-8 lg:mt-0">
