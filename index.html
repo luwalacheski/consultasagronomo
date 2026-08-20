@@ -14,17 +14,24 @@
             <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-leaf"></i> AgroForte
             </a>
-            <nav class="hidden md:flex space-x-6 font-medium">
+            <nav id="desktop-nav" class="hidden md:flex space-x-6 font-medium">
                 <a href="index.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Início</a>
                 <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
                 <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
                 <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
                 <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
             </nav>
-            <button class="md:hidden text-2xl" id="menu-btn">
+            <button class="md:hidden text-2xl" id="menu-btn" aria-label="Abrir menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
+        <nav id="mobile-nav" class="hidden md:hidden flex-col bg-green-800 px-4 pb-4 space-y-3 border-t border-green-600">
+            <a href="index.html" class="text-green-200 font-semibold py-1">Início</a>
+            <a href="agropecuaria.html" class="hover:text-green-200 transition py-1">Agropecuária</a>
+            <a href="consultas.html" class="hover:text-green-200 transition py-1">Consultas Agronômicas</a>
+            <a href="agendamento.html" class="hover:text-green-200 transition py-1">Agendar Visita</a>
+            <a href="contato.html" class="hover:text-green-200 transition py-1">Contato</a>
+        </nav>
     </header>
 
     <section class="bg-cover bg-center h-[65vh] flex items-center relative flex-grow" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80');">
@@ -63,15 +70,52 @@
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p>
+    <footer class="bg-gray-900 text-gray-300 mt-auto">
+        <div class="container mx-auto px-4 max-w-7xl py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte
+                    </h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Insumos agropecuários, consultoria agronômica e suporte técnico para o produtor rural.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Navegação</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-green-400 transition">Início</a></li>
+                        <li><a href="agropecuaria.html" class="hover:text-green-400 transition">Loja Agropecuária</a></li>
+                        <li><a href="consultas.html" class="hover:text-green-400 transition">Consultas Agronômicas</a></li>
+                        <li><a href="agendamento.html" class="hover:text-green-400 transition">Agendar Visita</a></li>
+                        <li><a href="contato.html" class="hover:text-green-400 transition">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Contato</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-green-500 w-4"></i> Atendimento via WhatsApp</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-500 w-4"></i> Formulário de contato</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-clock text-green-500 w-4"></i> Seg–Sex 07h–17h · Sáb 07h–12h</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                &copy; 2026 AgroForte. Todos os direitos reservados.
+            </div>
         </div>
     </footer>
 
     <script>
-        const btn = document.getElementById('menu-btn'); const nav = document.querySelector('nav');
-        btn.addEventListener('click', () => { nav.classList.toggle('hidden'); nav.classList.toggle('flex'); nav.classList.toggle('flex-col'); nav.classList.toggle('absolute'); nav.classList.toggle('top-16'); nav.classList.toggle('left-0'); nav.classList.toggle('w-full'); nav.classList.toggle('bg-green-700'); nav.classList.toggle('p-4'); nav.classList.toggle('space-y-4'); });
+        (function () {
+            const btn = document.getElementById('menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (btn && mobileNav) {
+                btn.addEventListener('click', function () {
+                    mobileNav.classList.toggle('hidden');
+                });
+            }
+        })();
     </script>
 </body>
 </html>
