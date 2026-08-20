@@ -14,15 +14,24 @@
             <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-leaf"></i> AgroForte
             </a>
-            <nav class="hidden md:flex space-x-6 font-medium">
+            <nav id="desktop-nav" class="hidden md:flex space-x-6 font-medium">
                 <a href="index.html" class="hover:text-green-200 transition">Início</a>
                 <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
                 <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
                 <a href="agendamento.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Agendar Visita</a>
                 <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
             </nav>
-            <button class="md:hidden text-2xl" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
+            <button class="md:hidden text-2xl" id="menu-btn" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
+        <nav id="mobile-nav" class="hidden md:hidden flex-col bg-green-800 px-4 pb-4 space-y-3 border-t border-green-600">
+            <a href="index.html" class="hover:text-green-200 transition py-1">Início</a>
+            <a href="agropecuaria.html" class="hover:text-green-200 transition py-1">Agropecuária</a>
+            <a href="consultas.html" class="hover:text-green-200 transition py-1">Consultas Agronômicas</a>
+            <a href="agendamento.html" class="text-green-200 font-semibold py-1">Agendar Visita</a>
+            <a href="contato.html" class="hover:text-green-200 transition py-1">Contato</a>
+        </nav>
     </header>
 
     <section class="py-12 container mx-auto px-4 flex-grow max-w-4xl">
@@ -37,143 +46,120 @@
                 <i class="fa-solid fa-magnifying-glass-chart text-green-700 text-2xl"></i>
                 <div>
                     <h4 class="font-bold">Exame Local</h4>
-                    <p class="text-gray-500 text-xs">Análise detalhada "in loco" das plantas.</p>
+                    <p class="text-gray-500 text-xs">Análise detalhada in loco das plantas.</p>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-bug text-green-700 text-2xl"></i>
+                <i class="fa-solid fa-clipboard-list text-green-700 text-2xl"></i>
                 <div>
-                    <h4 class="font-bold">Combate a Doenças</h4>
-                    <p class="text-gray-500 text-xs">Identificação precisa de pragas e vetores.</p>
+                    <h4 class="font-bold">Diagnóstico</h4>
+                    <p class="text-gray-500 text-xs">Identificação de pragas e doenças.</p>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-map-location-dot text-green-700 text-2xl"></i>
+                <i class="fa-solid fa-lightbulb text-green-700 text-2xl"></i>
                 <div>
-                    <h4 class="font-bold">Laudo Técnico</h4>
-                    <p class="text-gray-500 text-xs">Recomendações e mapa de ação imediata.</p>
+                    <h4 class="font-bold">Recomendação</h4>
+                    <p class="text-gray-500 text-xs">Orientação técnica personalizada.</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-            <h2 class="text-xl font-bold mb-6 text-gray-900 flex items-center gap-2">
-                <i class="fa-regular fa-calendar-plus text-green-700"></i> Preencha os dados da sua propriedade
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-gray-900">
+                <i class="fa-regular fa-calendar-check text-green-700"></i> Formulário de Agendamento
             </h2>
-            
             <form id="formAgendamento" class="space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo do Produtor</label>
-                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: João da Silva">
+                        <label class="text-xs font-bold text-gray-600 uppercase block mb-1">Nome completo</label>
+                        <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 bg-gray-50/50" placeholder="Seu nome">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp / Telefone de Contato</label>
-                        <input type="tel" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="(00) 99999-0000">
+                        <label class="text-xs font-bold text-gray-600 uppercase block mb-1">WhatsApp</label>
+                        <input type="tel" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 bg-gray-50/50" placeholder="(00) 00000-0000">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome da Propriedade / Fazenda</label>
-                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Fazenda Boa Vista">
+                        <label class="text-xs font-bold text-gray-600 uppercase block mb-1">Município / Propriedade</label>
+                        <input type="text" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 bg-gray-50/50" placeholder="Cidade e nome da fazenda">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Cidade e Estado (UF)</label>
-                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Sorriso - MT">
+                        <label class="text-xs font-bold text-gray-600 uppercase block mb-1">Data preferencial</label>
+                        <input type="date" required class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 bg-gray-50/50">
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Principal Cultura no Local</label>
-                        <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
-                            <option>Soja</option>
-                            <option>Milho</option>
-                            <option>Algodão</option>
-                            <option>Pastagem / Pecuária</option>
-                            <option>Hortifrúti</option>
-                            <option>Outra Cultura</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Data Desejada para Visita</label>
-                        <input type="date" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Período de Preferência</label>
-                        <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-green-500 outline-none">
-                            <option>Manhã (07:30 - 12:00)</option>
-                            <option>Tarde (13:00 - 17:30)</option>
-                            <option>Qualquer horário</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Descreva o Sintoma ou Motivo da Visita</label>
-                    <textarea rows="4" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Manchas amareladas e perda de folhas na área sul do plantio, suspeita de praga ou deficiência de potássio..."></textarea>
+                    <label class="text-xs font-bold text-gray-600 uppercase block mb-1">Cultura / Motivo da visita</label>
+                    <textarea required rows="3" class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-green-600 bg-gray-50/50" placeholder="Ex: Soja com suspeita de ferrugem, área de 80 ha"></textarea>
                 </div>
-
-                <div class="bg-green-50 p-4 rounded-lg border border-green-200 flex gap-2 items-start text-sm text-green-800">
-                    <i class="fa-solid fa-circle-info mt-0.5"></i>
-                    <span><strong>Nota:</strong> Após o envio, nossa equipe técnica entrará em contato via WhatsApp para confirmar a disponibilidade do agrônomo e alinhar os custos de deslocamento técnico.</span>
-                </div>
-
-                <button type="submit" id="btnEnviar" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 px-4 rounded-lg transition shadow-md flex justify-center items-center gap-2">
-                    <i class="fa-regular fa-paper-plane"></i> Enviar Solicitação de Agendamento
+                <button type="submit" id="btnEnviar" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3.5 rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Solicitar Agendamento
                 </button>
+                <div id="mensagemSucesso" class="hidden flex items-center justify-center gap-2 bg-green-50 border border-green-200 text-green-800 text-sm font-medium p-4 rounded-xl">
+                    <i class="fa-solid fa-circle-check text-xl text-green-600"></i>
+                    <span>Solicitação enviada com sucesso! Entraremos em contato via WhatsApp.</span>
+                </div>
             </form>
-
-            <div id="mensagemSucesso" class="hidden mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-lg text-center font-bold flex items-center justify-center gap-2 shadow-inner">
-                <i class="fa-solid fa-circle-check text-xl text-green-600"></i>
-                <span>Solicitação enviada com sucesso! Entraremos em contato via WhatsApp.</span>
-            </div>
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-gray-300 py-8 mt-auto">
-        <div class="container mx-auto px-4 text-center"><p class="text-sm">&copy; 2026 AgroForte. Todos os direitos reservados.</p></div>
+    <footer class="bg-gray-900 text-gray-300 mt-auto">
+        <div class="container mx-auto px-4 max-w-7xl py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte
+                    </h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Insumos agropecuários, consultoria agronômica e suporte técnico para o produtor rural.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Navegação</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-green-400 transition">Início</a></li>
+                        <li><a href="agropecuaria.html" class="hover:text-green-400 transition">Loja Agropecuária</a></li>
+                        <li><a href="consultas.html" class="hover:text-green-400 transition">Consultas Agronômicas</a></li>
+                        <li><a href="agendamento.html" class="hover:text-green-400 transition">Agendar Visita</a></li>
+                        <li><a href="contato.html" class="hover:text-green-400 transition">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Contato</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-green-500 w-4"></i> Atendimento via WhatsApp</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-500 w-4"></i> Formulário de contato</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-clock text-green-500 w-4"></i> Seg–Sex 07h–17h · Sáb 07h–12h</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                &copy; 2026 AgroForte. Todos os direitos reservados.
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Lógica do menu responsivo (copiado do index para manter o comportamento)
-        const btnMenu = document.getElementById('menu-btn'); 
-        const nav = document.querySelector('nav');
-        btnMenu.addEventListener('click', () => { 
-            nav.classList.toggle('hidden'); 
-            nav.classList.toggle('flex'); 
-            nav.classList.toggle('flex-col'); 
-            nav.classList.toggle('absolute'); 
-            nav.classList.toggle('top-16'); 
-            nav.classList.toggle('left-0'); 
-            nav.classList.toggle('w-full'); 
-            nav.classList.toggle('bg-green-700'); 
-            nav.classList.toggle('p-4'); 
-            nav.classList.toggle('space-y-4'); 
-        });
-
-        // Lógica do formulário de agendamento
+        (function () {
+            const btn = document.getElementById('menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (btn && mobileNav) {
+                btn.addEventListener('click', function () {
+                    mobileNav.classList.toggle('hidden');
+                });
+            }
+        })();
         document.getElementById('formAgendamento').addEventListener('submit', function(event) {
-            // Impede o envio padrão para o '#' que recarregaria a página gerando erro
-            event.preventDefault(); 
-
-            // Desativa o botão para evitar cliques duplicados enquanto processa
+            event.preventDefault();
             const btnEnviar = document.getElementById('btnEnviar');
             btnEnviar.disabled = true;
             btnEnviar.classList.add('opacity-50', 'cursor-not-allowed');
             btnEnviar.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Processando...';
-
-            // Pequeno delay de simulação (500ms) apenas para dar feedback visual antes de mostrar a mensagem
             setTimeout(() => {
-                // Esconde o botão de envio definitivamente
                 btnEnviar.classList.add('hidden');
-
-                // Remove a classe 'hidden' da div de sucesso para torná-la visível
-                const caixaSucesso = document.getElementById('mensagemSucesso');
-                caixaSucesso.classList.remove('hidden');
-
-                // Opcional: Limpa os campos preenchidos do formulário
+                document.getElementById('mensagemSucesso').classList.remove('hidden');
                 document.getElementById('formAgendamento').reset();
             }, 500);
         });
