@@ -6,9 +6,18 @@
     <title>AgroForte - Loja Agropecuária</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.12); }
+        .product-card { transition: all 0.25s ease; }
+        .category-btn.active { background-color: #15803d; color: white; border-color: #15803d; }
+        #cart-sidebar { max-height: calc(100vh - 7rem); }
+        .badge-promo { background: linear-gradient(135deg, #f97316, #ea580c); }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
+    <!-- Header -->
     <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
@@ -21,178 +30,551 @@
                 <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
                 <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
             </nav>
-            <button class="md:hidden text-2xl" id="menu-btn">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <div class="flex items-center gap-4">
+                <button id="mobile-cart-btn" class="md:hidden relative text-xl">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="mobile-cart-badge" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                </button>
+                <button class="md:hidden text-2xl" id="menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
+        <!-- Mobile Nav -->
+        <nav id="mobile-nav" class="hidden md:hidden flex-col bg-green-700 px-4 pb-4 space-y-3 border-t border-green-600">
+            <a href="index.html" class="hover:text-green-200 transition py-1">Início</a>
+            <a href="agropecuaria.html" class="text-green-200 font-semibold py-1">Agropecuária</a>
+            <a href="consultas.html" class="hover:text-green-200 transition py-1">Consultas Agronômicas</a>
+            <a href="agendamento.html" class="hover:text-green-200 transition py-1">Agendar Visita</a>
+            <a href="contato.html" class="hover:text-green-200 transition py-1">Contato</a>
+        </nav>
     </header>
 
-    <section class="bg-green-800 text-white py-12 text-center">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-2">Nossa Loja Agropecuária</h1>
-            <p class="text-green-100 max-w-xl mx-auto">Os melhores insumos, sementes, nutrição e ferramentas para garantir a máxima produtividade da sua propriedade.</p>
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-green-800 to-green-700 text-white py-14">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-3">Loja Agropecuária AgroForte</h1>
+            <p class="text-green-100 max-w-2xl mx-auto text-lg">Insumos de qualidade, sementes certificadas, nutrição e equipamentos para maximizar a produtividade da sua propriedade.</p>
+            <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-orange-400"></i> Entrega para região</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-400"></i> Produtos originais</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-headset text-orange-400"></i> Suporte técnico</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-file-prescription text-orange-400"></i> Receituário agronômico</div>
+            </div>
         </div>
     </section>
 
-    <main class="container mx-auto px-4 py-12 flex-grow max-w-7xl lg:flex lg:gap-8">
+    <!-- Filtros e Busca -->
+    <section class="bg-white border-b sticky top-[64px] z-40 shadow-sm">
+        <div class="container mx-auto px-4 py-4 max-w-7xl">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="search-input" placeholder="Buscar produtos..." 
+                           class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent text-sm">
+                </div>
+                <div class="flex flex-wrap gap-2 justify-center" id="category-filters">
+                    <button class="category-btn active px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="todos">Todos</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="sementes">Sementes</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="nutricao">Nutrição Vegetal</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="protecao">Proteção</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="animal">Nutrição Animal</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="equipamentos">Equipamentos</button>
+                    <button class="category-btn px-4 py-2 rounded-full border border-gray-200 text-sm font-medium hover:bg-green-50 transition" data-category="corretivos">Corretivos</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-10 flex-grow max-w-7xl lg:flex lg:gap-8">
         
+        <!-- Grid de Produtos -->
         <div class="lg:w-3/4 w-full">
-            <h2 class="text-2xl font-bold mb-8 text-gray-900 border-b pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-basket-shopping text-green-700"></i> Nossos Produtos
-            </h2>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa-solid fa-store text-green-700"></i>
+                    <span id="products-title">Todos os Produtos</span>
+                </h2>
+                <span id="products-count" class="text-sm text-gray-500">12 produtos</span>
+            </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                
-                <!-- Produto 1 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="1" data-nome="Semente de Milho Híbrido 5KG" data-preco="340.00">
-                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
-                        <img src="sementedemilho.webp" alt="Semente de Milho" class="w-full h-full object-contain">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Sementes</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Semente de Milho Híbrido 5KG</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Alta tolerância a pragas e excelente estabilidade produtiva para safrinha.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 340,00</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Produtos serão renderizados via JS -->
+            </div>
 
-                <!-- Produto 2 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="2" data-nome="Fertilizante NPK 04-14-08" data-preco="185.00">
-                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
-                        <img src="FERTILIZANTE.jpg" alt="Fertilizante" class="w-full h-full object-contain">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Nutrição Vegetal</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Fertilizante NPK 04-14-08</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Ideal para o arranque inicial do plantio, promovendo raízes fortes.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 185,00</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produto 3 (Corrigido) -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="3" data-nome="Verango Prime Bayer 5L" data-preco="290.00">
-                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
-                        <img src="verando_prime_1_.jpg" alt="Verango Prime" class="w-full h-full object-contain">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Proteção</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Verango Prime Bayer 5L</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Controle preventivo e curativo eficaz contra ferrugem e manchas foliares.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 290,00</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produto 4 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="4" data-nome="Ração de Corte Pro 25kg" data-preco="95.50">
-                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
-                        <img src="https://images.unsplash.com/photo-1546445317-29f4545f9d52?w=500&q=80" alt="Ração Animal" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Nutrição Animal</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Ração de Corte Pro 25kg</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Suplementação de alta palatabilidade para ganho de peso rápido do rebanho.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 95,50</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produto 5 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col produto-card" data-id="5" data-nome="Pulverizador Costal 20L" data-preco="210.00">
-                    <div class="h-48 bg-gray-50 flex items-center justify-center p-2">
-                        <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=500&q=80" alt="Pulverizador" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">Equipamentos</span>
-                        <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-1">Pulverizador Costal 20L</h3>
-                        <p class="text-gray-600 text-xs mb-4 flex-grow">Design ergonômico com bicos ajustáveis, ideal para aplicação precisa.</p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="text-xl font-black text-gray-900">R$ 210,00</span>
-                            <button class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-cart-plus"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500 text-lg">Nenhum produto encontrado.</p>
+                <button onclick="resetFilters()" class="mt-4 text-green-700 font-semibold hover:underline">Limpar filtros</button>
             </div>
         </div>
 
-        <!-- Sidebar do Carrinho -->
-        <div class="lg:w-1/4 w-full mt-8 lg:mt-0">
-            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 sticky top-24">
-                <!-- Cabeçalho do Carrinho -->
-                <h2 class="text-xl font-bold mb-6 text-gray-900 flex items-center justify-between">
+        <!-- Sidebar Carrinho -->
+        <div class="lg:w-1/4 w-full mt-10 lg:mt-0">
+            <div id="cart-sidebar" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-36 overflow-y-auto">
+                <h2 class="text-lg font-bold mb-5 text-gray-900 flex items-center justify-between">
                     <span class="flex items-center gap-2">
-                        <i class="fa-solid fa-cart-shopping text-green-700"></i> Seu Carrinho
+                        <i class="fa-solid fa-cart-shopping text-green-700"></i> Carrinho
                     </span>
-                    <span id="cart-count" class="bg-green-50 text-green-800 text-xs px-2 py-1 rounded-full font-bold border border-green-200">2</span>
+                    <span id="cart-count" class="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-bold">0</span>
                 </h2>
                 
-                <!-- Lista de Itens do Carrinho -->
-                <div id="cart-items" class="space-y-4 mb-6">
-                    <!-- Item 1 -->
-                    <div class="flex justify-between items-start border-b border-gray-100 pb-4">
-                        <div class="flex-grow pr-2">
-                            <h4 class="text-sm font-bold text-gray-900 leading-tight">Defensivo Fungicida Global</h4>
-                            <span class="text-xs text-gray-400 block mt-1">Qtd: 1 × R$ 290,00</span>
-                        </div>
-                        <div class="text-right flex flex-col items-end">
-                            <span class="text-sm font-bold text-gray-900">R$ 290,00</span>
-                            <button class="text-red-500 hover:text-red-700 text-xs flex items-center gap-1 mt-1 transition">
-                                <i class="fa-regular fa-trash-can"></i> tirar
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="flex justify-between items-start border-b border-gray-100 pb-4">
-                        <div class="flex-grow pr-2">
-                            <h4 class="text-sm font-bold text-gray-900 leading-tight">Fertilizante NPK 04-14-08 1KG</h4>
-                            <span class="text-xs text-gray-400 block mt-1">Qtd: 1 × R$ 32,00</span>
-                        </div>
-                        <div class="text-right flex flex-col items-end">
-                            <span class="text-sm font-bold text-gray-900">R$ 32,00</span>
-                            <button class="text-red-500 hover:text-red-700 text-xs flex items-center gap-1 mt-1 transition">
-                                <i class="fa-regular fa-trash-can"></i> tirar
-                            </button>
-                        </div>
-                    </div>
+                <div id="cart-items" class="space-y-4 mb-5 min-h-[80px]">
+                    <p id="cart-empty" class="text-gray-400 text-sm text-center py-6">Seu carrinho está vazio</p>
                 </div>
 
-                <!-- Bloco de Total -->
-                <div class="flex justify-between items-center font-bold text-gray-900 mb-6 pt-2">
-                    <span class="text-base font-extrabold text-gray-950">Total:</span>
-                    <span id="cart-total" class="text-xl font-black text-green-700">R$ 322,00</span>
-                </div>
-
-                <!-- Botões de Ação -->
-                <div class="flex flex-col gap-3">
-                    <button id="checkout-btn" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 rounded-xl transition shadow-sm text-sm">
-                        Finalizar Compra
-                    </button>
-                    <button id="clear-cart-btn" class="w-full bg-white border border-red-200 hover:bg-red-50 text-red-500 font-bold py-2 rounded-xl transition text-xs">
-                        Limpar Carrinho
-                    </button>
+                <div class="border-t border-gray-100 pt-4">
+                    <div class="flex justify-between items-center font-bold text-gray-900 mb-5">
+                        <span>Total</span>
+                        <span id="cart-total" class="text-xl font-black text-green-700">R$ 0,00</span>
+                    </div>
+                    <div class="flex flex-col gap-2.5">
+                        <button id="checkout-btn" class="w-full bg-green-700 hover:bg-green-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition shadow-sm text-sm flex items-center justify-center gap-2" disabled>
+                            <i class="fa-solid fa-whatsapp"></i> Finalizar via WhatsApp
+                        </button>
+                        <button id="clear-cart-btn" class="w-full bg-white border border-gray-200 hover:bg-red-50 hover:border-red-200 hover:text-red-600 text-gray-500 font-medium py-2 rounded-xl transition text-xs">
+                            Limpar Carrinho
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-400 text-center mt-4">Pedido enviado direto para nossa equipe. Entrega sob consulta.</p>
                 </div>
             </div>
         </div>
+    </main>
 
+    <!-- Benefícios -->
+    <section class="bg-green-50 py-12 border-t border-green-100">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <div class="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Produtos Certificados</h3>
+                    <p class="text-sm text-gray-600">Sementes e insumos com procedência garantida</p>
+                </div>
+                <div class="p-4">
+                    <div class="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Orientação Técnica</h3>
+                    <p class="text-sm text-gray-600">Engenheiro agrônomo disponível para indicação</p>
+                </div>
+                <div class="p-4">
+                    <div class="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Condições Especiais</h3>
+                    <p class="text-sm text-gray-600">Negocie volumes e formas de pagamento</p>
+                </div>
+                <div class="p-4">
+                    <div class="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Atendimento Local</h3>
+                    <p class="text-sm text-gray-600">Visitas e entregas na região de cobertura</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-10 mt-auto">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-green-500"></i> AgroForte
+                    </h3>
+                    <p class="text-sm text-gray-400">Soluções agropecuárias e consultoria agronômica para o produtor rural.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Navegação</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-green-400 transition">Início</a></li>
+                        <li><a href="agropecuaria.html" class="hover:text-green-400 transition">Loja Agropecuária</a></li>
+                        <li><a href="consultas.html" class="hover:text-green-400 transition">Consultas</a></li>
+                        <li><a href="agendamento.html" class="hover:text-green-400 transition">Agendar Visita</a></li>
+                        <li><a href="contato.html" class="hover:text-green-400 transition">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Contato</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-green-500"></i> WhatsApp disponível</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-500"></i> Via formulário de contato</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                &copy; 2026 AgroForte. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== DADOS DOS PRODUTOS ==========
+        const produtos = [
+            {
+                id: 1,
+                nome: "Semente de Milho Híbrido 5kg",
+                categoria: "sementes",
+                preco: 340.00,
+                descricao: "Alta tolerância a pragas e excelente estabilidade produtiva para safrinha.",
+                img: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 2,
+                nome: "Fertilizante NPK 04-14-08 25kg",
+                categoria: "nutricao",
+                preco: 185.00,
+                descricao: "Ideal para o arranque inicial do plantio, promovendo raízes fortes e desenvolvimento vigoroso.",
+                img: "FERTILIZANTE.jpg",
+                badge: null
+            },
+            {
+                id: 3,
+                nome: "Verango Prime Bayer 5L",
+                categoria: "protecao",
+                preco: 290.00,
+                descricao: "Controle preventivo e curativo eficaz contra ferrugem e manchas foliares.",
+                img: "verando_prime_1_.jpg",
+                badge: "Destaque"
+            },
+            {
+                id: 4,
+                nome: "Ração de Corte Pro 25kg",
+                categoria: "animal",
+                preco: 95.50,
+                descricao: "Suplementação de alta palatabilidade para ganho de peso rápido do rebanho.",
+                img: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 5,
+                nome: "Pulverizador Costal 20L",
+                categoria: "equipamentos",
+                preco: 210.00,
+                descricao: "Design ergonômico com bicos ajustáveis, ideal para aplicação precisa de defensivos.",
+                img: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 6,
+                nome: "Calcário Agrícola 25kg",
+                categoria: "corretivos",
+                preco: 28.90,
+                descricao: "Corretivo de solo para elevação do pH e fornecimento de cálcio e magnésio.",
+                img: "calcario-agricola-25kg.jpg",
+                badge: "Mais vendido"
+            },
+            {
+                id: 7,
+                nome: "Semente de Soja RR 40kg",
+                categoria: "sementes",
+                preco: 420.00,
+                descricao: "Cultivar de alto potencial produtivo, resistente a herbicidas e com excelente sanidade.",
+                img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 8,
+                nome: "Ureia Agrícola 50kg",
+                categoria: "nutricao",
+                preco: 165.00,
+                descricao: "Fonte concentrada de nitrogênio (45%) para adubação de cobertura em grãos e pastagens.",
+                img: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 9,
+                nome: "Herbicida Glifosato 20L",
+                categoria: "protecao",
+                preco: 380.00,
+                descricao: "Controle eficiente de plantas daninhas em pré e pós-emergência. Alta concentração.",
+                img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&q=80",
+                badge: "Promoção"
+            },
+            {
+                id: 10,
+                nome: "Sal Mineral Bovinos 30kg",
+                categoria: "animal",
+                preco: 78.00,
+                descricao: "Suplemento mineral completo para rebanhos de corte e leite, com macro e microminerais.",
+                img: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 11,
+                nome: "Bomba Submersa 1CV",
+                categoria: "equipamentos",
+                preco: 890.00,
+                descricao: "Bomba d'água para irrigação e abastecimento. Ideal para propriedades de médio porte.",
+                img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 12,
+                nome: "Gesso Agrícola 25kg",
+                categoria: "corretivos",
+                preco: 32.00,
+                descricao: "Fonte de cálcio e enxofre. Melhora perfil do solo e neutraliza alumínio tóxico em profundidade.",
+                img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 13,
+                nome: "Semente de Pastagem Braquiária 10kg",
+                categoria: "sementes",
+                preco: 195.00,
+                descricao: "Brachiaria brizantha cv. Marandu. Alta produção de forragem e boa adaptação a solos ácidos.",
+                img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80",
+                badge: null
+            },
+            {
+                id: 14,
+                nome: "Adubo Orgânico Compostado 20kg",
+                categoria: "nutricao",
+                preco: 48.00,
+                descricao: "Fertilizante orgânico rico em matéria orgânica. Melhora estrutura e fertilidade do solo.",
+                img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80",
+                badge: "Novo"
+            },
+            {
+                id: 15,
+                nome: "Inseticida Lambda 5L",
+                categoria: "protecao",
+                preco: 245.00,
+                descricao: "Controle de lagartas, percevejos e outras pragas em soja, milho e hortaliças.",
+                img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&q=80",
+                badge: null
+            }
+        ];
+
+        // ========== ESTADO ==========
+        let cart = JSON.parse(localStorage.getItem('agroforte_cart') || '[]');
+        let currentCategory = 'todos';
+        let searchTerm = '';
+
+        // ========== RENDER PRODUTOS ==========
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const noResults = document.getElementById('no-results');
+            const title = document.getElementById('products-title');
+            const countEl = document.getElementById('products-count');
+
+            let filtered = produtos.filter(p => {
+                const matchCat = currentCategory === 'todos' || p.categoria === currentCategory;
+                const matchSearch = p.nome.toLowerCase().includes(searchTerm) || 
+                                   p.descricao.toLowerCase().includes(searchTerm);
+                return matchCat && matchSearch;
+            });
+
+            const catNames = {
+                todos: 'Todos os Produtos',
+                sementes: 'Sementes',
+                nutricao: 'Nutrição Vegetal',
+                protecao: 'Proteção de Cultivos',
+                animal: 'Nutrição Animal',
+                equipamentos: 'Equipamentos',
+                corretivos: 'Corretivos de Solo'
+            };
+            title.textContent = catNames[currentCategory] || 'Produtos';
+            countEl.textContent = `${filtered.length} produto${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+            noResults.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col" data-id="${p.id}">
+                    <div class="relative h-48 bg-gray-50 flex items-center justify-center p-3">
+                        ${p.badge ? `<span class="absolute top-3 left-3 badge-promo text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">${p.badge}</span>` : ''}
+                        <img src="${p.img}" alt="${p.nome}" class="w-full h-full object-contain" loading="lazy"
+                             onerror="this.src='https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&q=80'">
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <span class="text-xs font-bold uppercase tracking-wider text-green-700 mb-1">${getCategoryLabel(p.categoria)}</span>
+                        <h3 class="text-base font-bold mb-1.5 text-gray-900 line-clamp-2 leading-snug">${p.nome}</h3>
+                        <p class="text-gray-500 text-xs mb-4 flex-grow line-clamp-2">${p.descricao}</p>
+                        <div class="flex items-center justify-between mt-auto gap-2">
+                            <span class="text-xl font-black text-gray-900">R$ ${formatPrice(p.preco)}</span>
+                            <button onclick="addToCart(${p.id})" class="btn-add bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shrink-0">
+                                <i class="fa-solid fa-cart-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryLabel(cat) {
+            const labels = {
+                sementes: 'Sementes',
+                nutricao: 'Nutrição Vegetal',
+                protecao: 'Proteção',
+                animal: 'Nutrição Animal',
+                equipamentos: 'Equipamentos',
+                corretivos: 'Corretivos'
+            };
+            return labels[cat] || cat;
+        }
+
+        function formatPrice(v) {
+            return v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        // ========== CARRINHO ==========
+        function saveCart() {
+            localStorage.setItem('agroforte_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function addToCart(id) {
+            const produto = produtos.find(p => p.id === id);
+            if (!produto) return;
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.qtd += 1;
+            } else {
+                cart.push({ id: produto.id, nome: produto.nome, preco: produto.preco, qtd: 1 });
+            }
+            saveCart();
+            // Feedback visual
+            const btn = event?.target?.closest('button');
+            if (btn) {
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Adicionado';
+                btn.classList.replace('bg-green-700', 'bg-green-600');
+                setTimeout(() => { btn.innerHTML = original; btn.classList.replace('bg-green-600', 'bg-green-700'); }, 900);
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            saveCart();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qtd += delta;
+            if (item.qtd <= 0) removeFromCart(id);
+            else saveCart();
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            if (confirm('Deseja limpar todo o carrinho?')) {
+                cart = [];
+                saveCart();
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+
+            const totalQty = cart.reduce((s, i) => s + i.qtd, 0);
+            const total = cart.reduce((s, i) => s + i.preco * i.qtd, 0);
+
+            countEl.textContent = totalQty;
+            totalEl.textContent = 'R$ ' + formatPrice(total);
+            checkoutBtn.disabled = cart.length === 0;
+
+            if (mobileBadge) {
+                if (totalQty > 0) {
+                    mobileBadge.textContent = totalQty;
+                    mobileBadge.classList.remove('hidden');
+                } else {
+                    mobileBadge.classList.add('hidden');
+                }
+            }
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p id="cart-empty" class="text-gray-400 text-sm text-center py-6">Seu carrinho está vazio</p>';
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-start border-b border-gray-100 pb-3">
+                    <div class="flex-grow pr-2 min-w-0">
+                        <h4 class="text-sm font-bold text-gray-900 leading-tight truncate">${item.nome}</h4>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs flex items-center justify-center">−</button>
+                            <span class="text-xs font-semibold w-5 text-center">${item.qtd}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs flex items-center justify-center">+</button>
+                            <span class="text-xs text-gray-400 ml-1">× R$ ${formatPrice(item.preco)}</span>
+                        </div>
+                    </div>
+                    <div class="text-right flex flex-col items-end shrink-0">
+                        <span class="text-sm font-bold text-gray-900">R$ ${formatPrice(item.preco * item.qtd)}</span>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-xs flex items-center gap-1 mt-1 transition">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            const linhas = cart.map(i => `• ${i.qtd}x ${i.nome} — R$ ${formatPrice(i.preco * i.qtd)}`);
+            const total = cart.reduce((s, i) => s + i.preco * i.qtd, 0);
+            const msg = encodeURIComponent(
+                `Olá! Gostaria de fazer um pedido na AgroForte:\n\n${linhas.join('\n')}\n\n*Total: R$ ${formatPrice(total)}*\n\nAguardo confirmação de disponibilidade e entrega.`
+            );
+            // Substitua pelo número real com DDI (ex: 5511999999999)
+            window.open(`https://wa.me/55SEUNUMEROAQUI?text=${msg}`, '_blank');
+        }
+
+        // ========== FILTROS ==========
+        function resetFilters() {
+            currentCategory = 'todos';
+            searchTerm = '';
+            document.getElementById('search-input').value = '';
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.category-btn[data-category="todos"]').classList.add('active');
+            renderProducts();
+        }
+
+        // ========== EVENTOS ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            renderCart();
+
+            // Categorias
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderProducts();
+                });
+            });
+
+            // Busca
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchTerm = e.target.value.toLowerCase().trim();
+                renderProducts();
+            });
+
+            // Carrinho
+            document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+            // Menu mobile
+            document.getElementById('menu-btn').addEventListener('click', () => {
+                document.getElementById('mobile-nav').classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
