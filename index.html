@@ -11,19 +11,21 @@
 
     <header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-bold flex items-center gap-2 shrink-0">
                 <i class="fa-solid fa-leaf"></i> AgroForte
             </a>
-            <nav id="desktop-nav" class="hidden md:flex space-x-6 font-medium">
+            <div class="flex items-center gap-6 ml-auto">
+                <nav id="desktop-nav" class="hidden md:flex space-x-6 font-medium items-center">
                 <a href="index.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Início</a>
                 <a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
                 <a href="consultas.html" class="hover:text-green-200 transition">Consultas Agronômicas</a>
                 <a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
                 <a href="contato.html" class="hover:text-green-200 transition">Contato</a>
-            </nav>
-            <button class="md:hidden text-2xl" id="menu-btn" aria-label="Abrir menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+                </nav>
+                <button class="md:hidden text-2xl" id="menu-btn" aria-label="Abrir menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
         <nav id="mobile-nav" class="hidden md:hidden flex-col bg-green-800 px-4 pb-4 space-y-3 border-t border-green-600">
             <a href="index.html" class="text-green-200 font-semibold py-1">Início</a>
