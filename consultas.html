@@ -1,1 +1,207 @@
-<PLACEHOLDER>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroForte - Consultas Agronômicas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+.login-card{background:white;padding:32px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.08);width:100%;max-width:440px;text-align:center}
+.icon-header{color:#11783b;font-size:48px;margin-bottom:12px}
+.form-tabs{display:flex;gap:8px;margin-bottom:22px;background:#f1f3f5;padding:4px;border-radius:10px}
+.tab-btn{flex:1;padding:10px;border:none;background:transparent;color:#495057;font-weight:600;border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s}
+.tab-btn.active{background:#11783b;color:white;box-shadow:0 2px 6px rgba(17,120,59,.3)}
+.form-group{text-align:left;margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:#495057;margin-bottom:6px}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid #ced4da;border-radius:8px;font-size:14px;color:#495057;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:#11783b;box-shadow:0 0 0 3px rgba(17,120,59,.15)}
+.btn-submit{width:100%;background:#11783b;color:white;border:none;padding:14px;font-size:15px;font-weight:bold;border-radius:8px;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:8px}
+.btn-submit:hover{background:#0d5c2d}
+.message{margin-top:14px;font-size:13px;padding:10px 12px;border-radius:8px;display:none}
+.message.error{display:block;background:#f8d7da;color:#842029;border:1px solid #f5c2c7}
+.message.success{display:block;background:#d1e7dd;color:#0f5132;border:1px solid #badbcc}
+.demo-hint{margin-top:18px;padding:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;font-size:12px;color:#166534;text-align:left;line-height:1.5}
+.demo-hint strong{display:block;margin-bottom:4px}
+.dashboard{display:none;width:100%;max-width:1100px;background:white;padding:28px 32px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.dashboard-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #e9ecef;padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.dashboard-header h2{color:#11783b;font-size:22px;display:flex;align-items:center;gap:10px}
+.user-info{text-align:right}
+.user-badge{display:inline-block;background:#e8f5e9;color:#11783b;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;margin-bottom:4px}
+.user-info .name{font-size:14px;color:#495057}
+.search-panel{background:#f8faf9;border:1px solid #d1e7dd;border-radius:12px;padding:20px;margin-bottom:24px;display:none}
+.search-panel h3{color:#11783b;font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.search-row{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+@media(max-width:700px){.search-row{grid-template-columns:1fr}}
+.search-row .form-group{margin-bottom:0}
+.btn-search{background:#11783b;color:white;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;height:46px}
+.btn-search:hover{background:#0d5c2d}
+.search-result-msg{margin-top:12px;font-size:13px;color:#6c757d}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:28px}
+.info-card{background:#f8f9fa;border:1px solid #e9ecef;border-radius:10px;padding:18px;border-top:4px solid #11783b}
+.info-card.accent-orange{border-top-color:#e67e22}
+.info-card.accent-blue{border-top-color:#2980b9}
+.info-card.accent-purple{border-top-color:#8e44ad}
+.info-card h4{color:#212529;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.info-card p{font-size:13px;color:#495057;margin-bottom:6px;line-height:1.4}
+.info-card strong{color:#11783b}
+.info-card .highlight{font-size:22px;font-weight:800;color:#11783b;margin:4px 0 2px}
+.section-block{margin-bottom:28px}
+.section-title{font-size:16px;color:#212529;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px}
+table th,table td{padding:11px 12px;text-align:left;border-bottom:1px solid #e9ecef}
+table th{background:#f1f3f5;color:#495057;font-weight:600;white-space:nowrap}
+table tr:hover td{background:#f8faf9}
+.empty-row{text-align:center;color:#adb5bd;padding:20px!important}
+.badge-status{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:12px}
+.agenda-box{background:#f0fdf4;border:1px solid #bbf7d0;padding:20px;border-radius:12px;margin-bottom:28px}
+.agenda-box h3{color:#11783b;font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.agenda-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end}
+.agenda-form label{font-size:11px;font-weight:600;display:block;margin-bottom:4px;color:#495057}
+.agenda-form input,.agenda-form select{width:100%;padding:10px;border:1px solid #ced4da;border-radius:6px;font-size:13px}
+.btn-agenda{background:#11783b;color:white;border:none;padding:11px 16px;border-radius:6px;font-weight:bold;cursor:pointer;height:42px}
+.btn-agenda:hover{background:#0d5c2d}
+.btn-logout{margin-top:8px;background:#dc3545;color:white;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:bold;display:inline-flex;align-items:center;gap:6px}
+.btn-logout:hover{background:#bb2d3b}
+.property-header{background:linear-gradient(135deg,#11783b,#0d5c2d);color:white;padding:16px 20px;border-radius:10px;margin-bottom:20px;display:none}
+.property-header h3{font-size:17px;margin-bottom:4px}
+.property-header p{font-size:13px;opacity:.9}
+.btn-icon{background:transparent;border:none;cursor:pointer;padding:4px 6px;border-radius:6px;font-size:13px;transition:background .15s}
+.btn-icon.edit{color:#2563eb}.btn-icon.edit:hover{background:#dbeafe}
+.btn-icon.del{color:#dc3545}.btn-icon.del:hover{background:#fee2e2}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal-box{background:white;border-radius:14px;padding:24px;width:100%;max-width:480px;box-shadow:0 12px 40px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.modal-box h3{color:#11783b;font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+.btn-modal-cancel{background:#e9ecef;color:#495057;border:none;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer}
+.btn-modal-save{background:#11783b;color:white;border:none;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer}
+.btn-modal-save:hover{background:#0d5c2d}
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+<header class="bg-green-700 text-white sticky top-0 z-50 shadow-md">
+<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+<a href="index.html" class="text-2xl font-bold flex items-center gap-2 shrink-0"><i class="fa-solid fa-leaf"></i> AgroForte</a>
+<div class="flex items-center gap-6 ml-auto">
+<nav id="desktop-nav" class="hidden md:flex space-x-6 font-medium items-center">
+<a href="index.html" class="hover:text-green-200 transition">Início</a>
+<a href="agropecuaria.html" class="hover:text-green-200 transition">Agropecuária</a>
+<a href="consultas.html" class="text-green-200 transition border-b-2 border-green-200 pb-1">Consultas Agronômicas</a>
+<a href="agendamento.html" class="hover:text-green-200 transition">Agendar Visita</a>
+<a href="contato.html" class="hover:text-green-200 transition">Contato</a>
+</nav>
+<button class="md:hidden text-2xl" id="menu-btn" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+</div></div>
+<nav id="mobile-nav" class="hidden md:hidden flex-col bg-green-800 px-4 pb-4 space-y-3 border-t border-green-600">
+<a href="index.html" class="hover:text-green-200 transition py-1">Início</a>
+<a href="agropecuaria.html" class="hover:text-green-200 transition py-1">Agropecuária</a>
+<a href="consultas.html" class="text-green-200 font-semibold py-1">Consultas Agronômicas</a>
+<a href="agendamento.html" class="hover:text-green-200 transition py-1">Agendar Visita</a>
+<a href="contato.html" class="hover:text-green-200 transition py-1">Contato</a>
+</nav>
+</header>
+<main class="flex-1 flex justify-center items-start px-4 py-8">
+<div class="login-card" id="loginCard">
+<div class="icon-header"><i class="fas fa-user-shield"></i></div>
+<div class="form-tabs">
+<button type="button" class="tab-btn active" id="tabLogin" onclick="alternarAba('login')">Entrar</button>
+<button type="button" class="tab-btn" id="tabCadastro" onclick="alternarAba('cadastro')">Cadastrar</button>
+</div>
+<h2 class="text-xl font-bold text-gray-800 mb-1" id="cardTitle">Acesso ao Sistema</h2>
+<p class="text-sm text-gray-500 mb-5" id="cardSubtitle">Informe nome, CPF e perfil para acessar o histórico da lavoura.</p>
+<form id="authForm">
+<div class="form-group"><label>Nome Completo</label><input type="text" id="nome" placeholder="Ex: João da Silva" required></div>
+<div class="form-group"><label>CPF</label><input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required></div>
+<div class="form-group"><label>Tipo de Perfil</label><select id="perfil" required><option value="">Selecione...</option><option value="Produtor">Produtor</option><option value="Agrônomo">Agrônomo</option><option value="Técnico Agrícola">Técnico Agrícola</option></select></div>
+<button type="submit" class="btn-submit" id="btnSubmit"><i class="fas fa-sign-in-alt"></i> Entrar no Painel</button>
+</form>
+<div id="feedbackMsg" class="message"></div>
+<div class="demo-hint">
+<strong><i class="fas fa-info-circle"></i> Contas de demonstração</strong>
+<div><b>Produtor:</b> Luh Walacheski — CPF 123.456.789-00</div>
+<div><b>Produtor:</b> Maria dos Santos — CPF 123.456.789-10</div>
+<div><b>Produtor:</b> José Ferreira — CPF 222.333.444-55</div>
+<div><b>Produtor:</b> Francisca Lima — CPF 333.444.555-66</div>
+<div><b>Agrônomo:</b> Carlos Silva — CPF 987.654.321-11</div>
+<div><b>Técnico:</b> Ana Souza — CPF 111.222.333-44</div>
+</div></div>
+<div class="dashboard" id="dashboardPanel">
+<div class="dashboard-header">
+<h2><i class="fas fa-seedling"></i> Consultas Agronômicas</h2>
+<div class="user-info"><span class="user-badge" id="userRoleBadge">Produtor</span><div class="name" id="userWelcome">—</div></div>
+</div>
+<div class="search-panel" id="searchPanel">
+<h3><i class="fas fa-search"></i> Buscar produtor por nome e CPF</h3>
+<div class="search-row">
+<div class="form-group"><label>Nome do produtor</label><input type="text" id="buscaNome" placeholder="Digite o nome do produtor"></div>
+<div class="form-group"><label>CPF do produtor</label><input type="text" id="buscaCpf" placeholder="000.000.000-00" maxlength="14"></div>
+<button type="button" class="btn-search" onclick="buscarProdutor()"><i class="fas fa-search"></i> Buscar</button>
+</div>
+<div class="search-result-msg" id="searchMsg"></div>
+</div>
+<div class="property-header" id="propertyHeader"><h3 id="propNome">—</h3><p id="propCpf">—</p></div>
+<div id="dadosPropriedade" style="display:none">
+<div class="grid-cards">
+<div class="info-card"><h4><i class="fas fa-seedling"></i> Última Safra — Semente</h4><p class="highlight" id="sementeAno" style="font-size:16px">—</p><p><strong>Safra:</strong> <span id="safraAno">—</span></p><p><strong>Área:</strong> <span id="areaPlantada">—</span></p></div>
+<div class="info-card accent-orange"><h4><i class="fas fa-boxes-stacked"></i> Produtividade</h4><p class="highlight" id="sacasTotal">—</p><p style="font-size:12px;color:#6c757d">sacas colhidas</p><p><strong>Média:</strong> <span id="sacasHa">—</span> sc/ha</p></div>
+<div class="info-card accent-blue"><h4><i class="fas fa-spray-can"></i> Fungicidas</h4><p class="highlight" id="qtdFungicidas">—</p><p style="font-size:12px;color:#6c757d">aplicações na safra</p><p id="listaFungicidasResumo" style="font-size:12px">—</p></div>
+<div class="info-card accent-purple"><h4><i class="fas fa-mountain"></i> Solo</h4><p><strong>pH:</strong> <span id="soilPh">—</span></p><p><strong>Umidade:</strong> <span id="soilHumidity">—</span></p><p><strong>Última calagem:</strong> <span id="lastLime">—</span></p><p id="soilExtra" style="font-size:12px;margin-top:6px;color:#6c757d"></p></div>
+</div>
+<div class="section-block"><h3 class="section-title"><i class="fas fa-chart-line"></i> Histórico de Safras</h3><div class="overflow-x-auto"><table><thead><tr><th>Safra</th><th>Cultura / Semente</th><th>Área (ha)</th><th>Sacas</th><th>sc/ha</th></tr></thead><tbody id="tabelaSafras"></tbody></table></div></div>
+<div class="section-block"><h3 class="section-title"><i class="fas fa-flask"></i> Histórico de Aplicações</h3><div class="overflow-x-auto"><table><thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Alvo</th><th>Dose</th><th>Vezes</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tabelaAplicacoes"></tbody></table></div></div>
+<div class="agenda-box"><h3 id="agendaTitle"><i class="fas fa-calendar-plus"></i> Registrar aplicação / lembrete</h3>
+<form id="agendaForm" class="agenda-form">
+<div><label>Data</label><input type="date" id="agData" required></div>
+<div><label>Produto</label><input type="text" id="agProduto" placeholder="Ex: Fox Xpro" required></div>
+<div><label>Tipo</label><select id="agTipo" required><option value="Fungicida">Fungicida</option><option value="Herbicida">Herbicida</option><option value="Inseticida">Inseticida</option><option value="Outro">Outro</option></select></div>
+<div><label>Alvo / Finalidade</label><input type="text" id="agAlvo" placeholder="Ex: Ferrugem Asiática" required></div>
+<div><label>Dosagem</label><input type="text" id="agDose" placeholder="Ex: 0,5 L/ha" required></div>
+<button type="submit" class="btn-agenda"><i class="fas fa-plus"></i> Salvar</button>
+</form></div></div>
+<div id="emptyState" style="text-align:center;padding:40px 20px;color:#adb5bd;display:none"><i class="fas fa-folder-open" style="font-size:48px;margin-bottom:12px"></i><p style="font-size:15px">Nenhuma propriedade selecionada.</p><p style="font-size:13px;margin-top:6px">Use a busca acima para localizar um produtor pelo nome e CPF.</p></div>
+<button class="btn-logout" onclick="sair()"><i class="fas fa-sign-out-alt"></i> Sair do Sistema</button>
+</div></main>
+<div class="modal-overlay" id="editModal" role="dialog" aria-modal="true">
+<div class="modal-box">
+<h3><i class="fas fa-pen-to-square"></i> Editar aplicação / recomendação</h3>
+<input type="hidden" id="editIndex">
+<div class="form-group"><label>Data</label><input type="text" id="editData" placeholder="DD/MM/AAAA"></div>
+<div class="form-group"><label>Produto</label><input type="text" id="editProduto"></div>
+<div class="form-group"><label>Tipo</label><select id="editTipo"><option value="Fungicida">Fungicida</option><option value="Herbicida">Herbicida</option><option value="Inseticida">Inseticida</option><option value="Fertilizante">Fertilizante</option><option value="Corretivo">Corretivo</option><option value="Outro">Outro</option></select></div>
+<div class="form-group"><label>Alvo / Finalidade</label><input type="text" id="editAlvo"></div>
+<div class="form-group"><label>Dosagem</label><input type="text" id="editDose"></div>
+<div class="form-group"><label>Vezes</label><input type="number" id="editVezes" min="1" value="1"></div>
+<div class="form-group"><label>Status</label><select id="editStatus"><option value="Concluído">Concluído</option><option value="Agendado">Agendado</option><option value="Agendado pelo Produtor">Agendado pelo Produtor</option><option value="Recomendação Agrônomo/Técnico">Recomendação Agrônomo/Técnico</option></select></div>
+<div class="modal-actions">
+<button type="button" class="btn-modal-cancel" onclick="fecharModalEdicao()">Cancelar</button>
+<button type="button" class="btn-modal-save" onclick="salvarEdicaoAplicacao()"><i class="fas fa-save"></i> Salvar</button>
+</div></div></div>
+<footer class="bg-gray-900 text-gray-300 mt-auto"><div class="container mx-auto px-4 max-w-7xl py-12"><div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10"><div><h3 class="text-white font-bold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-leaf text-green-500"></i> AgroForte</h3><p class="text-sm text-gray-400 leading-relaxed">Insumos agropecuários, consultoria agronômica e suporte técnico para o produtor rural.</p></div><div><h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Navegação</h4><ul class="space-y-2 text-sm"><li><a href="index.html" class="hover:text-green-400 transition">Início</a></li><li><a href="agropecuaria.html" class="hover:text-green-400 transition">Loja Agropecuária</a></li><li><a href="consultas.html" class="hover:text-green-400 transition">Consultas Agronômicas</a></li><li><a href="agendamento.html" class="hover:text-green-400 transition">Agendar Visita</a></li><li><a href="contato.html" class="hover:text-green-400 transition">Contato</a></li></ul></div><div><h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Contato</h4><ul class="space-y-2 text-sm text-gray-400"><li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-green-500 w-4"></i> Atendimento via WhatsApp</li><li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-500 w-4"></i> Formulário de contato</li><li class="flex items-center gap-2"><i class="fa-solid fa-clock text-green-500 w-4"></i> Seg–Sex 07h–17h · Sáb 07h–12h</li></ul></div></div><div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">&copy; 2026 AgroForte. Todos os direitos reservados.</div></div></footer>
+<script>
+const usuariosIniciais=[{nome:"Luh Walacheski",cpf:"123.456.789-00",perfil:"Produtor"},{nome:"Carlos Silva",cpf:"987.654.321-11",perfil:"Agrônomo"},{nome:"Ana Souza",cpf:"111.222.333-44",perfil:"Técnico Agrícola"},{nome:"Pedro Oliveira",cpf:"555.666.777-88",perfil:"Produtor"},{nome:"Maria dos Santos",cpf:"123.456.789-10",perfil:"Produtor"},{nome:"José Ferreira",cpf:"222.333.444-55",perfil:"Produtor"},{nome:"Francisca Lima",cpf:"333.444.555-66",perfil:"Produtor"},{nome:"Roberto Mendes",cpf:"444.555.666-77",perfil:"Produtor"},{nome:"Dr. Marcos Ribeiro",cpf:"777.888.999-00",perfil:"Agrônomo"},{nome:"Paula Costa",cpf:"666.777.888-99",perfil:"Técnico Agrícola"}];
+const historicosIniciais={"123.456.789-00":{nome:"Luh Walacheski",propriedade:"Fazenda Santa Luzia",municipio:"Cascavel - PR",solo:{ph:"6.2 (Ideal)",umidade:"24%",calagem:"Outubro / 2025",textura:"Argiloso",materiaOrganica:"3,8%"},safras:[{safra:"2025/2026",cultura:"Soja - Monsoy 6410 IPRO",area:120,sacas:7200,scHa:60},{safra:"2024/2025",cultura:"Soja - Brasmax Desafio RR",area:110,sacas:6050,scHa:55},{safra:"2023/2024",cultura:"Milho - Híbrido AG 9025",area:80,sacas:9600,scHa:120}],aplicacoes:[{data:"15/01/2026",produto:"Glifosato 480",tipo:"Herbicida",alvo:"Dessecação pré-plantio",dose:"2,5 L/ha",vezes:1,status:"Concluído"},{data:"10/02/2026",produto:"Fox Xpro",tipo:"Fungicida",alvo:"Ferrugem Asiática",dose:"0,5 L/ha",vezes:1,status:"Concluído"},{data:"28/02/2026",produto:"Fox Xpro",tipo:"Fungicida",alvo:"Ferrugem Asiática (2ª)",dose:"0,5 L/ha",vezes:2,status:"Concluído"},{data:"15/03/2026",produto:"Elatus",tipo:"Fungicida",alvo:"Mancha-alvo / Ferrugem",dose:"0,3 L/ha",vezes:1,status:"Concluído"},{data:"12/06/2026",produto:"Prêmio",tipo:"Inseticida",alvo:"Lagarta",dose:"0,3 L/ha",vezes:1,status:"Agendado"}]},"555.666.777-88":{nome:"Pedro Oliveira",propriedade:"Sítio Boa Esperança",municipio:"Toledo - PR",solo:{ph:"5.9 (Bom)",umidade:"22%",calagem:"Agosto / 2025",textura:"Franco-argiloso",materiaOrganica:"3,2%"},safras:[{safra:"2025/2026",cultura:"Soja - Intacta RR2 Pro",area:85,sacas:4675,scHa:55},{safra:"2024/2025",cultura:"Soja - NS 6909 IPRO",area:80,sacas:4000,scHa:50}],aplicacoes:[{data:"20/01/2026",produto:"Roundup Original",tipo:"Herbicida",alvo:"Plantas daninhas",dose:"2,0 L/ha",vezes:1,status:"Concluído"},{data:"05/02/2026",produto:"Priori Xtra",tipo:"Fungicida",alvo:"Ferrugem",dose:"0,4 L/ha",vezes:1,status:"Concluído"},{data:"25/02/2026",produto:"Priori Xtra",tipo:"Fungicida",alvo:"Ferrugem (2ª)",dose:"0,4 L/ha",vezes:2,status:"Concluído"}]},"123.456.789-10":{nome:"Maria dos Santos",propriedade:"Fazenda Nossa Senhora Aparecida",municipio:"Marechal Cândido Rondon - PR",solo:{ph:"6.0 (Ideal)",umidade:"26%",calagem:"Setembro / 2025",textura:"Argiloso",materiaOrganica:"4,1%"},safras:[{safra:"2025/2026",cultura:"Soja - BMX Potência IPRO",area:95,sacas:5700,scHa:60},{safra:"2024/2025",cultura:"Soja - Monsoy 6210 IPRO",area:90,sacas:4950,scHa:55},{safra:"2023/2024",cultura:"Milho - Dekalb DKB 290",area:70,sacas:9100,scHa:130}],aplicacoes:[{data:"12/01/2026",produto:"Glifosato 480",tipo:"Herbicida",alvo:"Dessecação pré-plantio",dose:"2,5 L/ha",vezes:1,status:"Concluído"},{data:"08/02/2026",produto:"Fox Xpro",tipo:"Fungicida",alvo:"Ferrugem Asiática",dose:"0,5 L/ha",vezes:1,status:"Concluído"},{data:"22/02/2026",produto:"Fox Xpro",tipo:"Fungicida",alvo:"Ferrugem Asiática (2ª)",dose:"0,5 L/ha",vezes:2,status:"Concluído"},{data:"10/03/2026",produto:"Elatus",tipo:"Fungicida",alvo:"Mancha-alvo",dose:"0,3 L/ha",vezes:1,status:"Concluído"},{data:"18/03/2026",produto:"Engeo Pleno S",tipo:"Inseticida",alvo:"Percevejo-marrom",dose:"0,25 L/ha",vezes:1,status:"Concluído"},{data:"20/06/2026",produto:"Prêmio",tipo:"Inseticida",alvo:"Lagarta-da-soja",dose:"0,3 L/ha",vezes:1,status:"Agendado"}]},"222.333.444-55":{nome:"José Ferreira",propriedade:"Chácara São José",municipio:"Palotina - PR",solo:{ph:"5.7 (Médio)",umidade:"20%",calagem:"Novembro / 2024",textura:"Arenoso",materiaOrganica:"2,4%"},safras:[{safra:"2025/2026",cultura:"Milho - AG 8088 PRO3",area:45,sacas:5400,scHa:120},{safra:"2024/2025",cultura:"Soja - HO Maraca IPRO",area:40,sacas:2000,scHa:50}],aplicacoes:[{data:"05/02/2026",produto:"Atrazina 500",tipo:"Herbicida",alvo:"Plantas daninhas em milho",dose:"3,0 L/ha",vezes:1,status:"Concluído"},{data:"20/02/2026",produto:"Opera Ultra",tipo:"Fungicida",alvo:"Ferrugem polisora",dose:"0,5 L/ha",vezes:1,status:"Concluído"},{data:"15/03/2026",produto:"Connect",tipo:"Inseticida",alvo:"Cigarrinha-do-milho",dose:"0,75 L/ha",vezes:1,status:"Concluído"}]},"333.444.555-66":{nome:"Francisca Lima",propriedade:"Fazenda Primavera",municipio:"Guaíra - PR",solo:{ph:"6.3 (Ideal)",umidade:"25%",calagem:"Julho / 2025",textura:"Franco-argiloso",materiaOrganica:"3,9%"},safras:[{safra:"2025/2026",cultura:"Soja - TMG 7062 IPRO",area:150,sacas:9750,scHa:65},{safra:"2024/2025",cultura:"Soja - BMX Tornado IPRO",area:145,sacas:8700,scHa:60}],aplicacoes:[{data:"10/01/2026",produto:"Glifosato 480",tipo:"Herbicida",alvo:"Dessecação",dose:"2,5 L/ha",vezes:1,status:"Concluído"},{data:"15/02/2026",produto:"Fox Xpro",tipo:"Fungicida",alvo:"Ferrugem Asiática",dose:"0,5 L/ha",vezes:1,status:"Concluído"},{data:"05/03/2026",produto:"Elatus",tipo:"Fungicida",alvo:"Manchas foliares",dose:"0,3 L/ha",vezes:1,status:"Concluído"}]},"444.555.666-77":{nome:"Roberto Mendes",propriedade:"Sítio Recanto Verde",municipio:"Assis Chateaubriand - PR",solo:{ph:"5.5 (Baixo)",umidade:"18%",calagem:"Pendente 2026",textura:"Arenoso",materiaOrganica:"1,9%"},safras:[{safra:"2025/2026",cultura:"Soja - NS 7709 IPRO",area:30,sacas:1350,scHa:45}],aplicacoes:[{data:"18/01/2026",produto:"Glifosato 480",tipo:"Herbicida",alvo:"Dessecação",dose:"3,0 L/ha",vezes:1,status:"Concluído"},{data:"12/02/2026",produto:"Priori Xtra",tipo:"Fungicida",alvo:"Ferrugem",dose:"0,4 L/ha",vezes:1,status:"Concluído"}]}};
+function gerarHistoricoDemo(nome,cpf){const culturas=["Soja - Monsoy 6410 IPRO","Soja - BMX Potência IPRO","Milho - AG 9025","Soja - Brasmax Desafio RR"];const fungicidas=["Fox Xpro","Elatus","Priori Xtra"];const herbicidas=["Glifosato 480","Roundup Original"];const inseticidas=["Engeo Pleno S","Prêmio","Belt"];const area=40+Math.floor(Math.random()*80);const scHa=48+Math.floor(Math.random()*18);const fung=fungicidas[Math.floor(Math.random()*fungicidas.length)];const herb=herbicidas[Math.floor(Math.random()*herbicidas.length)];const ins=inseticidas[Math.floor(Math.random()*inseticidas.length)];const cult1=culturas[Math.floor(Math.random()*culturas.length)];const cult2=culturas[Math.floor(Math.random()*culturas.length)];return{nome:nome,propriedade:"Propriedade de "+nome.split(" ")[0],municipio:"Região Oeste - PR",solo:{ph:(5.5+Math.random()*0.9).toFixed(1)+" (Bom)",umidade:(18+Math.floor(Math.random()*10))+"%",calagem:"2025",textura:"Franco-argiloso",materiaOrganica:(2.5+Math.random()*1.5).toFixed(1)+"%"},safras:[{safra:"2025/2026",cultura:cult1,area:area,sacas:area*scHa,scHa:scHa},{safra:"2024/2025",cultura:cult2,area:Math.max(20,area-10),sacas:Math.round((area-10)*(scHa-5)),scHa:scHa-5}],aplicacoes:[{data:"15/01/2026",produto:herb,tipo:"Herbicida",alvo:"Dessecação pré-plantio",dose:"2,5 L/ha",vezes:1,status:"Concluído"},{data:"10/02/2026",produto:fung,tipo:"Fungicida",alvo:"Ferrugem Asiática",dose:"0,5 L/ha",vezes:1,status:"Concluído"},{data:"28/02/2026",produto:fung,tipo:"Fungicida",alvo:"Ferrugem Asiática (2ª)",dose:"0,5 L/ha",vezes:2,status:"Concluído"},{data:"15/03/2026",produto:ins,tipo:"Inseticida",alvo:"Percevejo / Lagarta",dose:"0,3 L/ha",vezes:1,status:"Concluído"},{data:"20/06/2026",produto:"Ureia 45%",tipo:"Fertilizante",alvo:"Cobertura",dose:"150 kg/ha",vezes:1,status:"Agendado"}]};}
+let usuarioLogado=null,cpfPropriedadeAtual="",modoAtual="login";
+function obterUsuarios(){const d=localStorage.getItem("agro_usuarios");if(!d){localStorage.setItem("agro_usuarios",JSON.stringify(usuariosIniciais));return[...usuariosIniciais];}let stored=JSON.parse(d);let changed=false;usuariosIniciais.forEach(u=>{if(!stored.some(s=>s.cpf===u.cpf)){stored.push(u);changed=true;}});if(changed)localStorage.setItem("agro_usuarios",JSON.stringify(stored));return stored;}
+function obterHistoricos(){const d=localStorage.getItem("agro_historicos_detalhados");if(!d){localStorage.setItem("agro_historicos_detalhados",JSON.stringify(historicosIniciais));return JSON.parse(JSON.stringify(historicosIniciais));}const stored=JSON.parse(d);let changed=false;for(const cpf in historicosIniciais){if(!stored[cpf]){stored[cpf]=historicosIniciais[cpf];changed=true;}}if(changed)localStorage.setItem("agro_historicos_detalhados",JSON.stringify(stored));return stored;}
+function alternarAba(modo){modoAtual=modo;document.getElementById("tabLogin").classList.toggle("active",modo==="login");document.getElementById("tabCadastro").classList.toggle("active",modo==="cadastro");document.getElementById("cardTitle").innerText=modo==="login"?"Acesso ao Sistema":"Criar Nova Conta";document.getElementById("cardSubtitle").innerText=modo==="login"?"Informe nome, CPF e perfil para acessar o histórico da lavoura.":"Cadastre-se com nome, CPF e tipo de perfil.";document.getElementById("btnSubmit").innerHTML=modo==="login"?'<i class="fas fa-sign-in-alt"></i> Entrar no Painel':'<i class="fas fa-user-plus"></i> Finalizar Cadastro';document.getElementById("feedbackMsg").style.display="none";}
+function aplicarMascaraCpf(input){if(!input)return;input.addEventListener("input",function(e){let v=e.target.value.replace(/\D/g,"");if(v.length>3)v=v.slice(0,3)+"."+v.slice(3);if(v.length>7)v=v.slice(0,7)+"."+v.slice(7);if(v.length>11)v=v.slice(0,11)+"-"+v.slice(11,13);e.target.value=v;});}
+aplicarMascaraCpf(document.getElementById("cpf"));aplicarMascaraCpf(document.getElementById("buscaCpf"));
+document.getElementById("authForm").addEventListener("submit",function(e){e.preventDefault();const nome=document.getElementById("nome").value.trim();const cpf=document.getElementById("cpf").value.trim();const perfil=document.getElementById("perfil").value;const msg=document.getElementById("feedbackMsg");if(!perfil){msg.className="message error";msg.innerText="Selecione o tipo de perfil.";msg.style.display="block";return;}let usuarios=obterUsuarios();let historicos=obterHistoricos();if(modoAtual==="cadastro"){if(usuarios.some(u=>u.cpf===cpf)){msg.className="message error";msg.innerText="CPF já cadastrado!";msg.style.display="block";return;}usuarios.push({nome,cpf,perfil});localStorage.setItem("agro_usuarios",JSON.stringify(usuarios));if(perfil==="Produtor"&&!historicos[cpf]){historicos[cpf]=gerarHistoricoDemo(nome,cpf);localStorage.setItem("agro_historicos_detalhados",JSON.stringify(historicos));}msg.className="message success";msg.innerText="Cadastro realizado! Você já pode entrar.";msg.style.display="block";setTimeout(()=>alternarAba("login"),1500);return;}const user=usuarios.find(u=>u.nome.toLowerCase()===nome.toLowerCase()&&u.cpf===cpf&&u.perfil===perfil);if(!user){msg.className="message error";msg.innerText="Dados incorretos. Verifique nome, CPF e perfil.";msg.style.display="block";return;}usuarioLogado=user;carregarPainel();});
+function carregarPainel(){document.getElementById("userWelcome").innerText=usuarioLogado.nome;document.getElementById("userRoleBadge").innerText=usuarioLogado.perfil;const isTecnico=usuarioLogado.perfil==="Agrônomo"||usuarioLogado.perfil==="Técnico Agrícola";document.getElementById("searchPanel").style.display=isTecnico?"block":"none";document.getElementById("loginCard").style.display="none";document.getElementById("dashboardPanel").style.display="block";if(usuarioLogado.perfil==="Produtor"){cpfPropriedadeAtual=usuarioLogado.cpf;document.getElementById("agendaTitle").innerHTML='<i class="fas fa-calendar-plus"></i> Registrar aplicação / lembrete na sua propriedade';exibirDadosPropriedade(cpfPropriedadeAtual);}else{cpfPropriedadeAtual="";document.getElementById("agendaTitle").innerHTML='<i class="fas fa-user-md"></i> Registrar recomendação / aplicação para o produtor';document.getElementById("dadosPropriedade").style.display="none";document.getElementById("propertyHeader").style.display="none";document.getElementById("emptyState").style.display="block";document.getElementById("searchMsg").innerText="Digite o nome e o CPF do produtor para consultar o histórico completo.";}}
+function buscarProdutor(){const nomeBusca=document.getElementById("buscaNome").value.trim().toLowerCase();const cpfBusca=document.getElementById("buscaCpf").value.trim();const msg=document.getElementById("searchMsg");if(!nomeBusca&&!cpfBusca){msg.innerText="Informe o nome e/ou o CPF do produtor.";msg.style.color="#842029";return;}const produtores=obterUsuarios().filter(u=>u.perfil==="Produtor");let encontrado=produtores.find(p=>{const matchNome=!nomeBusca||p.nome.toLowerCase().includes(nomeBusca);const matchCpf=!cpfBusca||p.cpf===cpfBusca;return matchNome&&matchCpf;});if(!encontrado&&cpfBusca){const hist=obterHistoricos();if(hist[cpfBusca])encontrado={nome:hist[cpfBusca].nome||"Produtor",cpf:cpfBusca,perfil:"Produtor"};}if(!encontrado){msg.innerText="Nenhum produtor encontrado.";msg.style.color="#842029";document.getElementById("dadosPropriedade").style.display="none";document.getElementById("propertyHeader").style.display="none";document.getElementById("emptyState").style.display="block";cpfPropriedadeAtual="";return;}msg.innerText="Produtor encontrado: "+encontrado.nome;msg.style.color="#0f5132";cpfPropriedadeAtual=encontrado.cpf;exibirDadosPropriedade(encontrado.cpf);}
+function exibirDadosPropriedade(cpf){const historicos=obterHistoricos();const dados=historicos[cpf]||{nome:"-",solo:{ph:"Não registrado",umidade:"-",calagem:"-"},safras:[],aplicacoes:[]};const prod=obterUsuarios().find(u=>u.cpf===cpf);const nomeProd=(prod&&prod.nome)||dados.nome||"Produtor";document.getElementById("propertyHeader").style.display="block";document.getElementById("propNome").innerText=nomeProd+(dados.propriedade?" — "+dados.propriedade:"");document.getElementById("propCpf").innerText="CPF: "+cpf+(dados.municipio?" · "+dados.municipio:"");document.getElementById("emptyState").style.display="none";document.getElementById("dadosPropriedade").style.display="block";document.getElementById("soilPh").innerText=dados.solo.ph;document.getElementById("soilHumidity").innerText=dados.solo.umidade;document.getElementById("lastLime").innerText=dados.solo.calagem;const soilExtra=document.getElementById("soilExtra");if(soilExtra){const parts=[];if(dados.solo.textura)parts.push("<strong>Textura:</strong> "+dados.solo.textura);if(dados.solo.materiaOrganica)parts.push("<strong>M.O.:</strong> "+dados.solo.materiaOrganica);soilExtra.innerHTML=parts.length?parts.join(" · "):"";}const ultima=(dados.safras&&dados.safras[0])||null;if(ultima){document.getElementById("sementeAno").innerText=ultima.cultura;document.getElementById("safraAno").innerText=ultima.safra;document.getElementById("areaPlantada").innerText=ultima.area+" ha";document.getElementById("sacasTotal").innerText=ultima.sacas.toLocaleString("pt-BR");document.getElementById("sacasHa").innerText=ultima.scHa;}else{document.getElementById("sementeAno").innerText="Sem registro";document.getElementById("safraAno").innerText="-";document.getElementById("areaPlantada").innerText="-";document.getElementById("sacasTotal").innerText="-";document.getElementById("sacasHa").innerText="-";}const apps=dados.aplicacoes||[];const fungicidas=apps.filter(a=>a.tipo==="Fungicida");document.getElementById("qtdFungicidas").innerText=fungicidas.length;const resumoFung={};fungicidas.forEach(f=>{resumoFung[f.produto]=(resumoFung[f.produto]||0)+1;});document.getElementById("listaFungicidasResumo").innerText=Object.entries(resumoFung).map(([p,n])=>p+" ("+n+"x)").join(", ")||"Nenhuma";const tSafras=document.getElementById("tabelaSafras");if(!dados.safras||!dados.safras.length){tSafras.innerHTML='<tr><td colspan="5" class="empty-row">Nenhuma safra registrada.</td></tr>';}else{tSafras.innerHTML=dados.safras.map(s=>"<tr><td>"+s.safra+"</td><td><strong>"+s.cultura+"</strong></td><td>"+s.area+"</td><td>"+s.sacas.toLocaleString("pt-BR")+"</td><td>"+s.scHa+"</td></tr>").join("");}renderTabelaAplicacoes(apps);}
+function podeEditarAplicacoes(){if(!usuarioLogado)return false;if(usuarioLogado.perfil==="Agrônomo"||usuarioLogado.perfil==="Técnico Agrícola")return true;if(usuarioLogado.perfil==="Produtor"&&cpfPropriedadeAtual===usuarioLogado.cpf)return true;return false;}
+function renderTabelaAplicacoes(lista){const tbody=document.getElementById("tabelaAplicacoes");if(!lista||!lista.length){tbody.innerHTML='<tr><td colspan="8" class="empty-row">Nenhuma aplicação registrada.</td></tr>';return;}const pode=podeEditarAplicacoes();tbody.innerHTML=lista.map((app,i)=>{let cor="#11783b",icone="fa-check-circle";if((app.status||"").includes("Agendado")){cor="#d97706";icone="fa-clock";}else if((app.status||"").includes("Recomendação")||(app.status||"").includes("Agrônomo")||(app.status||"").includes("Recomendacao")||(app.status||"").includes("Agronomo")||(app.status||"").includes("Técnico")){cor="#2563eb";icone="fa-user-md";}let acoes=pode?'<td style="white-space:nowrap"><button type="button" class="btn-icon edit" title="Editar" onclick="abrirEdicaoAplicacao('+i+')"><i class="fas fa-pen"></i></button><button type="button" class="btn-icon del" title="Excluir" onclick="excluirAplicacao('+i+')"><i class="fas fa-trash"></i></button></td>':'<td style="color:#adb5bd;font-size:12px">—</td>';return "<tr><td>"+app.data+"</td><td><strong>"+app.produto+"</strong></td><td>"+(app.tipo||"-")+"</td><td>"+app.alvo+"</td><td>"+app.dose+"</td><td>"+(app.vezes||1)+"x</td><td><span class=\"badge-status\" style=\"color:"+cor+'\"><i class=\"fas '+icone+'\"></i> '+app.status+"</span></td>"+acoes+"</tr>";}).join("");}
+function abrirEdicaoAplicacao(index){if(!podeEditarAplicacoes()){alert("Você não tem permissão para editar.");return;}if(!cpfPropriedadeAtual)return;const historicos=obterHistoricos();const dados=historicos[cpfPropriedadeAtual];if(!dados||!dados.aplicacoes||!dados.aplicacoes[index])return;const app=dados.aplicacoes[index];document.getElementById("editIndex").value=index;document.getElementById("editData").value=app.data||"";document.getElementById("editProduto").value=app.produto||"";document.getElementById("editTipo").value=app.tipo||"Outro";document.getElementById("editAlvo").value=app.alvo||"";document.getElementById("editDose").value=app.dose||"";document.getElementById("editVezes").value=app.vezes||1;const st=document.getElementById("editStatus");const statusVal=app.status||"Concluído";let found=false;for(let o of st.options){if(o.value===statusVal){found=true;break;}}if(!found){const opt=document.createElement("option");opt.value=statusVal;opt.textContent=statusVal;st.appendChild(opt);}st.value=statusVal;document.getElementById("editModal").classList.add("open");}
+function fecharModalEdicao(){document.getElementById("editModal").classList.remove("open");}
+function salvarEdicaoAplicacao(){if(!podeEditarAplicacoes()||!cpfPropriedadeAtual)return;const index=parseInt(document.getElementById("editIndex").value,10);let historicos=obterHistoricos();if(!historicos[cpfPropriedadeAtual]||!historicos[cpfPropriedadeAtual].aplicacoes[index])return;const produto=document.getElementById("editProduto").value.trim();const data=document.getElementById("editData").value.trim();const tipo=document.getElementById("editTipo").value;const alvo=document.getElementById("editAlvo").value.trim();const dose=document.getElementById("editDose").value.trim();const vezes=parseInt(document.getElementById("editVezes").value,10)||1;const status=document.getElementById("editStatus").value;if(!produto||!data){alert("Preencha data e produto.");return;}historicos[cpfPropriedadeAtual].aplicacoes[index]={data,produto,tipo,alvo,dose,vezes,status};localStorage.setItem("agro_historicos_detalhados",JSON.stringify(historicos));fecharModalEdicao();exibirDadosPropriedade(cpfPropriedadeAtual);}
+function excluirAplicacao(index){if(!podeEditarAplicacoes()||!cpfPropriedadeAtual)return;if(!confirm("Excluir esta aplicação do histórico?"))return;let historicos=obterHistoricos();if(!historicos[cpfPropriedadeAtual]||!historicos[cpfPropriedadeAtual].aplicacoes)return;historicos[cpfPropriedadeAtual].aplicacoes.splice(index,1);localStorage.setItem("agro_historicos_detalhados",JSON.stringify(historicos));exibirDadosPropriedade(cpfPropriedadeAtual);}
+document.getElementById("agendaForm").addEventListener("submit",function(e){e.preventDefault();if(!cpfPropriedadeAtual){alert("Selecione ou busque um produtor antes de registrar.");return;}const dataRaw=document.getElementById("agData").value;const partes=dataRaw.split("-");const dataFormatada=partes[2]+"/"+partes[1]+"/"+partes[0];const produto=document.getElementById("agProduto").value.trim();const tipo=document.getElementById("agTipo").value;const alvo=document.getElementById("agAlvo").value.trim();const dose=document.getElementById("agDose").value.trim();let historicos=obterHistoricos();if(!historicos[cpfPropriedadeAtual]){historicos[cpfPropriedadeAtual]=gerarHistoricoDemo(usuarioLogado.perfil==="Produtor"?usuarioLogado.nome:"Produtor",cpfPropriedadeAtual);}const vezes=historicos[cpfPropriedadeAtual].aplicacoes.filter(a=>a.produto===produto&&a.tipo===tipo).length+1;const status=usuarioLogado.perfil==="Produtor"?"Agendado pelo Produtor":"Recomendação Agrônomo/Técnico";historicos[cpfPropriedadeAtual].aplicacoes.push({data:dataFormatada,produto,tipo,alvo,dose,vezes,status});localStorage.setItem("agro_historicos_detalhados",JSON.stringify(historicos));document.getElementById("agendaForm").reset();exibirDadosPropriedade(cpfPropriedadeAtual);});
+function sair(){usuarioLogado=null;cpfPropriedadeAtual="";document.getElementById("dashboardPanel").style.display="none";document.getElementById("loginCard").style.display="block";document.getElementById("authForm").reset();document.getElementById("buscaNome").value="";document.getElementById("buscaCpf").value="";document.getElementById("searchMsg").innerText="";alternarAba("login");}
+document.getElementById("menu-btn").addEventListener("click",function(){document.getElementById("mobile-nav").classList.toggle("hidden");});
+document.getElementById("editModal").addEventListener("click",function(e){if(e.target===this)fecharModalEdicao();});
+</script>
+</body>
+</html>
